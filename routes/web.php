@@ -15,14 +15,18 @@ use App\Http\Controllers\MaintenanceController;
 |
 */
 
-// Rute untuk halaman utama dengan dua pilihan box
+// Rute untuk halaman utama ("/")
+// Diberi nama 'home'
 Route::get('/', [PageController::class, 'home'])->name('home');
 
-// Rute untuk menampilkan form produksi
+// Rute untuk menampilkan form produksi ("/produksi/create")
+// Diberi nama 'produksi.create'
 Route::get('/produksi/create', [PageController::class, 'createProduksi'])->name('produksi.create');
 
-// Rute untuk Menerima dan Menyimpan data dari form produksi
+// Rute untuk MENYIMPAN data dari form produksi ("/produksi")
+// Diberi nama 'produksi.store'
 Route::post('/produksi', [PageController::class, 'storeProduksi'])->name('produksi.store');
 
-// Rute untuk dasbor maintenance
+// Rute untuk dasbor maintenance ("/maintenance")
+// Diberi nama 'maintenance.dashboard'
 Route::get('/maintenance', [MaintenanceController::class, 'index'])->name('maintenance.dashboard');

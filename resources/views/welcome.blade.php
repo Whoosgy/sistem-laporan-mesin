@@ -1,60 +1,60 @@
-<!DOCTYPE html>
+{{-- Memberitahu file ini untuk menggunakan bingkai dari layouts.app --}}
+@extends('layouts.app')
 
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sistem Laporan Mesin</title>
-@vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body class="antialiased">
-{{-- Latar belakang gradient yang diperbarui dengan warna biru terang --}}
-<div class="relative min-h-screen bg-gradient-to-br from-jembo-blue via-indigo-700 to-gray-900 flex flex-col items-center justify-center p-6 overflow-hidden">
+{{-- Menetapkan judul khusus untuk halaman ini (opsional) --}}
+@section('title', 'Beranda - Sistem Laporan Mesin')
 
-        <div class="relative z-10 text-center mb-12">
-            <h1 class="text-4xl lg:text-6xl font-bold text-white tracking-tight">Sistem Laporan Mesin</h1>
-            <p class="text-lg text-gray-400 mt-2">PT Jembo Cable Company Tbk</p>
-        </div>
+{{-- Semua konten di bawah ini akan dimasukkan ke dalam @yield('content') di bingkai --}}
+@section('content')
+<div class="container mx-auto px-4 py-8 lg:py-12">
 
-        <div class="relative z-10 w-full max-w-4xl lg:max-w-6xl mx-auto">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+    <div class="text-center mb-12">
+        <h1 class="text-4xl lg:text-5xl font-bold text-slate-800 dark:text-white tracking-tight">Sistem Laporan Mesin</h1>
+        <p class="text-lg text-slate-500 dark:text-slate-400 mt-2">Pilih menu untuk melanjutkan</p>
+    </div>
 
-                {{-- Card Produksi --}}
-                <a href="{{ route('produksi.create') }}" class="group flex flex-col items-center justify-center p-8 bg-white/5 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg transform hover:-translate-y-2 transition-all duration-300 min-h-[300px] lg:min-h-[350px] text-center">
-                    <div class="mb-6">
-                        <h2 class="text-3xl xl:text-4xl font-bold text-white">
+    <div class="w-full max-w-4xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+            {{-- Card Produksi --}}
+            <a href="{{ route('produksi.create') }}" class="group block p-8 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm hover:shadow-lg hover:border-blue-500 transition-all duration-300">
+                <div class="flex items-start justify-between">
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-900 dark:text-white">
                             Laporan Produksi
                         </h2>
-                        <p class="mt-2 text-gray-300 text-base">
-                            Buat laporan pengaduan kerusakan mesin.
+                        <p class="mt-2 text-slate-500 dark:text-slate-400">
+                            Buat laporan kerusakan mesin baru.
                         </p>
                     </div>
-                    <div>
-                        <span class="inline-block px-8 py-3 bg-jembo-yellow text-jembo-blue font-bold rounded-lg group-hover:bg-white transition-colors duration-300">
-                            Klik untuk Masuk
-                        </span>
+                    <div class="text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
                     </div>
-                </a>
+                </div>
+            </a>
 
-                {{-- Card Maintenance --}}
-                <a href="{{ route('maintenance.dashboard') }}" class="group flex flex-col items-center justify-center p-8 bg-white/5 backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg transform hover:-translate-y-2 transition-all duration-300 min-h-[300px] lg:min-h-[350px] text-center">
-                    <div class="mb-6">
-                        <h2 class="text-3xl xl:text-4xl font-bold text-white">
-                            Laporan Maintenance
+            {{-- Card Maintenance --}}
+            <a href="{{ route('maintenance.dashboard') }}" class="group block p-8 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm hover:shadow-lg hover:border-blue-500 transition-all duration-300">
+                <div class="flex items-start justify-between">
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-900 dark:text-white">
+                            Dasbor Maintenance
                         </h2>
-                        <p class="mt-2 text-gray-300 text-base">
-                            Lihat dasbor laporan perbaikan.
+                        <p class="mt-2 text-slate-500 dark:text-slate-400">
+                            Lihat dan perbarui status semua laporan.
                         </p>
                     </div>
-                    <div>
-                        <span class="inline-block px-8 py-3 bg-jembo-orange text-white font-bold rounded-lg group-hover:bg-white group-hover:text-jembo-blue transition-colors duration-300">
-                            Lihat Dasbor
-                        </span>
+                    <div class="text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
                     </div>
-                </a>
+                </div>
+            </a>
 
-            </div>
         </div>
     </div>
-</body>
-</html>
+</div>
+@endsection
