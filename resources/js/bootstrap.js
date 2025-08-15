@@ -1,4 +1,9 @@
-import axios from 'axios';
-window.axios = axios;
-
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+axios.get(`/maintenance/${id}`)
+    .then(response => {
+        console.log(response.data);
+        // Lakukan sesuatu, misalnya tampilkan modal detail laporan
+    })
+    .catch(error => {
+        console.error(error);
+    });
+  

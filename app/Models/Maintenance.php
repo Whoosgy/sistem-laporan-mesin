@@ -23,11 +23,6 @@ class Maintenance extends Model
         'status',
     ];
 
-    /**
-     * Mendefinisikan "jembatan" kembali ke Produksi
-     *
-     * Fungsi ini memberitahu: "Satu data Maintenance ini dimiliki oleh (belongsTo) satu Laporan Produksi."
-     */
     public function produksi(): BelongsTo
     {
         return $this->belongsTo(Produksi::class);

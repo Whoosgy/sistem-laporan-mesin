@@ -11,13 +11,15 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
+        {{-- PERBAIKAN: Memuat SweetAlert langsung dari internet (CDN) --}}
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         @livewireStyles
     </head>
     <body class="font-sans antialiased bg-slate-100 dark:bg-slate-900">
         <div class="min-h-screen">
-            
-            {{-- PERBAIKAN: Header sekarang full-width, container ada di dalamnya --}}
+
             <header class="bg-jembo-blue shadow-md sticky top-0 z-50">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     @include('layouts.navigation')
@@ -28,8 +30,23 @@
                 @yield('content')
             </main>
         </div>
-        
-       
 
-</body>
+        @livewireScripts
+
+        {{-- PERBAIKAN: "Stasiun Penerima Sinyal" ditempatkan di sini --}}
+        <script>
+            document.addEventListener('livewire:init', () => {
+                Livewire.on('laporan-sukses', (message) => {
+                    Swal.fire({
+                        title: 'Berhasil!',
+                        text: message,
+                        icon: 'success',
+                        confirmButtonText: 'OK',
+                        confirmButtonColor: '#2D3D8B' // Warna jembo-blue
+                    });
+                });
+            });
+        </script>
+
+    </body>
 </html>

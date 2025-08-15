@@ -9,8 +9,8 @@
 <div class="container mx-auto px-4 py-8 lg:py-12">
 
     <div class="text-center mb-12">
-        <h1 class="text-4xl lg:text-5xl font-bold text-slate-800 dark:text-white tracking-tight">Sistem Laporan Mesin</h1>
-        <p class="text-lg text-slate-500 dark:text-slate-400 mt-2">Pilih menu untuk melanjutkan</p>
+        <h1 class="text-4xl lg:text-5xl font-bold text-slate-800 dark:text-white tracking-tight">Menu Laporan Mesin</h1>
+        <p class="text-lg text-slate-500 dark:text-slate-400 mt-2">Pilih menu dibawah untuk melanjutkan</p>
     </div>
 
     <div class="w-full max-w-4xl mx-auto">
@@ -21,10 +21,10 @@
                 <div class="flex items-start justify-between">
                     <div>
                         <h2 class="text-2xl font-bold text-slate-900 dark:text-white">
-                            Laporan Produksi
+                            Laporkan
                         </h2>
                         <p class="mt-2 text-slate-500 dark:text-slate-400">
-                            Buat laporan kerusakan mesin baru.
+                            Catat kerusakan mesin dibagian anda.
                         </p>
                     </div>
                     <div class="text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -40,7 +40,7 @@
                 <div class="flex items-start justify-between">
                     <div>
                         <h2 class="text-2xl font-bold text-slate-900 dark:text-white">
-                            Dasbor Maintenance
+                            Status Maintenance
                         </h2>
                         <p class="mt-2 text-slate-500 dark:text-slate-400">
                             Lihat dan perbarui status semua laporan.

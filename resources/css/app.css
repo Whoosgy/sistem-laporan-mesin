@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+select:required:invalid {
+    color: #64748b; /* Warna slate-500 dari Tailwind */
+}
+option[value=""][disabled] {
+    display: none;
+}
+option {
+    color: #0f172a; /* Warna slate-900 dari Tailwind */
+}
