@@ -7,12 +7,12 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
-     */
-   public function up(): void
+ * Run the migrations.
+ */
+public function up(): void
 {
     Schema::create('produksi', function (Blueprint $table) {
-        $table->id(); 
+        $table->id();
         $table->date('tanggal_lapor');
         $table->time('jam_lapor');
         $table->string('shift', 20);
@@ -21,7 +21,8 @@ return new class extends Migration
         $table->string('nama_pelapor');
         $table->string('bagian_rusak')->nullable();
         $table->text('uraian_kerusakan');
-        $table->timestamps(); 
+        $table->string('keterangan', 20)->nullable();
+        $table->timestamps();
     });
 }
     /**

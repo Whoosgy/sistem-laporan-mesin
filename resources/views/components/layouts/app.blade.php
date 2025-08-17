@@ -1,4 +1,3 @@
-{{-- File: resources/views/components/layouts/app.blade.php --}}
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
@@ -11,17 +10,14 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-        
-
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         @livewireStyles
     </head>
     <body class="font-sans antialiased bg-slate-100 dark:bg-slate-900">
         <div class="min-h-screen">
-
             <header class="bg-jembo-blue shadow-md sticky top-0 z-50">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                 
+                    @include('layouts.navigation')
                 </div>
             </header>
 
@@ -32,15 +28,18 @@
 
         @livewireScripts
 
+        {{-- PERBAIKAN: Pindahkan script listener ke dalam body --}}
         <script>
             document.addEventListener('livewire:init', () => {
                 Livewire.on('laporan-sukses', (message) => {
+                    // Pastikan Swal sudah dimuat dan tersedia
                     if (typeof Swal !== 'undefined') {
                         Swal.fire({
                             title: 'Berhasil!',
                             text: message,
                             icon: 'success',
-                            confirmButtonColor: '#2D3D8B'
+                            confirmButtonText: 'OK',
+                            confirmButtonColor: '#2D3D8B' // Warna jembo-blue
                         });
                     }
                 });

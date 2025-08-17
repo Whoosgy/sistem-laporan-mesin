@@ -2,7 +2,9 @@
 
 return [
     'plants' => [
-        'A', 'B', 'C', 'D', 'E'
+        'A', 'B', 'C', 'D', 'E',
+      
+        'SS', 'SC', 'PE', 'QC', 'GA'
     ],
 
     'mesins' => [
@@ -50,6 +52,12 @@ return [
             'EX-45-14F', 'EX-45-15F', 'EX-45-16F', 'EX-45-17F', 'EX-30F', 'EX-50F',
             '"PATH CORD "', 'PIG TAILD', 'DC-1', 'DC-2', 'DC-3', 'CB-4F', 'CB-5F',
             'CB-6F', 'CB-7F', 'CB-8F', 'CB-9F', 'EX-90G', 'EX-90H', 'EX-90I', 'EX-90J',
-        ]
+        ],
+        //Plant baru dengan daftar mesin KOSONG
+        'SS' => [],
+        'SC' => [],
+        'PE' => [],
+        'QC' => [],
+        'GA' => [],
     ]
 ];

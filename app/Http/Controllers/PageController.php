@@ -39,6 +39,7 @@ class PageController extends Controller
             'nama_pelapor' => 'required|string|max:255',
             'bagian_rusak' => 'nullable|string|max:255',
             'uraian_kerusakan' => 'required|string',
+            'keterangan' => 'required|string|max:20',
         ]);
 
         // 2. Simpan data yang sudah divalidasi ke dalam tabel 'produksi'
@@ -48,3 +49,4 @@ class PageController extends Controller
         return redirect()->back()->with('success', 'Laporan berhasil dikirim!');
     }
 }
+

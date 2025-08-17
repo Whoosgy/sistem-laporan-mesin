@@ -21,6 +21,7 @@ class Produksi extends Model
         'nama_pelapor',
         'bagian_rusak',
         'uraian_kerusakan',
+        'keterangan',
     ];
 
 
