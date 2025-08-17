@@ -74,6 +74,26 @@ class LaporanProduksiForm extends Component
         $this->isModalOpen = false;
     }
     
+    public function setShift($value)
+    {
+        $this->shift = $value;
+    }
+
+    public function setPlant($value)
+    {
+        $this->plant = $value;
+    }
+
+    public function setNamaMesin($value)
+    {
+        $this->nama_mesin = $value;
+    }
+
+    public function setKeterangan($value)
+    {
+        $this->keterangan = $value;
+    }
+
     public function save()
     {
         $validatedData = $this->validate();
@@ -132,5 +152,6 @@ class LaporanProduksiForm extends Component
             'emptyMessage' => $emptyMessage,
             'semuaLaporan' => $laporanTerbaru
         ]);
+        
     }
 }

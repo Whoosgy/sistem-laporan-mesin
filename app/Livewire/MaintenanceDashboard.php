@@ -8,11 +8,11 @@ use App\Models\Maintenance;
 use Livewire\WithPagination;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Layout;
-use Livewire\Attributes\Title; // <-- Penting untuk judul tab
+use Livewire\Attributes\Title;
 
-// Memberitahu komponen ini untuk menggunakan 'bingkai' layouts.app
-#[Layout('layouts.app')]
-// PERBAIKAN: Menetapkan judul tab di sini
+
+#[Layout('components.layouts.app')]
+// Menetapkan judul tab di sini
 #[Title('Dasbor Maintenance')]
 class MaintenanceDashboard extends Component
 {

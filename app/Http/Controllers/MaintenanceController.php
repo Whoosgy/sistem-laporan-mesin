@@ -12,16 +12,14 @@ class MaintenanceController extends Controller
 {
     public function index(Request $request): View
     {
-        // Ambil input untuk search dan sort dari URL
         $search = $request->input('search', '');
         $sortField = $request->input('sortField', 'created_at');
         $sortDirection = $request->input('sortDirection', 'desc');
-        $laporanProduksi = Produksi::with('maintenance')->latest('tanggal_lapor')->get();
+        $laporanProduksi = Produksi::with('maintenance')->latest('tanggal_lapor')->paginate(10);
 
         // Query dasar untuk mengambil data
         $query = Produksi::with('maintenance');
 
-        // PERBAIKAN: Terapkan logika pencarian jika ada input
         if (!empty($search)) {
             $query->where(function($q) use ($search) {
                 $q->where('nama_mesin', 'like', '%' . $search . '%')

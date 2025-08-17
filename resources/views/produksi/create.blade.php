@@ -1,11 +1,9 @@
-{{-- File: resources/views/produksi/create.blade.php --}}
-@extends('layouts.app')
+<x-layouts.app>
+    <x-slot name="title">
+        Buat Laporan Produksi
+    </x-slot>
 
-@section('title', 'Buat Laporan Produksi')
-
-@section('content')
     <div class="container mx-auto px-4 py-8">
-        {{-- Memanggil komponen Livewire yang berisi form dan tabel --}}
         @livewire('laporan-produksi-form')
     </div>
-@endsection
+</x-layouts.app>
