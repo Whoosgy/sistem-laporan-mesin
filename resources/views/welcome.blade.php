@@ -1,6 +1,6 @@
 <x-layouts.app>
     {{-- Menetapkan judul khusus untuk halaman ini --}}
-    @section('title', 'Beranda - Sistem Laporan Mesin')
+    @section('title', 'Home - Sistem Laporan Mesin')
 
     {{-- PERBAIKAN: Div utama yang memaksa semua isinya berada di tengah layar --}}
     <div class="min-h-[calc(100vh-4rem)] flex items-center justify-center p-6">

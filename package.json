@@ -6,6 +6,7 @@
         "build": "vite build"
     },
     "devDependencies": {
+        "@tailwindcss/forms": "^0.5.10",
         "alpinejs": "^3.13.10",
         "autoprefixer": "^10.4.19",
         "axios": "^1.6.4",
@@ -15,6 +16,7 @@
         "vite": "^5.0.0"
     },
     "dependencies": {
-        "sweetalert2": "^11.22.4"
+        "sweetalert2": "^11.22.4",
+        "tom-select": "^2.4.3"
     }
 }

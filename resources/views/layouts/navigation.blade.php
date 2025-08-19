@@ -13,11 +13,11 @@
 
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
-                        {{ __('Beranda') }}
+                        {{ __('Home') }}
                     </x-nav-link>
                     {{-- mengarah ke halaman Buat Laporan --}}
                     <x-nav-link :href="route('produksi.create')" :active="request()->routeIs('produksi.create')">
-                        {{ __('Buat Laporan') }}
+                        {{ __('New Report') }}
                     </x-nav-link>
                      {{-- mengarah ke Dasbor Maintenance --}}
                     <x-nav-link :href="route('maintenance.dashboard')" :active="request()->routeIs('maintenance.dashboard')">

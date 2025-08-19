@@ -16,7 +16,7 @@ class LaporanProduksiForm extends Component
     public bool $isPlantManual = false;
     public bool $isModalOpen = false;
 
-    // PERBAIKAN: Menambahkan properti untuk search bar riwayat
+    //Menambahkan properti untuk search bar riwayat
     public string $search = '';
     public string $sortField = 'created_at'; 
     public string $sortDirection = 'desc';
