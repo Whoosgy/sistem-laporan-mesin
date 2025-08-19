@@ -57,11 +57,33 @@ class MaintenanceDashboard extends Component
         $selesaiCount = Maintenance::where('status', 'Selesai')->count();
         $prosesCount = Maintenance::where('status', 'Dalam Proses')->count();
 
+        // Data untuk grafik trend bulanan (6 bulan terakhir)
+        $monthlyData = [];
+        for ($i = 5; $i >= 0; $i--) {
+            $date = now()->subMonths($i);
+            $monthName = $date->format('M Y');
+            $count = Produksi::whereYear('created_at', $date->year)
+                            ->whereMonth('created_at', $date->month)
+                            ->count();
+            $monthlyData[] = [
+                'month' => $monthName,
+                'count' => $count
+            ];
+        }
+
+        // Data berdasarkan plant
+        $plantData = Produksi::selectRaw('plant, COUNT(*) as total')
+                            ->groupBy('plant')
+                            ->orderBy('total', 'desc')
+                            ->get();
+
         return view('livewire.maintenance-dashboard', [
             'pendingCount' => $pendingCount,
             'prosesCount' => $prosesCount,
             'selesaiCount' => $selesaiCount,
-            'semuaLaporan' => $laporanProduksi
+            'semuaLaporan' => $laporanProduksi,
+            'monthlyData' => $monthlyData,
+            'plantData' => $plantData
         ]);
     }
 }

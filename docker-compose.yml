@@ -22,8 +22,8 @@ services:
         networks:
             - sail
         depends_on:
+            # DIHAPUS: Dependensi ke pgsql dihapus karena tidak digunakan
             - mysql
-            - pgsql
     mysql:
         image: 'mysql/mysql-server:8.0'
         ports:
@@ -48,37 +48,13 @@ services:
                 - '-p${DB_PASSWORD}'
             retries: 3
             timeout: 5s
-    pgsql:
-        image: 'postgres:17'
-        command: 'postgres -c password_encryption=md5'
-        ports:
-            - '${FORWARD_DB_PORT:-5432}:5432'
-        environment:
-            PGPASSWORD: password
-            POSTGRES_DB: db_report
-            POSTGRES_USER: sail
-            POSTGRES_PASSWORD: password
-        volumes:
-            - 'sail-pgsql:/var/lib/postgresql/data'
-            - './vendor/laravel/sail/database/pgsql/create-testing-database.sql:/docker-entrypoint-initdb.d/10-create-testing-database.sql'
-        networks:
-            - sail
-        healthcheck:
-            test:
-                - CMD
-                - pg_isready
-                - '-q'
-                - '-d'
-                - '${DB_DATABASE}'
-                - '-U'
-                - '${DB_USERNAME}'
-            retries: 3
-            timeout: 5s
+
+# DIPERBAIKI: Konfigurasi Jaringan diaktifkan kembali
 networks:
     sail:
         driver: bridge
+
+# DIPERBAIKI: Konfigurasi Volume diaktifkan kembali
 volumes:
     sail-mysql:
-        driver: local
-    sail-pgsql:
         driver: local

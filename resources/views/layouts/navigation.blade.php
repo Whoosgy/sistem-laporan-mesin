@@ -13,15 +13,15 @@
 
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
-                        {{ __('Beranda') }}
+                        {{ __('Home') }}
                     </x-nav-link>
                     {{-- mengarah ke halaman Buat Laporan --}}
                     <x-nav-link :href="route('produksi.create')" :active="request()->routeIs('produksi.create')">
-                        {{ __('Buat Laporan') }}
+                        {{ __('Report') }}
                     </x-nav-link>
                      {{-- mengarah ke Dasbor Maintenance --}}
                     <x-nav-link :href="route('maintenance.dashboard')" :active="request()->routeIs('maintenance.dashboard')">
-                        {{ __('Dasbor Maintenance') }}
+                        {{ __('Dashboard Maintenance') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -40,13 +40,13 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('home')" :active="request()->routeIs('home')">
-                {{ __('Beranda') }}
+                {{ __('Home') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('produksi.create')" :active="request()->routeIs('produksi.create')">
-                {{ __('Buat Laporan') }}
+                {{ __('Report') }}
             </x-responsive-nav-link>
              <x-responsive-nav-link :href="route('maintenance.dashboard')" :active="request()->routeIs('maintenance.dashboard')">
-                {{ __('Dasbor Maintenance') }}
+                {{ __('Dashboard Maintenance') }}
             </x-responsive-nav-link>
         </div>
     </div>
