@@ -1,12 +1,11 @@
 {{-- File: resources/views/livewire/maintenance-dashboard.blade.php --}}
-<div>
-    {{-- Menetapkan judul khusus untuk halaman ini menggunakan cara Livewire --}}
+{{-- DITAMBAHKAN: wire:poll untuk refresh otomatis setiap 15 detik --}}
+<div wire:poll.15s>
+    {{-- Menetapkan judul khusus untuk halaman ini --}}
     @section('title', 'Dasbor Maintenance')
 
-    {{-- KONTEN HALAMAN DIMULAI DI SINI --}}
     <div class="container mx-auto px-4 py-8">
 
-        {{-- Header Konten (bukan header navigasi) --}}
         <header class="mb-8">
             <div>
                 <h1 class="text-3xl font-bold text-slate-800 dark:text-white">Dasbor Maintenance</h1>
@@ -14,34 +13,93 @@
             </div>
         </header>
 
-        {{-- 3 Card Status --}}
+        {{-- 3 Card Status dengan Desain Baru --}}
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            {{-- Card Pending --}}
             <div class="p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg">
-                <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Pending</p>
+                <div class="flex justify-between items-start">
+                    <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Pending</p>
+                    <span class="rounded-full bg-amber-100 dark:bg-amber-900/50 px-2.5 py-0.5 text-xs font-semibold text-amber-600 dark:text-amber-400">BARU</span>
+                </div>
                 <p class="mt-2 text-3xl font-bold text-slate-900 dark:text-white">{{ $pendingCount }}</p>
             </div>
+            {{-- Card Belum Selesai --}}
             <div class="p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg">
-                <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Dalam Proses</p>
+                <div class="flex justify-between items-start">
+                    <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Belum Selesai</p>
+                    <span class="rounded-full bg-sky-100 dark:bg-sky-900/50 px-2.5 py-0.5 text-xs font-semibold text-sky-600 dark:text-sky-400">AKTIF</span>
+                </div>
                 <p class="mt-2 text-3xl font-bold text-slate-900 dark:text-white">{{ $prosesCount }}</p>
             </div>
+            {{-- Card Selesai --}}
             <div class="p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg">
-                <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Selesai</p>
+                <div class="flex justify-between items-start">
+                    <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Selesai</p>
+                    <span class="rounded-full bg-emerald-100 dark:bg-emerald-900/50 px-2.5 py-0.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400">SELESAI</span>
+                </div>
                 <p class="mt-2 text-3xl font-bold text-slate-900 dark:text-white">{{ $selesaiCount }}</p>
             </div>
         </div>
 
+
         {{-- Tabel Daftar Laporan --}}
         <div class="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
-            <div class="p-5">
-                <h2 class="text-base font-semibold text-slate-900 dark:text-white">Daftar Laporan Masuk</h2>
+            {{-- DIPERBAIKI: Struktur header tabel untuk tata letak yang benar --}}
+            <div class="p-5 flex flex-wrap gap-4 justify-between items-center">
+                {{-- Bagian Kiri: Judul --}}
+                <div>
+                    <h2 class="text-base font-semibold text-slate-900 dark:text-white">Daftar Laporan Masuk</h2>
+                </div>
+
+                {{-- Bagian Kanan: Tombol Refresh dan Bar Pencarian --}}
+                <div class="flex items-center gap-2">
+                    <button wire:click="$refresh" type="button" title="Refresh data" class="p-2 text-slate-400 hover:text-blue-500 transition-colors duration-200 rounded-full hover:bg-slate-100 dark:hover:bg-slate-700">
+                        {{-- SVG BARU: Ikon refresh yang lebih bersih --}}
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+
+  <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+
+</svg>
+
+
+                    </button>
+                    <div class="relative">
+                        <input 
+                            wire:model.live.debounce.300ms="search"
+                            type="text" 
+                            placeholder="Cari laporan..." 
+                            class="w-full sm:w-64 rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm pl-9">
+                        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                            <svg class="h-4 w-4 text-slate-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="overflow-x-auto">
                 <table class="min-w-full text-sm">
                     <thead class="bg-slate-50 dark:bg-slate-800/50">
                         <tr class="text-left">
-                            <th class="px-5 py-3 font-medium text-slate-600 dark:text-slate-300">Tanggal & Pelapor</th>
-                            <th class="px-5 py-3 font-medium text-slate-600 dark:text-slate-300">Mesin & Plant</th>
-                            <th class="px-5 py-3 font-medium text-slate-600 dark:text-slate-300">Jenis Perbaikan</th>
+                            <th class="px-5 py-3 font-medium text-slate-600 dark:text-slate-300 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700" wire:click="sortBy('tanggal_lapor')">
+                                <div class="flex items-center">
+                                    <span>Tanggal & Pelapor</span>
+                                    @if($sortField == 'tanggal_lapor')
+                                        <span class="ml-2">@if($sortDirection == 'asc') &uarr; @else &darr; @endif</span>
+                                    @endif
+                                </div>
+                            </th>
+                            <th class="px-5 py-3 font-medium text-slate-600 dark:text-slate-300 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700" wire:click="sortBy('nama_mesin')">
+                                <div class="flex items-center">
+                                    <span>Mesin & Plant</span>
+                                    @if($sortField == 'nama_mesin')
+                                        <span class="ml-2">@if($sortDirection == 'asc') &uarr; @else &darr; @endif</span>
+                                    @endif
+                                </div>
+                            </th>
+                            <th class="px-5 py-3 font-medium text-slate-600 dark:text-slate-300">Uraian Perbaikan</th>
+
+                            <th class="px-5 py-3 font-medium text-slate-600 dark:text-slate-300">Keterangan</th>
                             <th class="px-5 py-3 font-medium text-slate-600 dark:text-slate-300 text-center">Status</th>
                             <th class="px-5 py-3 font-medium text-slate-600 dark:text-slate-300 text-center">Aksi</th>
                         </tr>
@@ -60,40 +118,42 @@
                             <td class="px-5 py-4 whitespace-nowrap text-slate-500 dark:text-slate-400">
                                 {{ optional($laporan->maintenance)->jenis_perbaikan ?? 'Belum Ditentukan' }}
                             </td>
-                            <td class="px-5 py-4 whitespace-nowrap text-center">
-                                @php
-                                    $status = optional($laporan->maintenance)->status ?? 'Pending';
-                                @endphp
 
+                            <td class="px-5 py-4 whitespace-nowrap text-slate-500 dark:text-slate-400">
+                                {{ $laporan->keterangan }}
+                            </td>
+
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                @php $status = optional($laporan->maintenance)->status ?? 'Pending'; @endphp
                                 @if($status == 'Pending')
-                                    <span class="inline-flex items-center justify-center rounded-full bg-amber-100 px-2.5 py-0.5 text-amber-700 dark:bg-amber-900/50 dark:text-amber-400">
-                                        <p class="whitespace-nowrap text-xs font-semibold">{{ $status }}</p>
-                                    </span>
+                                    <span class="inline-flex items-center justify-center rounded-full bg-amber-100 px-2.5 py-0.5 text-amber-700 dark:bg-amber-900/50 dark:text-amber-400"><p class="whitespace-nowrap text-xs font-semibold">{{ $status }}</p></span>
                                 @elseif($status == 'Dalam Proses')
-                                    <span class="inline-flex items-center justify-center rounded-full bg-sky-100 px-2.5 py-0.5 text-sky-700 dark:bg-sky-900/50 dark:text-sky-400">
-                                        <p class="whitespace-nowrap text-xs font-semibold">{{ $status }}</p>
-                                    </span>
+                                    <span class="inline-flex items-center justify-center rounded-full bg-sky-100 px-2.5 py-0.5 text-sky-700 dark:bg-sky-900/50 dark:text-sky-400"><p class="whitespace-nowrap text-xs font-semibold">{{ $status }}</p></span>
                                 @else
-                                    <span class="inline-flex items-center justify-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-400">
-                                        <p class="whitespace-nowrap text-xs font-semibold">{{ $status }}</p>
-                                    </span>
+                                    <span class="inline-flex items-center justify-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-400"><p class="whitespace-nowrap text-xs font-semibold">{{ $status }}</p></span>
                                 @endif
                             </td>
                             <td class="px-5 py-4 whitespace-nowrap text-center space-x-2">
-                                {{-- PERBAIKAN: Mengganti nama event dan parameter agar sesuai dengan komponen modal --}}
                                 <button wire:click="$dispatch('open-view-modal', { produksiId: {{ $laporan->id }} })" type="button" class="font-medium text-slate-600 hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-500">View</button>
                                 <button wire:click="$dispatch('open-update-modal', { produksiId: {{ $laporan->id }} })" type="button" class="font-medium text-slate-600 hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-500">Update</button>
                             </td>
                         </tr>
                         @empty
                         <tr class="dark:bg-slate-800">
-                            <td colspan="5" class="px-6 py-12 text-center text-slate-500">
-                                Belum ada laporan yang masuk.
+                            <td colspan="6" class="px-6 py-12 text-center text-slate-500">
+                                @if(!empty($search))
+                                    Laporan dengan kata kunci "{{ $search }}" tidak ditemukan.
+                                @else
+                                    Belum ada laporan yang masuk.
+                                @endif
                             </td>
                         </tr>
                         @endforelse
                     </tbody>
                 </table>
+            </div>
+            <div class="p-5 border-t border-slate-200 dark:border-slate-700">
+                {{ $semuaLaporan->links() }}
             </div>
         </div>
     </div>
@@ -101,5 +161,4 @@
     {{-- Memanggil komponen modal Livewire di sini --}}
     <livewire:maintenance.view-laporan />
     <livewire:maintenance.update-laporan />
-    
 </div>

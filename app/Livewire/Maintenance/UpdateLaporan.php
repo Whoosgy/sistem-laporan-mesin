@@ -6,32 +6,80 @@ use Livewire\Component;
 use App\Models\Produksi;
 use App\Models\Maintenance;
 use Livewire\Attributes\On;
+use Livewire\Attributes\Computed;
 
 class UpdateLaporan extends Component
 {
     public bool $isModalOpen = false;
     public ?Produksi $laporanProduksi = null;
 
-    // Properti untuk form maintenance
+    // Properti Form
     public $produksi_id;
     public $waktu_perbaikan;
     public $tanggal_selesai;
-    public $nama_teknisi;
     public $jenis_perbaikan;
     public $sparepart;
     public $keterangan;
     public $status;
+
+    public array $selectedTechnicians = [];
+
+    // Properti untuk Pencarian
+    public string $searchQuery = '';
+    public $allTechnicians = [
+        'SUYANTO', 'SAMIJAN', 'FAISAL.K', 'SUGENG', 'ARIF ARYANTO', 'RUSWIDI JOKO',
+        'HANI ADNANI', 'TEDDY JHONY WN', 'AGGRIS YAYIT.T', 'M.ASAD RAMADHAN',
+        'ANDHI KURNIASYAH', 'WAHYUDIN', 'TARMONO', 'SUAR SAPTO', 'ALI MUSTOFA',
+        'ENDANG MULYADI', 'ARI MUHODARI', 'TURIMAN', 'BUDIYANTO', 'RIYAN INDRIYANA RAHARDI',
+        'DEDI HARYAWAN', 'UJANG SUDRAJAT', 'DONI RAMADONI', 'RAHMAT HIDAYAT', 'FIRMAN HIDAYAT',
+        'M.AZIZ TOYYIBIN', 'BUSTAMI', 'ROHMAN', 'YULIMANSYAH', 'SUJARWO', 'SUYATNO',
+        'KASIMIN', 'BAKTI SUDARMONO', 'M.BASORI', 'AGUNG SUSENO', 'WIDODO', 'YAKUB',
+        'SUKINO', 'AWALUDIN .F', 'SUPARTA'
+    ];
+
+  
+    #[Computed]
+    public function filteredTechnicians()
+    {
+        return collect($this->allTechnicians)->filter(function ($technician) {
+            // Kondisi 1: Tidak ada dalam daftar yang sudah dipilih
+            $notSelected = !in_array($technician, $this->selectedTechnicians);
+            // Kondisi 2: Cocok dengan pencarian (jika ada)
+            $matchesSearch = empty($this->searchQuery) || str_contains(strtolower($technician), strtolower($this->searchQuery));
+            
+            return $notSelected && $matchesSearch;
+        })->values()->all();
+    }
+
+    // Fungsi untuk MEMILIH teknisi dari daftar
+    public function selectTechnician($technicianName)
+    {
+        //  hanya 5 teknisi
+       if (count($this->selectedTechnicians) < 5 && !in_array($technicianName, $this->selectedTechnicians)) {
+            $this->selectedTechnicians[] = $technicianName;
+            $this->searchQuery = ''; 
+        }
+    }
+
+    // Fungsi untuk MENGHAPUS teknisi dari daftar pilihan
+    public function removeTechnician($index)
+    {
+        if (isset($this->selectedTechnicians[$index])) {
+            unset($this->selectedTechnicians[$index]);
+            $this->selectedTechnicians = array_values($this->selectedTechnicians); 
+        }
+    }
 
     protected function rules()
     {
         return [
             'waktu_perbaikan' => 'required',
             'tanggal_selesai' => 'required|date',
-            'nama_teknisi' => 'required|string',
+            'selectedTechnicians' => 'required|array|min:1|max:5',
             'jenis_perbaikan' => 'nullable|string',
-            'sparepart' => 'nullable|string', // Aturan validasi ini sudah benar
+            'sparepart' => 'nullable|string',
             'keterangan' => 'nullable|string',
-            'status' => 'required|string|in:Dalam Proses,Selesai',
+            'status' => 'required|string|in:Pending,Belum Selesai,Selesai',
         ];
     }
 
@@ -47,45 +95,41 @@ class UpdateLaporan extends Component
                 $maintenance = $this->laporanProduksi->maintenance;
                 $this->waktu_perbaikan = $maintenance->waktu_perbaikan;
                 $this->tanggal_selesai = $maintenance->tanggal_selesai;
-                $this->nama_teknisi = $maintenance->nama_teknisi;
+                $this->selectedTechnicians = !empty($maintenance->nama_teknisi) ? explode(', ', $maintenance->nama_teknisi) : [];
                 $this->jenis_perbaikan = $maintenance->jenis_perbaikan;
                 $this->sparepart = $maintenance->sparepart;
                 $this->keterangan = $maintenance->keterangan;
                 $this->status = $maintenance->status;
             } else {
-                $this->reset('waktu_perbaikan', 'tanggal_selesai', 'nama_teknisi', 'jenis_perbaikan', 'sparepart', 'keterangan');
-                $this->status = 'Dalam Proses';
+                $this->reset(['waktu_perbaikan', 'tanggal_selesai', 'selectedTechnicians', 'jenis_perbaikan', 'sparepart', 'keterangan']);
+                $this->status = 'Pending';
             }
-
+            $this->searchQuery = '';
             $this->isModalOpen = true;
         }
     }
 
     public function updateLaporan()
     {
-        // Jalankan validasi terlebih dahulu
         $this->validate();
-
-        // PERBAIKAN: Siapkan data secara manual untuk memastikan
-        // nilai null diubah menjadi nilai default sebelum disimpan.
+        
         $dataToSave = [
             'waktu_perbaikan' => $this->waktu_perbaikan,
             'tanggal_selesai' => $this->tanggal_selesai,
-            'nama_teknisi'    => $this->nama_teknisi,
-            'jenis_perbaikan' => $this->jenis_perbaikan ?? 'N/A', // Jika null, simpan 'N/A'
-            'sparepart'       => $this->sparepart ?? 'Tidak ada', // Jika null, simpan 'Tidak ada'
-            'keterangan'      => $this->keterangan ?? 'Tidak ada', // Jika null, simpan 'Tidak ada'
+            'nama_teknisi'    => implode(', ', $this->selectedTechnicians),
+            'jenis_perbaikan' => $this->jenis_perbaikan ?? 'N/A',
+            'sparepart'       => $this->sparepart ?? 'Tidak ada',
+            'keterangan'      => $this->keterangan ?? 'Tidak ada',
             'status'          => $this->status,
         ];
-
+        
         Maintenance::updateOrCreate(
             ['produksi_id' => $this->produksi_id],
-            $dataToSave // Gunakan array data yang sudah disiapkan
+            $dataToSave
         );
 
         $this->isModalOpen = false;
-        // Ganti nama event agar lebih konsisten
-        $this->dispatch('laporan-updated-sukses'); 
+        $this->dispatch('laporan-updated-sukses');
         $this->dispatch('laporan-sukses', 'Status laporan berhasil diperbarui!');
     }
     

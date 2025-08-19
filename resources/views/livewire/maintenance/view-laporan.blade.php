@@ -1,3 +1,4 @@
+{{-- File: resources/views/livewire/maintenance/view-laporan.blade.php --}}
 <div>
     @if($isModalOpen && $laporanProduksi)
     <div 
@@ -85,8 +86,9 @@
                                 <dd class="text-slate-900 dark:text-white">{{ $laporanProduksi->maintenance->waktu_perbaikan }}</dd>
                             </div>
                             <div class="sm:col-span-2">
-                                <dt class="font-medium text-slate-500">Keterangan Perbaikan</dt>
-                                <dd class="text-slate-900 dark:text-white mt-1">{{ $laporanProduksi->maintenance->keterangan }}</dd>
+                                <dt class="font-medium text-slate-500">Uraian Perbaikan</dt>
+                                {{-- DIPERBAIKI: Mengambil data dari kolom 'jenis_perbaikan' --}}
+                                <dd class="text-slate-900 dark:text-white mt-1">{{ $laporanProduksi->maintenance->jenis_perbaikan }}</dd>
                             </div>
                         </dl>
                     @else
