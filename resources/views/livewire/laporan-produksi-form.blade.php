@@ -28,11 +28,14 @@
                 }"
             >
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <x-date />
                     <div>
+                        <label for="tanggal_lapor" class="mb-1 block text-sm font-medium text-slate-600 dark:text-slate-400">Tanggal Lapor</label>
+                        <x-date wire:model.blur="tanggal_lapor" :max-date="now()" class="mt-0 mb-0.5" format="DD-MM-YYYY"/>
+                    </div>
+                    <!-- <div>
                         <label for="tanggal_lapor" class="block text-sm font-medium text-slate-600 dark:text-slate-400">Tanggal Lapor</label>
                         <input wire:model.blur="tanggal_lapor" type="date" id="tanggal_lapor" required class="mt-1 block w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
-                    </div>
+                    </div> -->
                     <div>
                         <label for="jam_lapor" class="block text-sm font-medium text-slate-600 dark:text-slate-400">Jam Lapor</label>
                         <input 
