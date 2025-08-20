@@ -4,16 +4,31 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-use App\Models\Produksi; 
+use App\Models\Produksi;
+use App\Models\Maintenance;
 
 class PageController extends Controller
 {
     /**
-     * Menampilkan halaman utama.
+     * Menampilkan halaman utama (welcome) dengan data statistik.
      */
-    public function home(): View
+    public function home()
     {
-        return view('welcome');
+        // Menghitung jumlah laporan untuk kartu status
+        $pendingCount = Produksi::whereDoesntHave('maintenance')->orWhereHas('maintenance', function ($query) {
+                            $query->where('status', 'Pending');
+                        })->count();
+        
+        $belumSelesaiCount = Maintenance::where('status', 'Belum Selesai')->count();
+        
+        $selesaiCount = Maintenance::where('status', 'Selesai')->count();
+
+        // Kirim data ke view
+        return view('welcome', [
+            'pendingCount' => $pendingCount,
+            'belumSelesaiCount' => $belumSelesaiCount,
+            'selesaiCount' => $selesaiCount,
+        ]);
     }
 
     /**
@@ -45,8 +60,7 @@ class PageController extends Controller
         // 2. Simpan data yang sudah divalidasi ke dalam tabel 'produksi'
         Produksi::create($validatedData);
 
-        // 3. Kembalikan pengguna ke halaman utama dengan pesan sukses
+        // 3. Kembalikan pengguna ke halaman sebelumnya dengan pesan sukses
         return redirect()->back()->with('success', 'Laporan berhasil dikirim!');
     }
 }
-

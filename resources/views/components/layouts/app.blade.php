@@ -12,13 +12,33 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
     
     <tallstackui:script />
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    {{-- CSS untuk Latar Belakang dan Partikel --}}
+    <style>
+        .particle-bg {
+            background-color: #f1f5f9; /* Warna terang */
+        }
+        .dark .particle-bg {
+            background-color: #111827; /* Warna gelap */
+        }
+        #tsparticles {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0; /* Pastikan partikel di belakang */
+        }
+    </style>
 </head>
 
-<body class="font-sans antialiased bg-slate-100 dark:bg-slate-900">
-    <div class="min-h-screen">
-        <header class="bg-jembo-blue shadow-md sticky top-0 z-50">
+<body class="font-sans antialiased particle-bg">
+    <div id="tsparticles"></div>
+
+    <div class="min-h-screen relative z-10">
+        <header class="bg-white dark:bg-slate-900 sticky top-0 z-20">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 @include('layouts.navigation')
             </div>
@@ -30,24 +50,6 @@
     </div>
 
     @livewireScripts
-
-    {{-- PERBAIKAN: Pindahkan script listener ke dalam body --}}
-    <script>
-        document.addEventListener('livewire:init', () => {
-            Livewire.on('laporan-sukses', (message) => {
-                // Pastikan Swal sudah dimuat dan tersedia
-                if (typeof Swal !== 'undefined') {
-                    Swal.fire({
-                        title: 'Berhasil!',
-                        text: message,
-                        icon: 'success',
-                        confirmButtonText: 'OK',
-                        confirmButtonColor: '#2D3D8B' // Warna jembo-blue
-                    });
-                }
-            });
-        });
-    </script>
 </body>
 
 </html>

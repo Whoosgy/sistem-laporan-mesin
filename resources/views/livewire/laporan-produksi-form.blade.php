@@ -9,10 +9,7 @@
                     Isi Formulir Laporan Kerusakan
                 </h2>
             </div>
-
-            {{-- ====================================================================== --}}
-            {{-- PERUBAHAN DIMULAI DI SINI: x-data utama ditambahkan untuk mengelola form --}}
-            {{-- ====================================================================== --}}
+            
             <div class="p-5 space-y-4" x-data="{
                     shift: @entangle('shift').live,
                     plant: @entangle('plant').live,
