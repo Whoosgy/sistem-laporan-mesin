@@ -23,10 +23,11 @@ class MaintenanceDashboard extends Component
     public string $sortDirection = 'desc';
 
     #[On('laporan-updated')]
-    public function refreshDasbor()
-    {
-        // Tidak perlu isi, Livewire akan otomatis me-refresh
-    }
+    public function refreshDasbor() {}
+
+    #[On('laporan-updated-sukses')]
+    public function refreshComponent() {}
+
 
     public function sortBy($field)
     {
@@ -43,19 +44,22 @@ class MaintenanceDashboard extends Component
         $query = Produksi::with('maintenance');
 
         if (!empty($this->search)) {
-            $query->where(function($q) {
+            $query->where(function ($q) {
                 $q->where('nama_mesin', 'like', '%' . $this->search . '%')
-                  ->orWhere('nama_pelapor', 'like', '%' . $this->search . '%')
-                  ->orWhere('plant', 'like', '%' . $this->search . '%')
-                  ->orWhere('keterangan', 'like', '%' . $this->search . '%');
+                    ->orWhere('nama_pelapor', 'like', '%' . $this->search . '%')
+                    ->orWhere('plant', 'like', '%' . $this->search . '%')
+                    ->orWhere('keterangan', 'like', '%' . $this->search . '%');
             });
         }
 
         $laporanProduksi = $query->orderBy($this->sortField, $this->sortDirection)->paginate(10);
 
-        $pendingCount = Produksi::whereDoesntHave('maintenance')->count();
+        $pendingCount = Produksi::whereDoesntHave('maintenance')->orWhereHas('maintenance', function ($query) {
+            $query->where('status', 'Pending');
+        })->count();
+        $prosesCount = Maintenance::where('status', 'Belum Selesai')->count();
+
         $selesaiCount = Maintenance::where('status', 'Selesai')->count();
-        $prosesCount = Maintenance::where('status', 'Dalam Proses')->count();
 
         // Data untuk grafik trend bulanan (6 bulan terakhir)
         $monthlyData = [];

@@ -1,12 +1,12 @@
+
 <div>
-   
 
     <div class="space-y-8">
         {{-- Card 1: Form Input --}}
         <div class="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700">
             <div class="p-5 border-b border-slate-200 dark:border-slate-700">
                 <h2 class="text-base font-semibold text-slate-900 dark:text-white">
-                    Detail Laporan Kerusakan
+                    Isi Formulir Laporan Kerusakan
                 </h2>
             </div>
 
@@ -30,15 +30,16 @@
                     }
                 }">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
+                    {{-- <div>
                         <label for="tanggal_lapor" class="mb-1 block text-sm font-medium text-slate-600 dark:text-slate-400">Tanggal Lapor</label>
                         <x-date wire:model.blur="tanggal_lapor" :max-date="now()" class="mt-0 mb-0.5 " format="DD-MM-YYYY"  />
-                    </div>
+                    </div> --}}
+
                     
-                    <!-- <div>
+                    <div>
                         <label for="tanggal_lapor" class="block text-sm font-medium text-slate-600 dark:text-slate-400">Tanggal Lapor</label>
                         <input wire:model.blur="tanggal_lapor" type="date" id="tanggal_lapor" required class="mt-1 block w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
-                    </div> -->
+                    </div> 
                     <div>
                         <label for="jam_lapor" class="mb-1 block text-sm font-medium text-slate-600 dark:text-slate-400">Jam
                             Lapor</label>

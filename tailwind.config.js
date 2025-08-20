@@ -1,7 +1,7 @@
-// import forms from '@tailwindcss/forms'; 
+import forms from '@tailwindcss/forms';
 /** @type {import('tailwindcss').Config} */
 export default {
-      presets: [ 
+    presets: [ 
         require('./vendor/tallstackui/tallstackui/tailwind.config.js') 
     ],
     content: [
@@ -9,7 +9,6 @@ export default {
         "./resources/**/*.js",
         "./resources/**/*.vue", // Tambahkan ini untuk jaga-jaga
         './vendor/tallstackui/tallstackui/src/**/*.php', 
-    
     ],
     theme: {
         extend: {
@@ -22,7 +21,6 @@ export default {
         },
     },
     plugins: [ 
-      require('@tailwindcss/forms'),
+        forms 
     ],
-
 }
