@@ -1,4 +1,3 @@
-
 <div>
 
     <div class="space-y-8">
@@ -32,11 +31,11 @@
                         <x-date wire:model.blur="tanggal_lapor" :max-date="now()" class="mt-0 mb-0.5 " format="DD-MM-YYYY"  />
                     </div> --}}
 
-                    
+
                     <div>
                         <label for="tanggal_lapor" class="block text-sm font-medium text-slate-600 dark:text-slate-400">Tanggal Lapor</label>
                         <input wire:model.blur="tanggal_lapor" type="date" id="tanggal_lapor" required class="mt-1 block w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
-                    </div> 
+                    </div>
                     <div>
                         <label for="jam_lapor" class="mb-1 block text-sm font-medium text-slate-600 dark:text-slate-400">Jam
                             Lapor</label>
@@ -45,7 +44,7 @@
                             id="jam_lapor" required
                             class="mt-1 block w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
                     </div>
-                   
+
                     <div @click.away="openShift = false">
                         <label for="shift"
                             class="block text-sm font-medium text-slate-600 dark:text-slate-400">Shift</label>
@@ -54,7 +53,7 @@
                                 placeholder="Akan terisi otomatis"
                                 class="w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
                             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                                
+
                                 </svg>
                             </div>
 
@@ -66,7 +65,7 @@
                         <x-text-input id="nama_pelapor" class="block w-full mt-1" type="text"
                             wire:model.blur="nama_pelapor" placeholder="Nama lengkap" required />
                     </div>
-        
+
                     <div @click.away="openPlant = false">
                         <label for="plant"
                             class="block text-sm font-medium text-slate-600 dark:text-slate-400">Plant</label>
@@ -84,9 +83,10 @@
                             <div x-show="openPlant" style="display: none;"
                                 class="absolute z-10 w-full mt-1 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-md shadow-lg max-h-60 overflow-auto">
                                 @foreach($listPlant as $p)
-                                    <div @click="plant = '{{ addslashes($p) }}'; openPlant = false"
-                                        class="cursor-pointer px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">
-                                        {{ $p }}</div>
+                                <div @click="plant = '{{ addslashes($p) }}'; openPlant = false"
+                                    class="cursor-pointer px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">
+                                    {{ $p }}
+                                </div>
                                 @endforeach
                             </div>
                         </div>
@@ -95,35 +95,36 @@
                         <label for="nama_mesin"
                             class="block text-sm font-medium text-slate-600 dark:text-slate-400">Nama Mesin</label>
                         @if ($isPlantManual)
-                            <input wire:model="nama_mesin" type="text" id="nama_mesin" required
-                                placeholder="{{ $namaMesinPlaceholder }}"
-                                class="mt-1 block w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
+                        <input wire:model="nama_mesin" type="text" id="nama_mesin" required
+                            placeholder="{{ $namaMesinPlaceholder }}"
+                            class="mt-1 block w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
                         @else
-                  
-                            <div @click.away="openMesin = false">
-                                <div class="relative mt-1">
-                                    <input x-model="nama_mesin" @click="openMesin = true" type="text" id="nama_mesin"
-                                        required placeholder="{{ $namaMesinPlaceholder }}"
-                                        class="w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
-                                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                                        <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd"
-                                                d="M10 3a.75.75 0 01.53.22l3.5 3.5a.75.75 0 01-1.06 1.06L10 4.81 7.03 7.78a.75.75 0 01-1.06-1.06l3.5-3.5A.75.75 0 0110 3zm-3.72 9.53a.75.75 0 011.06 0L10 15.19l2.97-2.97a.75.75 0 111.06 1.06l-3.5 3.5a.75.75 0 01-1.06 0l-3.5-3.5a.75.75 0 010-1.06z"
-                                                clip-rule="evenodd" />
-                                        </svg>
+
+                        <div @click.away="openMesin = false">
+                            <div class="relative mt-1">
+                                <input x-model="nama_mesin" @click="openMesin = true" type="text" id="nama_mesin"
+                                    required placeholder="{{ $namaMesinPlaceholder }}"
+                                    class="w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                                    <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd"
+                                            d="M10 3a.75.75 0 01.53.22l3.5 3.5a.75.75 0 01-1.06 1.06L10 4.81 7.03 7.78a.75.75 0 01-1.06-1.06l3.5-3.5A.75.75 0 0110 3zm-3.72 9.53a.75.75 0 011.06 0L10 15.19l2.97-2.97a.75.75 0 111.06 1.06l-3.5 3.5a.75.75 0 01-1.06 0l-3.5-3.5a.75.75 0 010-1.06z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                                <div x-show="openMesin" style="display: none;"
+                                    class="absolute z-10 w-full mt-1 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-md shadow-lg max-h-60 overflow-auto">
+                                    @forelse($listMesin as $mesin)
+                                    <div @click="nama_mesin = '{{ addslashes($mesin) }}'; openMesin = false"
+                                        class="cursor-pointer px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">
+                                        {{ $mesin }}
                                     </div>
-                                    <div x-show="openMesin" style="display: none;"
-                                        class="absolute z-10 w-full mt-1 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-md shadow-lg max-h-60 overflow-auto">
-                                        @forelse($listMesin as $mesin)
-                                            <div @click="nama_mesin = '{{ addslashes($mesin) }}'; openMesin = false"
-                                                class="cursor-pointer px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">
-                                                {{ $mesin }}</div>
-                                        @empty
-                                            <div class="px-4 py-2 text-sm text-slate-500">{{ $emptyMessage }}</div>
-                                        @endforelse
-                                    </div>
+                                    @empty
+                                    <div class="px-4 py-2 text-sm text-slate-500">{{ $emptyMessage }}</div>
+                                    @endforelse
                                 </div>
                             </div>
+                        </div>
                         @endif
                     </div>
                 </div>
@@ -136,7 +137,7 @@
                             placeholder="Contoh: Bearing"
                             class="mt-1 block w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
                     </div>
-                   
+
                     <div @click.away="openKeterangan = false">
                         <label for="keterangan"
                             class="block text-sm font-medium text-slate-600 dark:text-slate-400">Keterangan</label>
@@ -180,7 +181,11 @@
 
             <div
                 class="bg-slate-50 dark:bg-slate-800/50 px-5 py-3 flex justify-end items-center space-x-2 rounded-b-lg">
-                <button type="button" wire:click="resetForm" class="px-3 py-2 text-xs font-medium text-slate-600 bg-white border border-slate-300 rounded-md shadow-sm hover:bg-slate-50">Reset</button>
+                <button onclick="location.reload()" type="button" title="Refresh Halaman" class="p-2 text-slate-400 hover:text-blue-500 transition-colors duration-200 rounded-full hover:bg-slate-100 dark:hover:bg-slate-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+
+                    </svg>
                 </button>
                 <button type="button" wire:click="openConfirmationModal"
                     class="px-3 py-2 text-xs font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700">
@@ -191,7 +196,7 @@
 
         {{-- Card 2: Tabel Riwayat Laporan--}}
 
-    <div id="riwayat-tabel" class="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
+        <div id="riwayat-tabel" class="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
             <div class="p-5 flex flex-wrap gap-4 justify-between items-center">
                 <div>
                     <h2 class="text-base font-semibold text-slate-900 dark:text-white">Riwayat Laporan Terakhir</h2>
@@ -217,7 +222,7 @@
                                 <div class="flex items-center">
                                     <span>Tanggal & Pelapor</span>
                                     @if($sortField == 'tanggal_lapor')
-                                        <span class="ml-2">@if($sortDirection == 'asc') &uarr; @else &darr; @endif</span>
+                                    <span class="ml-2">@if($sortDirection == 'asc') &uarr; @else &darr; @endif</span>
                                     @endif
                                 </div>
                             </th>
@@ -225,7 +230,7 @@
                                 <div class="flex items-center">
                                     <span>Mesin & Plant</span>
                                     @if($sortField == 'nama_mesin')
-                                        <span class="ml-2">@if($sortDirection == 'asc') &uarr; @else &darr; @endif</span>
+                                    <span class="ml-2">@if($sortDirection == 'asc') &uarr; @else &darr; @endif</span>
                                     @endif
                                 </div>
                             </th>
@@ -236,142 +241,147 @@
                     </thead>
                     <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
                         @forelse ($semuaLaporan as $laporan)
-                            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50">
-                                <td class="px-5 py-4 whitespace-nowrap">
-                                    <p class="font-semibold text-slate-900 dark:text-white">{{ $laporan->nama_pelapor }}</p>
-                                    <p class="text-slate-500 dark:text-slate-400">
-                                        {{ \Carbon\Carbon::parse($laporan->tanggal_lapor)->format('d M Y') }} -
-                                        {{ \Carbon\Carbon::parse($laporan->jam_lapor)->format('H:i') }}</p>
-                                </td>
-                                <td class="px-5 py-4 whitespace-nowrap">
-                                    <p class="font-semibold text-slate-900 dark:text-white">{{ $laporan->nama_mesin }}</p>
-                                    <p class="text-slate-500 dark:text-slate-400">Plant {{ $laporan->plant }}</p>
-                                </td>
-                                <td class="px-5 py-4 max-w-sm truncate text-slate-500 dark:text-slate-400">
-                                    {{ $laporan->uraian_kerusakan }}
-                                </td>
-                                <td class="px-5 py-4 whitespace-nowrap text-slate-500 dark:text-slate-400">
-                                    {{ $laporan->keterangan }}
-                                </td>
-                                <td class="px-5 py-4 whitespace-nowrap text-center">
-                                    @php
-                                        $status = optional($laporan->maintenance)->status ?? 'Pending';
-                                    @endphp
+                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50">
+                            <td class="px-5 py-4 whitespace-nowrap">
+                                <p class="font-semibold text-slate-900 dark:text-white">{{ $laporan->nama_pelapor }}</p>
+                                <p class="text-slate-500 dark:text-slate-400">
+                                    {{ \Carbon\Carbon::parse($laporan->tanggal_lapor)->format('d M Y') }} -
+                                    {{ \Carbon\Carbon::parse($laporan->jam_lapor)->format('H:i') }}
+                                </p>
+                            </td>
+                            <td class="px-5 py-4 whitespace-nowrap">
+                                <p class="font-semibold text-slate-900 dark:text-white">{{ $laporan->nama_mesin }}</p>
+                                <p class="text-slate-500 dark:text-slate-400">Plant {{ $laporan->plant }}</p>
+                            </td>
+                            <td class="px-5 py-4 max-w-sm truncate text-slate-500 dark:text-slate-400">
+                                {{ $laporan->uraian_kerusakan }}
+                            </td>
+                            <td class="px-5 py-4 whitespace-nowrap text-slate-500 dark:text-slate-400">
+                                {{ $laporan->keterangan }}
+                            </td>
+                            <td class="px-5 py-4 whitespace-nowrap text-center">
+                                @php
+                                $status = optional($laporan->maintenance)->status ?? 'Pending';
+                                @endphp
 
-                                    @if($status == 'Pending')
-                                        <span
-                                            class="inline-flex items-center justify-center rounded-full bg-amber-100 px-2.5 py-0.5 text-amber-700 dark:bg-amber-900/50 dark:text-amber-400">
-                                            <p class="whitespace-nowrap text-xs font-semibold">{{ $status }}</p>
-                                        </span>
-                                    @else
-                                        <span
-                                            class="inline-flex items-center justify-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-400">
-                                            <p class="whitespace-nowrap text-xs font-semibold">{{ $status }}</p>
-                                        </span>
-                                    @endif
-                                </td>
-                            </tr>
+                                @if($status == 'Pending')
+                                <span
+                                    class="inline-flex items-center justify-center rounded-full bg-amber-100 px-2.5 py-0.5 text-amber-700 dark:bg-amber-900/50 dark:text-amber-400">
+                                    <p class="whitespace-nowrap text-xs font-semibold">{{ $status }}</p>
+                                </span>
+                                @else
+                                <span
+                                    class="inline-flex items-center justify-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-400">
+                                    <p class="whitespace-nowrap text-xs font-semibold">{{ $status }}</p>
+                                </span>
+                                @endif
+                            </td>
+                        </tr>
                         @empty
-                            <tr class="dark:bg-slate-800">
-                                <td colspan="5" class="px-6 py-12 text-center text-slate-500">
-                                    Belum ada laporan yang masuk.
-                                </td>
-                            </tr>
+                        <tr class="dark:bg-slate-800">
+                            <td colspan="5" class="px-6 py-12 text-center text-slate-500">
+                                Belum ada laporan yang masuk.
+                            </td>
+                        </tr>
                         @endforelse
                     </tbody>
                 </table>
-                
+
             </div>
             {{-- Tautan Paginasi --}}
             <div class="p-5 border-t border-slate-200 dark:border-slate-700">
                 {{ $semuaLaporan->links() }}
             </div>
             @script
-    <script>
-        $wire.on('scroll-to-table', () => {
-            const tableElement = document.getElementById('riwayat-tabel');
-            if (tableElement) {
-                tableElement.scrollIntoView({ behavior: 'auto', block: 'start' });
-            }
-        });
-    </script>
-    @endscript
+            <script>
+                $wire.on('scroll-to-table', () => {
+                    const tableElement = document.getElementById('riwayat-tabel');
+                    if (tableElement) {
+                        tableElement.scrollIntoView({
+                            behavior: 'auto',
+                            block: 'start'
+                        });
+                    }
+                });
+            </script>
+            @endscript
         </div>
     </div>
 
-    
+
 
     {{-- Pop-up (Modal) untuk Konfirmasi  --}}
     @if($isModalOpen)
-        <div x-data="{ show: @entangle('isModalOpen') }" x-show="show" x-on:keydown.escape.window="show = false"
-            class="fixed inset-0 z-50 flex items-center justify-center" style="display: none;">
-            <div x-show="show" x-transition.opacity class="fixed inset-0 bg-black/50 backdrop-blur-sm"
-                wire:click="closeModal"></div>
+    <div x-data="{ show: @entangle('isModalOpen') }" x-show="show" x-on:keydown.escape.window="show = false"
+        class="fixed inset-0 z-50 flex items-center justify-center" style="display: none;">
+        <div x-show="show" x-transition.opacity class="fixed inset-0 bg-black/50 backdrop-blur-sm"
+            wire:click="closeModal"></div>
 
-            <div x-show="show" x-transition
-                class="relative w-full max-w-lg m-8 bg-white dark:bg-slate-800 rounded-lg shadow-xl border border-slate-200 dark:border-slate-700">
-                <form wire:submit.prevent="save">
-                    <div class="p-6 border-b border-slate-200 dark:border-slate-700">
-                        <h3 class="text-lg font-semibold text-slate-900 dark:text-white">
-                            Konfirmasi Data Laporan
-                        </h3>
-                        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Pastikan semua data sudah benar sebelum
-                            dikirim.</p>
-                    </div>
+        <div x-show="show" x-transition
+            class="relative w-full max-w-lg m-8 bg-white dark:bg-slate-800 rounded-lg shadow-xl border border-slate-200 dark:border-slate-700">
+            <form wire:submit.prevent="save">
+                <div class="p-6 border-b border-slate-200 dark:border-slate-700">
+                    <h3 class="text-lg font-semibold text-slate-900 dark:text-white">
+                        Konfirmasi Data Laporan
+                    </h3>
+                    <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Pastikan semua data sudah benar sebelum
+                        dikirim.</p>
+                </div>
 
-                    <div class="p-6 space-y-2 text-sm max-h-96 overflow-y-auto">
-                        <div class="flex justify-between py-2 border-b border-slate-200 dark:border-slate-700">
-                            <span class="font-medium text-slate-500 dark:text-slate-400">Tanggal & Jam</span>
-                            <span
-                                class="font-semibold text-slate-700 dark:text-slate-200 text-right">{{ $tanggal_lapor ?? '___' }}
-                                & {{ $jam_lapor ?? '___' }}</span>
-                        </div>
-                        <div class="flex justify-between py-2 border-b border-slate-200 dark:border-slate-700">
-                            <span class="font-medium text-slate-500 dark:text-slate-400">Shift</span>
-                            <span class="font-semibold text-slate-700 dark:text-slate-200">{{ $shift ?? '___' }}</span>
-                        </div>
-                        <div class="flex justify-between py-2 border-b border-slate-200 dark:border-slate-700">
-                            <span class="font-medium text-slate-500 dark:text-slate-400">Pelapor</span>
-                            <span
-                                class="font-semibold text-slate-700 dark:text-slate-200">{{ $nama_pelapor ?? '___' }}</span>
-                        </div>
-                        <div class="flex justify-between py-2 border-b border-slate-200 dark:border-slate-700">
-                            <span class="font-medium text-slate-500 dark:text-slate-400">Plant</span>
-                            <span class="font-semibold text-slate-700 dark:text-slate-200">{{ $plant ?? '___' }}</span>
-                        </div>
-                        <div class="flex justify-between py-2 border-b border-slate-200 dark:border-slate-700">
-                            <span class="font-medium text-slate-500 dark:text-slate-400">Nama Mesin</span>
-                            <span class="font-semibold text-slate-700 dark:text-slate-200">{{ $nama_mesin ?? '___' }}</span>
-                        </div>
-                        <div class="flex justify-between py-2 border-b border-slate-200 dark:border-slate-700">
-                            <span class="font-medium text-slate-500 dark:text-slate-400">Bagian Rusak</span>
-                            <span
-                                class="font-semibold text-slate-700 dark:text-slate-200">{{ $bagian_rusak ?? '___' }}</span>
-                        </div>
-                        <div class="flex justify-between py-2 border-b border-slate-200 dark:border-slate-700">
-                            <span class="font-medium text-slate-500 dark:text-slate-400">Keterangan</span>
-                            <span class="font-semibold text-slate-700 dark:text-slate-200">{{ $keterangan ?? '___' }}</span>
-                        </div>
-                        <div>
-                            <span class="font-medium text-slate-500 dark:text-slate-400">Uraian Kerusakan</span>
-                            <p class="mt-1 font-semibold text-slate-700 dark:text-slate-200">
-                                {{ $uraian_kerusakan ?? '___' }}</p>
-                        </div>
+                <div class="p-6 space-y-2 text-sm max-h-96 overflow-y-auto">
+                    <div class="flex justify-between py-2 border-b border-slate-200 dark:border-slate-700">
+                        <span class="font-medium text-slate-500 dark:text-slate-400">Tanggal & Jam</span>
+                        <span
+                            class="font-semibold text-slate-700 dark:text-slate-200 text-right">{{ $tanggal_lapor ?? '___' }}
+                            & {{ $jam_lapor ?? '___' }}</span>
                     </div>
+                    <div class="flex justify-between py-2 border-b border-slate-200 dark:border-slate-700">
+                        <span class="font-medium text-slate-500 dark:text-slate-400">Shift</span>
+                        <span class="font-semibold text-slate-700 dark:text-slate-200">{{ $shift ?? '___' }}</span>
+                    </div>
+                    <div class="flex justify-between py-2 border-b border-slate-200 dark:border-slate-700">
+                        <span class="font-medium text-slate-500 dark:text-slate-400">Pelapor</span>
+                        <span
+                            class="font-semibold text-slate-700 dark:text-slate-200">{{ $nama_pelapor ?? '___' }}</span>
+                    </div>
+                    <div class="flex justify-between py-2 border-b border-slate-200 dark:border-slate-700">
+                        <span class="font-medium text-slate-500 dark:text-slate-400">Plant</span>
+                        <span class="font-semibold text-slate-700 dark:text-slate-200">{{ $plant ?? '___' }}</span>
+                    </div>
+                    <div class="flex justify-between py-2 border-b border-slate-200 dark:border-slate-700">
+                        <span class="font-medium text-slate-500 dark:text-slate-400">Nama Mesin</span>
+                        <span class="font-semibold text-slate-700 dark:text-slate-200">{{ $nama_mesin ?? '___' }}</span>
+                    </div>
+                    <div class="flex justify-between py-2 border-b border-slate-200 dark:border-slate-700">
+                        <span class="font-medium text-slate-500 dark:text-slate-400">Bagian Rusak</span>
+                        <span
+                            class="font-semibold text-slate-700 dark:text-slate-200">{{ $bagian_rusak ?? '___' }}</span>
+                    </div>
+                    <div class="flex justify-between py-2 border-b border-slate-200 dark:border-slate-700">
+                        <span class="font-medium text-slate-500 dark:text-slate-400">Keterangan</span>
+                        <span class="font-semibold text-slate-700 dark:text-slate-200">{{ $keterangan ?? '___' }}</span>
+                    </div>
+                    <div>
+                        <span class="font-medium text-slate-500 dark:text-slate-400">Uraian Kerusakan</span>
+                        <p class="mt-1 font-semibold text-slate-700 dark:text-slate-200">
+                            {{ $uraian_kerusakan ?? '___' }}
+                        </p>
+                    </div>
+                </div>
 
-                    <div class="bg-slate-50 dark:bg-slate-800/50 px-6 py-4 flex justify-end items-center space-x-3">
-                        <button type="button" wire:click="closeModal"
-                            class="px-4 py-2 text-sm font-medium text-slate-600 bg-white border border-slate-300 rounded-md shadow-sm hover:bg-slate-50">
-                            Batal
-                        </button>
-                        <button type="submit"
-                            class="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700">
-                            <span wire:loading.remove wire:target="save">Ya, Kirim Laporan</span>
-                            <span wire:loading wire:target="save">Mengirim...</span>
-                        </button>
-                    </div>
-                </form>
-            </div>
+                <div class="bg-slate-50 dark:bg-slate-800/50 px-6 py-4 flex justify-end items-center space-x-3">
+                    <button type="button" wire:click="closeModal"
+                        class="px-4 py-2 text-sm font-medium text-slate-600 bg-white border border-slate-300 rounded-md shadow-sm hover:bg-slate-50">
+                        Batal
+                    </button>
+                    <button type="submit"
+                        class="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700">
+                        <span wire:loading.remove wire:target="save">Ya, Kirim Laporan</span>
+                        <span wire:loading wire:target="save">Mengirim...</span>
+                    </button>
+                </div>
+            </form>
         </div>
+    </div>
     @endif
 </div>

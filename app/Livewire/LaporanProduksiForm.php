@@ -92,9 +92,12 @@ class LaporanProduksiForm extends Component
         $this->dispatch('laporan-sukses', 'Laporan kerusakan mesin berhasil dikirim!');
     }
 
-    public function resetForm()
+     public function resetForm()
     {
-        $this->reset();
+        $this->reset([
+            'tanggal_lapor', 'jam_lapor', 'shift', 'plant', 'nama_mesin', 
+            'nama_pelapor', 'bagian_rusak', 'uraian_kerusakan', 'keterangan'
+        ]);
         $this->mount();
     }
 
