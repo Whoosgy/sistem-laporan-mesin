@@ -12,7 +12,6 @@ use Livewire\Attributes\Title;
 
 
 #[Layout('components.layouts.app')]
-// Menetapkan judul tab di sini
 #[Title('Dasbor Maintenance')]
 class MaintenanceDashboard extends Component
 {
@@ -37,6 +36,11 @@ class MaintenanceDashboard extends Component
             $this->sortDirection = 'asc';
         }
         $this->sortField = $field;
+    }
+
+    public function updatedPage()
+    {
+    $this->dispatch('scroll-to-table');
     }
 
     public function render()

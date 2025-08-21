@@ -1,19 +1,19 @@
 {{-- File: resources/views/livewire/maintenance-dashboard.blade.php --}}
 {{-- DITAMBAHKAN: wire:poll untuk refresh otomatis setiap 15 detik --}}
 <div wire:poll.15s>
-    {{-- Menetapkan judul khusus untuk halaman ini --}}
+
     @section('title', 'Dasbor Maintenance')
 
     <div class="container mx-auto px-4 py-8">
 
         <header class="mb-8">
             <div>
-                <h1 class="text-3xl font-bold text-slate-800 dark:text-white">Dasbor Maintenance</h1>
+                <h1 class="text-3xl font-bold text-slate-800 dark:text-white">Dasboard Maintenance</h1>
                 <p class="text-slate-500 dark:text-slate-400 mt-1">Ringkasan laporan kerusakan mesin secara real-time.</p>
             </div>
         </header>
 
-        {{-- 3 Card Status dengan Desain Baru --}}
+        {{-- 3 Card Status --}}
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
             {{-- Card Pending --}}
             <div class="p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg">
@@ -44,25 +44,15 @@
 
         {{-- Tabel Daftar Laporan --}}
         <div class="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
-            {{-- DIPERBAIKI: Struktur header tabel untuk tata letak yang benar --}}
-            <div class="p-5 flex flex-wrap gap-4 justify-between items-center">
-                {{-- Bagian Kiri: Judul --}}
-                <div>
-                    <h2 class="text-base font-semibold text-slate-900 dark:text-white">Daftar Laporan Masuk</h2>
-                </div>
-
-                {{-- Bagian Kanan: Tombol Refresh dan Bar Pencarian --}}
-                <div class="flex items-center gap-2">
-                    <button wire:click="$refresh" type="button" title="Refresh data" class="p-2 text-slate-400 hover:text-blue-500 transition-colors duration-200 rounded-full hover:bg-slate-100 dark:hover:bg-slate-700">
-                        {{-- SVG BARU: Ikon refresh yang lebih bersih --}}
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-
-  <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
-
-</svg>
-
-
-                    </button>
+        <div class="p-5 flex flex-wrap gap-4 justify-between items-center">
+            <div class="flex items-center gap-2">
+                <h2 class="text-base font-semibold text-slate-900 dark:text-white">Daftar Laporan Masuk</h2>
+                <button wire:click="$refresh" type="button" title="Refresh data" class="p-2 text-slate-400 hover:text-blue-500 transition-colors duration-200 rounded-full hover:bg-slate-100 dark:hover:bg-slate-700">
+                    <svg wire:loading.class="animate-spin" class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001a7.5 7.5 0 0 1-1.08 11.051l-1.08-1.081a6 6 0 0 0 .864-8.871l-1.081-1.081H16.023Zm-4.992 0v4.992m0 0l1.08-1.081a6 6 0 0 0-8.871-.864l1.081 1.081V9.348m0 0h-4.992l1.08 1.081a6 6 0 0 0 8.871.864l-1.081-1.081V9.348Z" />
+                    </svg>
+                </button>
+            </div>
                     <div class="relative">
                         <input 
                             wire:model.live.debounce.300ms="search"
@@ -77,9 +67,9 @@
                     </div>
                 </div>
             </div>
-            <div class="overflow-x-auto">
+            <div class="overflow-x-auto max-h-[28rem] overflow-y-auto">
                 <table class="min-w-full text-sm">
-                    <thead class="bg-slate-50 dark:bg-slate-800/50">
+                    <thead class="bg-slate-50 dark:bg-slate-800/50 sticky top-0">
                         <tr class="text-left">
                             <th class="px-5 py-3 font-medium text-slate-600 dark:text-slate-300 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700" wire:click="sortBy('tanggal_lapor')">
                                 <div class="flex items-center">
@@ -152,13 +142,17 @@
                     </tbody>
                 </table>
             </div>
+            {{-- Tautan Paginasi --}}
             <div class="p-5 border-t border-slate-200 dark:border-slate-700">
                 {{ $semuaLaporan->links() }}
             </div>
         </div>
     </div>
+            </div>
+        </div>
+    </div>
 
-    {{-- Memanggil komponen modal Livewire di sini --}}
+    {{-- Memanggil komponen modal Livewire --}}
     <livewire:maintenance.view-laporan />
     <livewire:maintenance.update-laporan />
 </div>

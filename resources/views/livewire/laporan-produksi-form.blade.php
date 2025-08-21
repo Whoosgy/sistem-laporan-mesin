@@ -9,7 +9,7 @@
                     Isi Formulir Laporan Kerusakan
                 </h2>
             </div>
-            
+
             <div class="p-5 space-y-4" x-data="{
                     shift: @entangle('shift').live,
                     plant: @entangle('plant').live,
@@ -45,7 +45,7 @@
                             id="jam_lapor" required
                             class="mt-1 block w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
                     </div>
-                    {{-- x-data individual dihapus, sekarang dikontrol oleh parent --}}
+                   
                     <div @click.away="openShift = false">
                         <label for="shift"
                             class="block text-sm font-medium text-slate-600 dark:text-slate-400">Shift</label>
@@ -66,7 +66,7 @@
                         <x-text-input id="nama_pelapor" class="block w-full mt-1" type="text"
                             wire:model.blur="nama_pelapor" placeholder="Nama lengkap" required />
                     </div>
-                    {{-- x-data individual dihapus, sekarang dikontrol oleh parent --}}
+        
                     <div @click.away="openPlant = false">
                         <label for="plant"
                             class="block text-sm font-medium text-slate-600 dark:text-slate-400">Plant</label>
@@ -99,7 +99,7 @@
                                 placeholder="{{ $namaMesinPlaceholder }}"
                                 class="mt-1 block w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
                         @else
-                            {{-- x-data individual dihapus, sekarang dikontrol oleh parent --}}
+                  
                             <div @click.away="openMesin = false">
                                 <div class="relative mt-1">
                                     <input x-model="nama_mesin" @click="openMesin = true" type="text" id="nama_mesin"
@@ -136,7 +136,7 @@
                             placeholder="Contoh: Bearing"
                             class="mt-1 block w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
                     </div>
-                    {{-- x-data individual dihapus, sekarang dikontrol oleh parent --}}
+                   
                     <div @click.away="openKeterangan = false">
                         <label for="keterangan"
                             class="block text-sm font-medium text-slate-600 dark:text-slate-400">Keterangan</label>
@@ -177,9 +177,6 @@
                         class="mt-1 block w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm"></textarea>
                 </div>
             </div>
-            {{-- ============================ --}}
-            {{-- PERUBAHAN BERAKHIR DI SINI --}}
-            {{-- ============================ --}}
 
             <div
                 class="bg-slate-50 dark:bg-slate-800/50 px-5 py-3 flex justify-end items-center space-x-2 rounded-b-lg">
@@ -194,9 +191,9 @@
             </div>
         </div>
 
-        {{-- Card 2: Tabel Riwayat Laporan (Tidak ada perubahan di sini) --}}
-        <div
-            class="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
+        {{-- Card 2: Tabel Riwayat Laporan--}}
+
+    <div id="riwayat-tabel" class="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
             <div class="p-5 flex flex-wrap gap-4 justify-between items-center">
                 <div>
                     <h2 class="text-base font-semibold text-slate-900 dark:text-white">Riwayat Laporan Terakhir</h2>
@@ -213,12 +210,12 @@
                     </div>
                 </div>
             </div>
-            <div class="overflow-x-auto">
+
+            <div class="overflow-x-auto max-h-[28rem] overflow-y-auto">
                 <table class="min-w-full text-sm">
-                    <thead class="bg-slate-50 dark:bg-slate-800/50">
+                    <thead class="bg-slate-50 dark:bg-slate-800/50 sticky top-0">
                         <tr class="text-left">
-                            <th class="px-5 py-3 font-medium text-slate-600 dark:text-slate-300 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700"
-                                wire:click="sortBy('tanggal_lapor')">
+                            <th class="px-5 py-3 font-medium text-slate-600 dark:text-slate-300 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700" wire:click="sortBy('tanggal_lapor')">
                                 <div class="flex items-center">
                                     <span>Tanggal & Pelapor</span>
                                     @if($sortField == 'tanggal_lapor')
@@ -226,8 +223,7 @@
                                     @endif
                                 </div>
                             </th>
-                            <th class="px-5 py-3 font-medium text-slate-600 dark:text-slate-300 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700"
-                                wire:click="sortBy('nama_mesin')">
+                            <th class="px-5 py-3 font-medium text-slate-600 dark:text-slate-300 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700" wire:click="sortBy('nama_mesin')">
                                 <div class="flex items-center">
                                     <span>Mesin & Plant</span>
                                     @if($sortField == 'nama_mesin')
@@ -286,11 +282,28 @@
                         @endforelse
                     </tbody>
                 </table>
+                
             </div>
+            {{-- Tautan Paginasi --}}
+            <div class="p-5 border-t border-slate-200 dark:border-slate-700">
+                {{ $semuaLaporan->links() }}
+            </div>
+            @script
+    <script>
+        $wire.on('scroll-to-table', () => {
+            const tableElement = document.getElementById('riwayat-tabel');
+            if (tableElement) {
+                tableElement.scrollIntoView({ behavior: 'auto', block: 'start' });
+            }
+        });
+    </script>
+    @endscript
         </div>
     </div>
 
-    {{-- Pop-up (Modal) untuk Konfirmasi (Tidak ada perubahan di sini) --}}
+    
+
+    {{-- Pop-up (Modal) untuk Konfirmasi  --}}
     @if($isModalOpen)
         <div x-data="{ show: @entangle('isModalOpen') }" x-show="show" x-on:keydown.escape.window="show = false"
             class="fixed inset-0 z-50 flex items-center justify-center" style="display: none;">
@@ -309,7 +322,6 @@
                     </div>
 
                     <div class="p-6 space-y-2 text-sm max-h-96 overflow-y-auto">
-                        {{-- PERBAIKAN: Semua baris crosscheck diisi dengan benar --}}
                         <div class="flex justify-between py-2 border-b border-slate-200 dark:border-slate-700">
                             <span class="font-medium text-slate-500 dark:text-slate-400">Tanggal & Jam</span>
                             <span

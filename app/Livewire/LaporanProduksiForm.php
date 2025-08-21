@@ -4,9 +4,12 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use App\Models\Produksi;
+use Livewire\WithPagination;
 
 class LaporanProduksiForm extends Component
 {
+    use WithPagination;
+
     // Properti untuk data form
     public $tanggal_lapor, $jam_lapor, $shift = '', $plant, $nama_mesin, $nama_pelapor, $bagian_rusak, $uraian_kerusakan, $keterangan = '';
 
@@ -16,25 +19,21 @@ class LaporanProduksiForm extends Component
     public bool $isPlantManual = false;
     public bool $isModalOpen = false;
 
-    //Menambahkan properti untuk search bar riwayat
+    // Properti untuk search bar dan pengurutan riwayat
     public string $search = '';
     public string $sortField = 'created_at'; 
     public string $sortDirection = 'desc';
 
-     public function sortBy($field)
+    public function sortBy($field)
     {
-        
         if ($this->sortField === $field) {
             $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
         } else {
-        
             $this->sortDirection = 'asc';
         }
-
         $this->sortField = $field;
     }
 
-    // "Resep" validasi yang terpusat
     protected function rules()
     {
         return [
@@ -74,25 +73,15 @@ class LaporanProduksiForm extends Component
         $this->isModalOpen = false;
     }
     
-    public function setShift($value)
-    {
-        $this->shift = $value;
-    }
+    public function setShift($value){ $this->shift = $value; }
+    public function setPlant($value){ $this->plant = $value; }
+    public function setNamaMesin($value){ $this->nama_mesin = $value; }
+    public function setKeterangan($value){ $this->keterangan = $value; }
 
-    public function setPlant($value)
-    {
-        $this->plant = $value;
-    }
-
-    public function setNamaMesin($value)
-    {
-        $this->nama_mesin = $value;
-    }
-
-    public function setKeterangan($value)
-    {
-        $this->keterangan = $value;
-    }
+    public function updatedPage()
+{
+    $this->dispatch('scroll-to-table');
+}
 
     public function save()
     {
@@ -111,10 +100,10 @@ class LaporanProduksiForm extends Component
 
     public function render()
     {
+        // Logika untuk dropdown mesin (tidak berubah)
         $manualInputPlants = ['SS', 'SC', 'PE', 'QC', 'GA'];
         $listMesinUntukDitampilkan = collect();
         $emptyMessage = 'Nama mesin tidak ditemukan.';
-
         if ($this->plant) {
             if (in_array($this->plant, $manualInputPlants)) {
                 $listMesinUntukDitampilkan = collect();
@@ -125,33 +114,32 @@ class LaporanProduksiForm extends Component
         } else {
             $emptyMessage = 'Pilih Plant untuk melihat daftar mesin.';
         }
-
         if (!empty($this->nama_mesin) && $listMesinUntukDitampilkan->isNotEmpty()) {
              $listMesinUntukDitampilkan = $listMesinUntukDitampilkan->filter(function ($nama) {
-                return stripos($nama, $this->nama_mesin) !== false;
+                 return stripos($nama, $this->nama_mesin) !== false;
             });
         }
 
-        $query = Produksi::with('maintenance');
+        
 
-        if (!empty($this->search)) {
-            $query->where(function($q) {
-                $q->where('nama_mesin', 'like', '%' . $this->search . '%')
-                  ->orWhere('nama_pelapor', 'like', '%' . $this->search . '%')
-                  ->orWhere('plant', 'like', '%' . $this->search . '%')
-                  ->orWhere('uraian_kerusakan', 'like', '%' . $this->search . '%');
-            });
-        }
+        // PERBAIKAN: Query untuk mengambil data laporan
+        $laporanTerbaru = Produksi::with('maintenance')
+            ->where(function($q) {
+                if (!empty($this->search)) {
+                    $q->where('nama_mesin', 'like', '%' . $this->search . '%')
+                      ->orWhere('nama_pelapor', 'like', '%' . $this->search . '%')
+                      ->orWhere('plant', 'like', '%' . $this->search . '%')
+                      ->orWhere('uraian_kerusakan', 'like', '%' . $this->search . '%');
+                }
+            })
+            ->orderBy($this->sortField, $this->sortDirection)
+            ->paginate(10); // Menggunakan paginate untuk data yang banyak
 
-         $laporanTerbaru = $query->orderBy($this->sortField, $this->sortDirection)
-                                ->take(10)
-                                ->get();
-
+        // PERBAIKAN: Kirim semua data yang dibutuhkan ke view, termasuk 'semuaLaporan'
         return view('livewire.laporan-produksi-form', [
             'listMesin' => $listMesinUntukDitampilkan,
             'emptyMessage' => $emptyMessage,
-            'semuaLaporan' => $laporanTerbaru
+            'semuaLaporan' => $laporanTerbaru // <-- INI YANG MEMPERBAIKI ERROR
         ]);
-        
     }
 }
