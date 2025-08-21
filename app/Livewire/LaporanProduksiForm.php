@@ -100,7 +100,7 @@ class LaporanProduksiForm extends Component
 
     public function render()
     {
-        // Logika untuk dropdown mesin (tidak berubah)
+        // Logika untuk dropdown mesin 
         $manualInputPlants = ['SS', 'SC', 'PE', 'QC', 'GA'];
         $listMesinUntukDitampilkan = collect();
         $emptyMessage = 'Nama mesin tidak ditemukan.';
@@ -122,7 +122,7 @@ class LaporanProduksiForm extends Component
 
         
 
-        // PERBAIKAN: Query untuk mengambil data laporan
+        // Query untuk mengambil data laporan
         $laporanTerbaru = Produksi::with('maintenance')
             ->where(function($q) {
                 if (!empty($this->search)) {
@@ -135,11 +135,11 @@ class LaporanProduksiForm extends Component
             ->orderBy($this->sortField, $this->sortDirection)
             ->paginate(10); // Menggunakan paginate untuk data yang banyak
 
-        // PERBAIKAN: Kirim semua data yang dibutuhkan ke view, termasuk 'semuaLaporan'
+        // Kirim semua data yang dibutuhkan ke view, termasuk 'semuaLaporan'
         return view('livewire.laporan-produksi-form', [
             'listMesin' => $listMesinUntukDitampilkan,
             'emptyMessage' => $emptyMessage,
-            'semuaLaporan' => $laporanTerbaru // <-- INI YANG MEMPERBAIKI ERROR
+            'semuaLaporan' => $laporanTerbaru 
         ]);
     }
 }

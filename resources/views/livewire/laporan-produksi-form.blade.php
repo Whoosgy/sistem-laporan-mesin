@@ -180,9 +180,7 @@
 
             <div
                 class="bg-slate-50 dark:bg-slate-800/50 px-5 py-3 flex justify-end items-center space-x-2 rounded-b-lg">
-                <button type="button" wire:click="resetForm"
-                    class="px-3 py-2 text-xs font-medium text-slate-600 bg-white border border-slate-300 rounded-md shadow-sm hover:bg-slate-50">
-                    Reset
+                <button type="button" wire:click="resetForm" class="px-3 py-2 text-xs font-medium text-slate-600 bg-white border border-slate-300 rounded-md shadow-sm hover:bg-slate-50">Reset</button>
                 </button>
                 <button type="button" wire:click="openConfirmationModal"
                     class="px-3 py-2 text-xs font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700">
