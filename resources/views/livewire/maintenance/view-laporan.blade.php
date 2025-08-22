@@ -62,8 +62,34 @@
                     </dl>
                 </div>
 
+
+                 {{-- Bagian untuk menampilkan foto --}}
+                <div>
+                    <h4 class="text-base font-semibold text-slate-800 dark:text-slate-200 mb-2">Foto Laporan</h4>
+                    <div class="mt-2">
+                        @if(!empty($photoPaths))
+                            <div class="flex flex-wrap gap-2">
+                                @foreach($photoPaths as $path)
+                                    <button 
+                                        type="button"
+                                        wire:click="openLightbox('{{ Storage::url($path) }}')"
+                                        class="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-50 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900 transition-colors text-xs">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+                                        <span>Lihat Foto {{ $loop->iteration }}</span>
+                                    </button>
+                                @endforeach
+                            </div>
+                        @else
+                            <div class="text-center text-slate-500 dark:text-slate-400 p-4 bg-slate-50 dark:bg-slate-700/50 rounded-lg">
+                                Tidak ada foto yang diunggah.
+                            </div>
+                        @endif
+                    </div>
+                </div>
+
                 <hr class="border-slate-200 dark:border-slate-700">
 
+            
                 {{-- Bagian Info Maintenance --}}
                 <div>
                     <h4 class="text-base font-semibold text-slate-800 dark:text-slate-200 mb-2">Info Maintenance</h4>
@@ -106,4 +132,17 @@
         </div>
     </div>
     @endif
+
+    {{-- Pop-up Gambar (Lightbox) dengan Livewire --}}
+    @if($lightboxOpen)
+    <div class="fixed inset-0 z-[99] flex items-center justify-center bg-black/70 p-4">
+        <div class="relative max-w-4xl max-h-full rounded-lg" @click.away="$wire.closeLightbox()">
+            <img src="{{ $lightboxImage }}" alt="Pratinjau Foto" class="w-auto h-auto max-w-full max-h-[90vh] rounded-lg">
+            <button wire:click="closeLightbox" class="absolute -top-2 -right-2 bg-white rounded-full p-1 text-slate-800 hover:bg-slate-200 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+        </div>
+    </div>
+    @endif
 </div>
+

@@ -5,17 +5,21 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\Produksi;
 use Livewire\WithPagination;
+use Livewire\WithFileUploads;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
+
 
 #[Layout('components.layouts.app')]
 #[Title('Buat Laporan Produksi')]
 class LaporanProduksiForm extends Component
 {
     use WithPagination;
+    use WithFileUploads;
 
     // Properti untuk data form
     public $tanggal_lapor, $jam_lapor, $shift = '', $plant, $nama_mesin, $nama_pelapor, $bagian_rusak, $uraian_kerusakan, $keterangan = '';
+    public $photo;
 
     // Properti untuk dropdown & interaktivitas
     public $listPlant = [];
@@ -61,6 +65,7 @@ class LaporanProduksiForm extends Component
             'bagian_rusak' => 'nullable|string|max:255',
             'uraian_kerusakan' => 'required|string',
             'keterangan' => 'required|string|max:20',
+            'photo' => 'nullable|image|max:2048',
         ];
     }
 
@@ -98,9 +103,21 @@ class LaporanProduksiForm extends Component
         $this->dispatch('scroll-to-table');
     }
 
+     public function removePhoto()
+    {
+        $this->reset('photo');
+    }
+
     public function save()
     {
         $validatedData = $this->validate();
+
+         if ($this->photo) {
+            // Simpan foto ke 'storage/app/public/photos' dan dapatkan path-nya
+            $validatedData['photo_path'] = $this->photo->store('photos', 'public');
+        }
+        unset($validatedData['photo']);
+        
         Produksi::create($validatedData);
         $this->closeModal();
         $this->resetForm();
@@ -146,7 +163,7 @@ class LaporanProduksiForm extends Component
                   ->orWhere('plant', 'like', '%' . $this->search . '%')
                   ->orWhere('uraian_kerusakan', 'like', '%' . $this->search . '%');
             })
-            // DITAMBAHKAN: Logika query untuk filter status
+            // Logika query untuk filter status
             ->when($this->statusFilter, function ($query) {
                 if ($this->statusFilter === 'Pending') {
                     $query->where(function ($q) {

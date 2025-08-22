@@ -28,7 +28,7 @@ class MaintenanceDashboard extends Component
     #[On('laporan-updated-sukses')]
     public function refreshComponent()
     {
-        // Metode ini akan me-render ulang komponen secara otomatis
+
     }
 
     public function filterByStatus(string $status): void

@@ -26,15 +26,10 @@
                     }
                 }">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {{-- <div>
-                        <label for="tanggal_lapor" class="mb-1 block text-sm font-medium text-slate-600 dark:text-slate-400">Tanggal Lapor</label>
-                        <x-date wire:model.blur="tanggal_lapor" :max-date="now()" class="mt-0 mb-0.5 " format="DD-MM-YYYY"  />
-                    </div> --}}
-
-
                     <div>
                         <label for="tanggal_lapor" class="block text-sm font-medium text-slate-600 dark:text-slate-400">Tanggal Lapor</label>
                         <input wire:model.blur="tanggal_lapor" type="date" id="tanggal_lapor" required class="mt-1 block w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
+                        @error('tanggal_lapor') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
                     </div>
                     <div>
                         <label for="jam_lapor" class="mb-1 block text-sm font-medium text-slate-600 dark:text-slate-400">Jam
@@ -43,6 +38,7 @@
                         <input wire:model.blur="jam_lapor" x-on:change="updateShift($event.target.value)" type="time"
                             id="jam_lapor" required
                             class="mt-1 block w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
+                             @error('jam_lapor') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
                     </div>
 
                     <div @click.away="openShift = false">
@@ -53,9 +49,11 @@
                                 placeholder="Akan terisi otomatis"
                                 class="w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
                             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                                 
 
                                 </svg>
                             </div>
+                            @error('shift') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
 
                         </div>
                     </div>
@@ -63,7 +61,9 @@
                         <x-input-label for="nama_pelapor" value="Nama Pelapor" />
 
                         <x-text-input id="nama_pelapor" class="block w-full mt-1" type="text"
+                         class="mt-1 block w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm "
                             wire:model.blur="nama_pelapor" placeholder="Nama lengkap" required />
+                             @error('nama_pelapor') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
                     </div>
 
                     <div @click.away="openPlant = false">
@@ -90,6 +90,7 @@
                                 @endforeach
                             </div>
                         </div>
+                        @error('plant') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
                     </div>
                     <div>
                         <label for="nama_mesin"
@@ -126,6 +127,7 @@
                             </div>
                         </div>
                         @endif
+                        @error('nama_mesin') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
                     </div>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -136,7 +138,9 @@
                         <input wire:model.blur="bagian_rusak" type="text" id="bagian_rusak"
                             placeholder="Contoh: Bearing"
                             class="mt-1 block w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
+                            
                     </div>
+                    
 
                     <div @click.away="openKeterangan = false">
                         <label for="keterangan"
@@ -168,14 +172,69 @@
                                     C (Calibraty)</div>
                             </div>
                         </div>
+                         @error('keterangan') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
                     </div>
                 </div>
-                <div>
-                    <label for="uraian_kerusakan"
-                        class="block text-sm font-medium text-slate-600 dark:text-slate-400">Uraian Kerusakan</label>
-                    <textarea wire:model.blur="uraian_kerusakan" id="uraian_kerusakan" rows="4" required
-                        placeholder="Jelaskan detail kerusakan..."
-                        class="mt-1 block w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm"></textarea>
+                 {{-- DIUBAH: Tata letak untuk Uraian Kerusakan dan Upload Foto --}}
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {{-- Kolom Uraian Kerusakan --}}
+                    <div class="flex flex-col">
+                        <label for="uraian_kerusakan" class="block text-sm font-medium text-slate-600 dark:text-slate-400">Uraian Kerusakan</label>
+                        <textarea wire:model.blur="uraian_kerusakan" id="uraian_kerusakan" rows="6" required placeholder="Jelaskan detail kerusakan..." class="mt-1 block w-full flex-grow rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm @error('uraian_kerusakan') border-red-500 @enderror"></textarea>
+                        @error('uraian_kerusakan') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                    </div>
+                    
+                    {{-- Kolom Upload Foto --}}
+                    <div
+                        x-data="{ isUploading: false, progress: 0 }"
+                        x-on:livewire-upload-start="isUploading = true"
+                        x-on:livewire-upload-finish="isUploading = false"
+                        x-on:livewire-upload-error="isUploading = false"
+                        x-on:livewire-upload-progress="progress = $event.detail.progress"
+                        class="flex flex-col"
+                    >
+                        <label for="photo" class="block text-sm font-medium text-slate-600 dark:text-slate-400">Upload Foto (Opsional)</label>
+                        
+                        {{-- Area Pratinjau Foto atau Area Upload --}}
+                        <div class="mt-1 flex-grow flex flex-col">
+                            @if ($photo)
+                                <div class="flex items-center justify-between bg-slate-100 dark:bg-slate-700 p-2 rounded-lg">
+                                    <div class="flex items-center gap-2 truncate">
+                                        <svg class="h-5 w-5 text-slate-500 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 0 1119.5 7.372L8.552 18.32m.009-.01l-.01.01m5.699-9.941l-7.81 7.81a1.5 1.5 0 002.122 2.122l7.81-7.81" /></svg>
+                                        <a href="{{ $photo->temporaryUrl() }}" target="_blank" class="text-sm text-blue-600 dark:text-blue-400 hover:underline truncate" title="{{ $photo->getClientOriginalName() }}">
+                                            {{ $photo->getClientOriginalName() }}
+                                        </a>
+                                    </div>
+                                    <button wire:click="removePhoto" type="button" class="text-slate-500 hover:text-red-500 p-1 rounded-full">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                                    </button>
+                                </div>
+                            @else
+                                {{-- Input File Kustom --}}
+                                <div class="flex-grow flex justify-center items-center px-6 py-4 border-2 border-slate-300 dark:border-slate-600 border-dashed rounded-md">
+                                    <div class="space-y-1 text-center">
+                                        <svg class="mx-auto h-12 w-12 text-slate-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                                            <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                        <div class="flex text-sm text-slate-600 dark:text-slate-400">
+                                            <label for="photo-upload" class="relative cursor-pointer bg-white dark:bg-slate-800 rounded-md font-medium text-blue-600 dark:text-blue-400 hover:text-blue-500 focus-within:outline-none">
+                                                <span>Upload a file</span>
+                                                <input id="photo-upload" wire:model="photo" type="file" class="sr-only">
+                                            </label>
+                                            <p class="pl-1">atau seret dan lepas</p>
+                                        </div>
+                                        <p class="text-xs text-slate-500 dark:text-slate-500">PNG, JPG, GIF hingga 2MB</p>
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+
+                        {{-- Progress Bar --}}
+                        <div x-show="isUploading" class="w-full bg-slate-200 rounded-full h-2.5 mt-2 dark:bg-slate-700">
+                            <div class="bg-blue-600 h-2.5 rounded-full" :style="{ width: progress + '%' }"></div>
+                        </div>
+                        @error('photo') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                    </div>
                 </div>
             </div>
 

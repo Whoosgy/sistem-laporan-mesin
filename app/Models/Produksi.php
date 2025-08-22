@@ -22,6 +22,7 @@ class Produksi extends Model
         'bagian_rusak',
         'uraian_kerusakan',
         'keterangan',
+        'photo_path',
     ];
 
 
