@@ -104,14 +104,15 @@
                         </div>
 
                         <div>
-                            <label for="jenis_perbaikan" class="block text-sm font-medium text-slate-600 dark:text-slate-400">Uraian Perbaikan</label>
-                            <input wire:model="jenis_perbaikan" type="text" id="jenis_perbaikan" class="mt-1 block w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
-                        </div>
-                        
-                        <div class="sm:col-span-2">
                             <label for="sparepart" class="block text-sm font-medium text-slate-600 dark:text-slate-400">Sparepart</label>
                             <input wire:model="sparepart" type="text" id="sparepart" class="mt-1 block w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
                         </div>
+                        
+                            <div>
+                            <label for="jenis_perbaikan" class="block text-sm font-medium text-slate-600 dark:text-slate-400">Uraian Perbaikan</label>
+                            <textarea wire:model="jenis_perbaikan" id="jenis_perbaikan" rows="1" class="mt-1 block w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm resize-none" placeholder="Jelaskan detail perbaikan..."></textarea>
+                        </div>
+                        <div>
                     </div>
                 </div>
 

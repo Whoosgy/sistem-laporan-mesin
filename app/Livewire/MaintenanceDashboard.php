@@ -2,14 +2,13 @@
 
 namespace App\Livewire;
 
-use Livewire\Component;
-use App\Models\Produksi;
 use App\Models\Maintenance;
-use Livewire\WithPagination;
+use App\Models\Produksi;
 use Livewire\Attributes\On;
+use Livewire\Component;
+use Livewire\WithPagination;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
-
 
 #[Layout('components.layouts.app')]
 #[Title('Dasbor Maintenance')]
@@ -21,12 +20,22 @@ class MaintenanceDashboard extends Component
     public string $sortField = 'created_at';
     public string $sortDirection = 'desc';
 
-    #[On('laporan-updated')]
-    public function refreshDasbor() {}
+    
+
+    // Properti untuk filter status
+    public string $statusFilter = '';
 
     #[On('laporan-updated-sukses')]
-    public function refreshComponent() {}
+    public function refreshComponent()
+    {
+        // Metode ini akan me-render ulang komponen secara otomatis
+    }
 
+    public function filterByStatus(string $status): void
+    {
+        $this->statusFilter = $status;
+        $this->resetPage();
+    }
 
     public function sortBy($field)
     {
@@ -36,17 +45,20 @@ class MaintenanceDashboard extends Component
             $this->sortDirection = 'asc';
         }
         $this->sortField = $field;
+        $this->resetPage();
     }
 
     public function updatedPage()
     {
-    $this->dispatch('scroll-to-table');
+        $this->dispatch('scroll-to-table');
     }
 
     public function render()
     {
+        // Memulai query dasar
         $query = Produksi::with('maintenance');
 
+        // Menerapkan filter pencarian
         if (!empty($this->search)) {
             $query->where(function ($q) {
                 $q->where('nama_mesin', 'like', '%' . $this->search . '%')
@@ -56,13 +68,27 @@ class MaintenanceDashboard extends Component
             });
         }
 
-        $laporanProduksi = $query->orderBy($this->sortField, $this->sortDirection)->paginate(10);
+        // Menerapkan filter status
+        $query->when($this->statusFilter, function ($query) {
+            if ($this->statusFilter === 'Pending') {
+                $query->where(function ($q) {
+                    $q->whereDoesntHave('maintenance')
+                      ->orWhereHas('maintenance', fn ($sub) => $sub->where('status', 'Pending'));
+                });
+            } else {
+                $query->whereHas('maintenance', fn ($q) => $q->where('status', $this->statusFilter));
+            }
+        });
 
+        // Menerapkan pengurutan dan paginasi
+        $laporanProduksi = $query->orderBy($this->sortField, $this->sortDirection)
+                                 ->paginate(10);
+
+        // Menghitung jumlah untuk kartu status
         $pendingCount = Produksi::whereDoesntHave('maintenance')->orWhereHas('maintenance', function ($query) {
             $query->where('status', 'Pending');
         })->count();
         $prosesCount = Maintenance::where('status', 'Belum Selesai')->count();
-
         $selesaiCount = Maintenance::where('status', 'Selesai')->count();
 
         // Data untuk grafik trend bulanan (6 bulan terakhir)

@@ -5,7 +5,11 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\Produksi;
 use Livewire\WithPagination;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Title;
 
+#[Layout('components.layouts.app')]
+#[Title('Buat Laporan Produksi')]
 class LaporanProduksiForm extends Component
 {
     use WithPagination;
@@ -23,6 +27,9 @@ class LaporanProduksiForm extends Component
     public string $search = '';
     public string $sortField = 'created_at'; 
     public string $sortDirection = 'desc';
+    
+    // DITAMBAHKAN: Properti untuk filter status
+    public string $statusFilter = '';
 
     public function sortBy($field)
     {
@@ -32,6 +39,14 @@ class LaporanProduksiForm extends Component
             $this->sortDirection = 'asc';
         }
         $this->sortField = $field;
+        $this->resetPage();
+    }
+
+    // DITAMBAHKAN: Method untuk mengubah filter status
+    public function filterByStatus(string $status): void
+    {
+        $this->statusFilter = $status;
+        $this->resetPage();
     }
 
     protected function rules()
@@ -79,9 +94,9 @@ class LaporanProduksiForm extends Component
     public function setKeterangan($value){ $this->keterangan = $value; }
 
     public function updatedPage()
-{
-    $this->dispatch('scroll-to-table');
-}
+    {
+        $this->dispatch('scroll-to-table');
+    }
 
     public function save()
     {
@@ -123,22 +138,28 @@ class LaporanProduksiForm extends Component
             });
         }
 
-        
-
         // Query untuk mengambil data laporan
         $laporanTerbaru = Produksi::with('maintenance')
-            ->where(function($q) {
-                if (!empty($this->search)) {
-                    $q->where('nama_mesin', 'like', '%' . $this->search . '%')
-                      ->orWhere('nama_pelapor', 'like', '%' . $this->search . '%')
-                      ->orWhere('plant', 'like', '%' . $this->search . '%')
-                      ->orWhere('uraian_kerusakan', 'like', '%' . $this->search . '%');
+            ->when($this->search, function($q) {
+                $q->where('nama_mesin', 'like', '%' . $this->search . '%')
+                  ->orWhere('nama_pelapor', 'like', '%' . $this->search . '%')
+                  ->orWhere('plant', 'like', '%' . $this->search . '%')
+                  ->orWhere('uraian_kerusakan', 'like', '%' . $this->search . '%');
+            })
+            // DITAMBAHKAN: Logika query untuk filter status
+            ->when($this->statusFilter, function ($query) {
+                if ($this->statusFilter === 'Pending') {
+                    $query->where(function ($q) {
+                        $q->whereDoesntHave('maintenance')
+                          ->orWhereHas('maintenance', fn ($sub) => $sub->where('status', 'Pending'));
+                    });
+                } else {
+                    $query->whereHas('maintenance', fn ($q) => $q->where('status', $this->statusFilter));
                 }
             })
             ->orderBy($this->sortField, $this->sortDirection)
-            ->paginate(10); // Menggunakan paginate untuk data yang banyak
+            ->paginate(10);
 
-        // Kirim semua data yang dibutuhkan ke view, termasuk 'semuaLaporan'
         return view('livewire.laporan-produksi-form', [
             'listMesin' => $listMesinUntukDitampilkan,
             'emptyMessage' => $emptyMessage,
