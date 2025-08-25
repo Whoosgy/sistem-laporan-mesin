@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Models\Produksi;
 use App\Models\Maintenance;
+use App\Exports\LaporanMaintenanceExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PageController extends Controller
 {
@@ -16,8 +18,8 @@ class PageController extends Controller
     {
         // Menghitung jumlah laporan untuk kartu status
         $pendingCount = Produksi::whereDoesntHave('maintenance')->orWhereHas('maintenance', function ($query) {
-                            $query->where('status', 'Pending');
-                        })->count();
+            $query->where('status', 'Pending');
+        })->count();
         
         $belumSelesaiCount = Maintenance::where('status', 'Belum Selesai')->count();
         
@@ -62,5 +64,29 @@ class PageController extends Controller
 
         // 3. Kembalikan pengguna ke halaman sebelumnya dengan pesan sukses
         return redirect()->back()->with('success', 'Laporan berhasil dikirim!');
+    }
+
+   /**
+     * Memicu unduhan file Excel.
+     */
+    public function exportExcel(Request $request)
+    {
+        // Mengambil tanggal dari URL
+        $startDate = $request->query('start');
+        $endDate = $request->query('end');
+
+        return Excel::download(new LaporanMaintenanceExport($startDate, $endDate), 'laporan-maintenance.xlsx');
+    }
+
+    /**
+     * Memicu unduhan file CSV.
+     */
+    public function exportCsv(Request $request)
+    {
+        // Mengambil tanggal dari URL
+        $startDate = $request->query('start');
+        $endDate = $request->query('end');
+        
+        return Excel::download(new LaporanMaintenanceExport($startDate, $endDate), 'laporan-maintenance.csv', \Maatwebsite\Excel\Excel::CSV);
     }
 }

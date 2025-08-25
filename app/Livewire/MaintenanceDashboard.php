@@ -9,6 +9,8 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
+use App\Exports\LaporanMaintenanceExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 #[Layout('components.layouts.app')]
 #[Title('Dasbor Maintenance')]
@@ -36,6 +38,26 @@ class MaintenanceDashboard extends Component
         $this->statusFilter = $status;
         $this->resetPage();
     }
+
+     public function exportExcel()
+    {
+    
+        $startDate = '1970-01-01';
+        $endDate = now()->format('Y-m-d');
+
+        return Excel::download(new LaporanMaintenanceExport($startDate, $endDate), 'laporan-maintenance.xlsx');
+    }
+
+     public function exportCsv()
+    {
+
+        $startDate = '1970-01-01';
+        $endDate = now()->format('Y-m-d');
+
+        return Excel::download(new LaporanMaintenanceExport($startDate, $endDate), 'laporan-maintenance.csv', \Maatwebsite\Excel\Excel::CSV);
+    }
+
+
 
     public function sortBy($field)
     {

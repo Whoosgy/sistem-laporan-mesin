@@ -10,6 +10,11 @@
                 </div>
             </header>
 
+            {{-- Tombol Download Laporan --}}
+            <div class="mb-6 flex justify-end">
+                <livewire:download-laporan-button />
+            </div>
+
         {{-- 3 Card Status --}}
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
             {{-- Card Pending --}}
@@ -88,7 +93,7 @@
                         <h2 class="text-base font-semibold text-slate-900 dark:text-white">Daftar Laporan Masuk</h2>
                     </div>
 
-                    {{-- Bagian Kanan: Tombol Refresh dan Bar Pencarian --}}
+ 
                     {{-- Bagian Kanan: Tombol Aksi (Refresh, Filter, Search) --}}
                     <div class="flex items-center gap-2">
                         <button onclick="location.reload()" type="button" title="Refresh Halaman" class="p-2 text-slate-400 hover:text-blue-500 transition-colors duration-200 rounded-full hover:bg-slate-100 dark:hover:bg-slate-700">
@@ -234,7 +239,7 @@
                 </script>
                 @endscript
 
-                {{-- Memanggil komponen modal Livewire di sini --}}
+                {{-- Memanggil komponen modal Livewire --}}
                 <livewire:maintenance.view-laporan />
                 <livewire:maintenance.update-laporan />
             </div>
