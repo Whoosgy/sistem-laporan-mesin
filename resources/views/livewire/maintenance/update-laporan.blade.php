@@ -92,16 +92,28 @@
                             <input wire:model="tanggal_selesai" type="date" id="tanggal_selesai" required class="mt-1 block w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
                         </div>
                         <div>
-                            <label for="waktu_perbaikan" class="block text-sm font-medium text-slate-600 dark:text-slate-400">Waktu Perbaikan</label>
+                            <label for="waktu_perbaikan" class="block text-sm font-medium text-slate-600 dark:text-slate-400">Waktu Mulai Perbaikan</label>
                             <input wire:model="waktu_perbaikan" type="time" id="waktu_perbaikan" required class="mt-1 block w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
                         </div>
-
+                        <div>
+                            <label for="waktu_selesai" class="block text-sm font-medium text-slate-600 dark:text-slate-400">Waktu Selesai Perbaikan</label>
+                            <input wire:model="waktu_selesai" type="time" id="waktu_selesai" required class="mt-1 block w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
+                        </div>
                         {{-- Keterangan dari Laporan Produksi --}}
                         <div>
-                            <label for="keterangan_produksi" class="block text-sm font-medium text-slate-600 dark:text-slate-400">Keterangan Awal</label>
+                            <label for="keterangan_produksi" class="block text-sm font-medium text-slate-600 dark:text-slate-400">Keterangan Produksi</label>
                             <input type="text" id="keterangan_produksi" value="{{ $laporanProduksi->keterangan }}" readonly class="mt-1 block w-full rounded-md border-slate-200 bg-slate-100 dark:bg-slate-900/50 dark:border-slate-700 dark:text-slate-400 shadow-sm text-sm">
                         </div>
+                        <div>
+                            <label for="sparepart" class="block text-sm font-medium text-slate-600 dark:text-slate-400">keterangan maintenance</label>
+                            <x-select.native :options="['TM','TE','TU','LM','LE','LU']" wire:model="keterangan_maintenance" />
+                        </div>
+                        
+                        <!-- <div>
+                            <label for="keterangan_maintenance" class="block text-sm font-medium text-slate-600 dark:text-slate-400">Keterangan Maintenance</label>
+                            <input type="text" id="keterangan_maintenance" class="mt-1 block w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
 
+                        <div> -->
                         <div>
                             <label for="sparepart" class="block text-sm font-medium text-slate-600 dark:text-slate-400">Sparepart</label>
                             <input wire:model="sparepart" type="text" id="sparepart" class="mt-1 block w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">

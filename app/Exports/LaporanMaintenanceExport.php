@@ -9,20 +9,22 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 
 class LaporanMaintenanceExport implements FromCollection, WithHeadings, WithMapping
 {
-     protected $startDate;
+    protected $startDate;
     protected $endDate;
+    // protected $breakdown;
 
     public function __construct($startDate, $endDate)
     {
         $this->startDate = $startDate;
         $this->endDate = $endDate;
+        // $this->breakdown = '1';
     }
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * @return \Illuminate\Support\Collection
+     */
     public function collection()
     {
-         return Produksi::with('maintenance')
+        return Produksi::with('maintenance')
             ->whereBetween('tanggal_lapor', [$this->startDate, $this->endDate])
             ->get();
     }
@@ -33,7 +35,6 @@ class LaporanMaintenanceExport implements FromCollection, WithHeadings, WithMapp
     public function headings(): array
     {
         return [
-            'ID Laporan',
             'Tanggal Lapor',
             'Jam Lapor',
             'Shift',
@@ -41,13 +42,19 @@ class LaporanMaintenanceExport implements FromCollection, WithHeadings, WithMapp
             'Plant',
             'Nama Mesin',
             'Uraian Kerusakan',
-            'Keterangan Produksi',
-            'Status Maintenance',
-            'Tanggal Selesai',
-            'Waktu Perbaikan',
-            'Teknisi',
             'Uraian Perbaikan',
             'Sparepart',
+            'Tanggal Selesai',
+            'Waktu Mulai Perbaikan',
+            'Waktu Selesai Perbaikan',
+            'Breakdown',
+            'Downtime Mesin',
+            'Downtime Perbaikan',
+            'Teknisi',
+            'Status Maintenance',
+            'Keterangan Produksi',
+            'Keterangan Maintenance',
+
         ];
     }
 
@@ -59,7 +66,6 @@ class LaporanMaintenanceExport implements FromCollection, WithHeadings, WithMapp
     public function map($laporan): array
     {
         return [
-            $laporan->id,
             $laporan->tanggal_lapor,
             $laporan->jam_lapor,
             $laporan->shift,
@@ -67,13 +73,23 @@ class LaporanMaintenanceExport implements FromCollection, WithHeadings, WithMapp
             $laporan->plant,
             $laporan->nama_mesin,
             $laporan->uraian_kerusakan,
-            $laporan->keterangan,
-            optional($laporan->maintenance)->status ?? 'Pending',
-            optional($laporan->maintenance)->tanggal_selesai,
-            optional($laporan->maintenance)->waktu_perbaikan,
-            optional($laporan->maintenance)->nama_teknisi,
             optional($laporan->maintenance)->jenis_perbaikan,
             optional($laporan->maintenance)->sparepart,
+            optional($laporan->maintenance)->tanggal_selesai,
+            optional($laporan->maintenance)->waktu_perbaikan,
+            optional($laporan->maintenance)->waktu_selesai,
+            $laporan->breakdown ? 'Ya' : '1',
+            $laporan->downtime_mesin ? 'Ya' : 'demo',
+            $laporan->downtime_perbaikan ? 'Ya' : 'demo',
+            optional($laporan->maintenance)->nama_teknisi,
+            optional($laporan->maintenance)->status ?? 'Pending',
+            $laporan->keterangan,
+            optional($laporan->maintenance)->keterangan_maintenance,
+            
+
+            
+
+
         ];
     }
 }

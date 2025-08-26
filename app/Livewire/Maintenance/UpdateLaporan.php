@@ -16,10 +16,12 @@ class UpdateLaporan extends Component
     // Properti Form
     public $produksi_id;
     public $waktu_perbaikan;
+    public $waktu_selesai;
     public $tanggal_selesai;
     public $jenis_perbaikan;
     public $sparepart;
     public $keterangan;
+    public $keterangan_maintenance;
     public $status;
 
     public array $selectedTechnicians = [];
@@ -94,11 +96,13 @@ class UpdateLaporan extends Component
             if ($this->laporanProduksi->maintenance) {
                 $maintenance = $this->laporanProduksi->maintenance;
                 $this->waktu_perbaikan = $maintenance->waktu_perbaikan;
+                $this->waktu_selesai = $maintenance->waktu_selesai;
                 $this->tanggal_selesai = $maintenance->tanggal_selesai;
                 $this->selectedTechnicians = !empty($maintenance->nama_teknisi) ? explode(', ', $maintenance->nama_teknisi) : [];
                 $this->jenis_perbaikan = $maintenance->jenis_perbaikan;
                 $this->sparepart = $maintenance->sparepart;
                 $this->keterangan = $maintenance->keterangan;
+                $this->keterangan_maintenance = $maintenance->keterangan_maintenance;
                 $this->status = $maintenance->status;
             } else {
                 $this->reset(['waktu_perbaikan', 'tanggal_selesai', 'selectedTechnicians', 'jenis_perbaikan', 'sparepart', 'keterangan']);
@@ -115,11 +119,13 @@ class UpdateLaporan extends Component
         
         $dataToSave = [
             'waktu_perbaikan' => $this->waktu_perbaikan,
+            'waktu_selesai'   => $this->waktu_selesai,
             'tanggal_selesai' => $this->tanggal_selesai,
             'nama_teknisi'    => implode(', ', $this->selectedTechnicians),
             'jenis_perbaikan' => $this->jenis_perbaikan ?? 'N/A',
             'sparepart'       => $this->sparepart ?? 'Tidak ada',
             'keterangan'      => $this->keterangan ?? 'Tidak ada',
+            'keterangan_maintenance' => $this->keterangan_maintenance ?? 'Tidak ada',
             'status'          => $this->status,
         ];
         

@@ -65,7 +65,7 @@ class LaporanProduksiForm extends Component
             'bagian_rusak' => 'nullable|string|max:255',
             'uraian_kerusakan' => 'required|string',
             'keterangan' => 'required|string|max:20',
-            'photo' => 'nullable|image|max:2048',
+            'photo' => 'nullable|image|max:102400',
         ];
     }
 

@@ -3,12 +3,7 @@
 
     <div class="container mx-auto px-4 py-8">
 
-        <header class="mb-8">
-            <div>
-                <h1 class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-teal-400 dark:from-blue-400 dark:to-teal-300 bg-clip-text text-transparent">Dasboard Maintenance</h1>
-                    <p class="text-slate-500 dark:text-slate-400 mt-1">Ringkasan laporan kerusakan mesin secara real-time.</p>
-                </div>
-            </header>
+            
 
             {{-- Tombol Download Laporan --}}
             <div class="mb-6 flex justify-end">

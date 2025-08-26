@@ -15,11 +15,13 @@ return new class extends Migration
         $table->id();
         $table->foreignId('produksi_id')->constrained('produksi')->onDelete('cascade');
         $table->time('waktu_perbaikan');
+        $table->time('waktu_selesai');
         $table->date('tanggal_selesai');
         $table->string('nama_teknisi');
         $table->string('jenis_perbaikan', 100)->nullable();
         $table->text('sparepart');
         $table->text('keterangan');
+        $table->text('keterangan_maintenance')->nullable();
         $table->string('status', 50)->default('Selesai');
         $table->timestamps();
     });

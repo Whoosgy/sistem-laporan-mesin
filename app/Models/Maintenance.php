@@ -15,11 +15,13 @@ class Maintenance extends Model
     protected $fillable = [
         'produksi_id',
         'waktu_perbaikan',
+        'waktu_selesai',
         'tanggal_selesai',
         'nama_teknisi',
         'jenis_perbaikan',
         'sparepart',
         'keterangan',
+        'keterangan_maintenance',
         'status',
     ];
 
