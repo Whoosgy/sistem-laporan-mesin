@@ -24,6 +24,14 @@ class UpdateLaporan extends Component
     public $keterangan_maintenance;
     public $status;
 
+    public bool $showKeteranganDropdown = false;
+    public function toggleKeteranganDropdown()
+{
+    $this->showKeteranganDropdown = !$this->showKeteranganDropdown;
+}
+
+    
+
     public array $selectedTechnicians = [];
 
     // Properti untuk Pencarian
@@ -72,16 +80,25 @@ class UpdateLaporan extends Component
         }
     }
 
+     public function setKeteranganMaintenance($value)
+    {
+        $this->keterangan_maintenance = $value;
+        $this->showKeteranganDropdown = false;
+    }
+
+
     protected function rules()
     {
         return [
             'waktu_perbaikan' => 'required',
+            'waktu_selesai' => 'required',
             'tanggal_selesai' => 'required|date',
             'selectedTechnicians' => 'required|array|min:1|max:5',
             'jenis_perbaikan' => 'nullable|string',
             'sparepart' => 'nullable|string',
             'keterangan' => 'nullable|string',
             'status' => 'required|string|in:Pending,Belum Selesai,Selesai',
+            'keterangan_maintenance' => 'nullable|string',
         ];
     }
 

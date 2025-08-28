@@ -13,7 +13,7 @@ use App\Exports\LaporanMaintenanceExport;
 use Maatwebsite\Excel\Facades\Excel;
 
 #[Layout('components.layouts.app')]
-#[Title('Dasbor Maintenance')]
+#[Title('Dashboard Maintenance')]
 class MaintenanceDashboard extends Component
 {
     use WithPagination;

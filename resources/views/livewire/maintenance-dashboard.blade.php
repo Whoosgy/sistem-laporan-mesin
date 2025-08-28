@@ -1,5 +1,5 @@
 <div wire:poll.15s>
-    @section('title', 'Dasbor Maintenance')
+    @section('title', 'Dashboard Maintenance')
 
     <div class="container mx-auto px-4 py-8">
 
@@ -231,7 +231,12 @@
                             });
                         }
                     });
+                    
+                    alert('Data laporan berhasil diperbarui.');
+        
+    
                 </script>
+
                 @endscript
 
                 {{-- Memanggil komponen modal Livewire --}}

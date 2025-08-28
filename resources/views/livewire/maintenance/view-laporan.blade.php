@@ -1,24 +1,25 @@
 {{-- File: resources/views/livewire/maintenance/view-laporan.blade.php --}}
 <div>
     @if($isModalOpen && $laporanProduksi)
-    <div
+    <div 
         x-data="{ show: @entangle('isModalOpen') }"
         x-show="show"
         x-on:keydown.escape.window="show = false"
         class="fixed inset-0 z-50 flex items-center justify-center p-4"
-        style="display: none;">
+        style="display: none;"
+    >
         {{-- Latar Belakang Overlay --}}
         <div x-show="show" x-transition.opacity class="fixed inset-0 bg-black/60 backdrop-blur-sm" wire:click="closeModal"></div>
 
         {{-- Konten Modal dengan transisi fade dan scale --}}
         <div x-show="show"
-            x-transition:enter="transition ease-out duration-300"
-            x-transition:enter-start="opacity-0 scale-90"
-            x-transition:enter-end="opacity-100 scale-100"
-            x-transition:leave="transition ease-in duration-200"
-            x-transition:leave-start="opacity-100 scale-100"
-            x-transition:leave-end="opacity-0 scale-90"
-            class="relative w-full max-w-2xl bg-white dark:bg-slate-800 rounded-lg shadow-xl border border-slate-200 dark:border-slate-700">
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 scale-90"
+             x-transition:enter-end="opacity-100 scale-100"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100 scale-100"
+             x-transition:leave-end="opacity-0 scale-90"
+             class="relative w-full max-w-2xl bg-white dark:bg-slate-800 rounded-lg shadow-xl border border-slate-200 dark:border-slate-700">
 
             {{-- Header Modal --}}
             <div class="p-5 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center">
@@ -59,17 +60,17 @@
                             <dt class="font-medium text-slate-500">Bagian Rusak</dt>
                             <dd class="text-slate-900 dark:text-white">{{ $laporanProduksi->bagian_rusak ?? '-' }}</dd>
                         </div>
-                        <div class="sm:col-span-2">
-                            <dt class="font-medium text-slate-500">Uraian Kerusakan</dt>
-                            <dd class="text-slate-900 dark:text-white mt-1">{{ $laporanProduksi->uraian_kerusakan }}</dd>
-                        </div>
-                        <div class="sm:col-span-2">
+                        {{-- DIUBAH: Posisi Keterangan dan Uraian --}}
+                        <div class="sm:col-span-1">
                             <dt class="font-medium text-slate-500">Keterangan Produksi</dt>
                             <dd class="text-slate-900 dark:text-white mt-1">{{ $laporanProduksi->keterangan }}</dd>
                         </div>
+                        <div class="sm:col-span-1">
+                            <dt class="font-medium text-slate-500">Uraian Kerusakan</dt>
+                            <dd class="text-slate-900 dark:text-white mt-1">{{ $laporanProduksi->uraian_kerusakan }}</dd>
+                        </div>
                     </dl>
                 </div>
-
 
                 {{-- Bagian untuk menampilkan foto --}}
                 <div>
@@ -100,7 +101,6 @@
 
                 <hr class="border-slate-200 dark:border-slate-700">
 
-
                 {{-- Bagian Info Maintenance --}}
                 <div>
                     <h4 class="text-base font-semibold text-slate-800 dark:text-slate-200 mb-2">Info Maintenance</h4>
@@ -109,10 +109,6 @@
                         <div class="sm:col-span-1">
                             <dt class="font-medium text-slate-500">Status</dt>
                             <dd class="text-slate-900 dark:text-white font-semibold">{{ $laporanProduksi->maintenance->status }}</dd>
-                        </div>
-                        <div class="sm:col-span-1">
-                            <dt class="font-medium text-slate-500">Teknisi</dt>
-                            <dd class="text-slate-900 dark:text-white">{{ $laporanProduksi->maintenance->nama_teknisi }}</dd>
                         </div>
                         <div class="sm:col-span-1">
                             <dt class="font-medium text-slate-500">Tanggal Selesai</dt>
@@ -124,18 +120,21 @@
                         </div>
                         <div class="sm:col-span-1">
                             <dt class="font-medium text-slate-500">Waktu Selesai Perbaikan</dt>
-                            <dd class="text-slate-900 dark:text-white">{{ $laporanProduksi->maintenance->waktu_selesai}}</dd>
+                            <dd class="text-slate-900 dark:text-white">{{ $laporanProduksi->maintenance->waktu_selesai }}</dd>
+                        </div>
+                        {{-- DIUBAH: Posisi Teknisi dan Keterangan --}}
+                        <div class="sm:col-span-1">
+                            <dt class="font-medium text-slate-500">Teknisi</dt>
+                            <dd class="text-slate-900 dark:text-white">{{ $laporanProduksi->maintenance->nama_teknisi }}</dd>
+                        </div>
+                        <div class="sm:col-span-1">
+                            <dt class="font-medium text-slate-500">Keterangan Maintenance</dt>
+                            <dd class="text-slate-900 dark:text-white">{{ $laporanProduksi->maintenance->keterangan_maintenance }}</dd>
                         </div>
                         <div class="sm:col-span-2">
                             <dt class="font-medium text-slate-500">Uraian Perbaikan</dt>
-                            {{-- DIPERBAIKI: Mengambil data dari kolom 'jenis_perbaikan' --}}
                             <dd class="text-slate-900 dark:text-white mt-1">{{ $laporanProduksi->maintenance->jenis_perbaikan }}</dd>
                         </div>
-                        <div class="sm:col-span-1">
-                            <dt class="font-medium text-slate-500">keterangan maintenance</dt>
-                            <dd class="text-slate-900 dark:text-white">{{ $laporanProduksi->maintenance->keterangan_maintenance }}</dd>
-                        </div>
-
                     </dl>
                     @else
                     <p class="text-slate-500 dark:text-slate-400">Laporan ini masih berstatus <span class="font-semibold text-amber-500">Pending</span> dan belum ditangani.</p>

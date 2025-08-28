@@ -1,75 +1,277 @@
 <x-layouts.app>
-    {{-- Menetapkan judul khusus untuk halaman ini --}}
     @section('title', 'Home - Sistem Laporan Mesin')
 
-    <div class="min-h-[calc(100vh-4rem)] flex items-center justify-center p-6">
+    {{-- CSS untuk Desain Kartu Glassmorphism Baru --}}
+    <style>
+        .card-grid-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2.5rem;
+            padding: 1rem;
+            width: 100%;
+            max-width: 1100px;
+            margin: auto;
+            justify-items: center;
+        }
 
-        {{-- Kontainer utama untuk mengontrol lebar dan tata letak --}}
-        <div class="w-full max-w-5xl mx-auto">
+        @media (max-width: 768px) {
+            .card-grid-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
 
-            {{-- Bagian header --}}
-            <div class="text-center mb-16">
+        .card {
+            position: relative;
+            width: 450px;
+            height: 280px;
+            max-width: 100%;
+            border-radius: 14px;
+            z-index: 10;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            
+            /* Efek Glassmorphism */
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.15);
+        }
 
-                <h1 class="text-5xl lg:text-5xl font-bold tracking-tight mb-4 
-                           bg-gradient-to-r from-blue-600 to-teal-500 
-                           dark:from-blue-500 dark:to-teal-300 
-                           bg-clip-text text-transparent">
-                    Work Of Maintenance
-                </h1>
+        .dark .card {
+            background: rgba(30, 41, 59, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
 
-                <p class="text-lg text-slate-600 dark:text-slate-400 max-w-3xl mx-auto leading-relaxed">
-                    Lihat ringkasan laporan kerusakan mesin.
-                </p>
-            </div>
+        .card .content {
+            position: relative;
+            z-index: 3;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
 
-            {{-- Bagian Count Cards --}}
-            <div class="mt-12">
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                    {{-- Card Pending --}}
+        .card .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            border-bottom: 1px solid rgba(100, 116, 139, 0.2);
+            padding-bottom: 0.75rem;
+        }
 
-                    <a class="group block text-center bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border border-slate-200 dark:border-slate-700 rounded-2xl p-6 transform transition-all duration-300 ease-in-out shadow-lg hover:shadow-2xl hover:-translate-y-2 hover:border-amber-500">
-                        <div class="flex justify-center mb-4">
-                            <div class="p-3 bg-amber-100 dark:bg-amber-900/50 rounded-full">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                            </div>
-                        </div>
-                        <p class="text-xl font-semibold text-slate-500 dark:text-slate-400 mb-4">Pending</p>
-                        <p class="text-7xl font-bold text-amber-500">{{ $pendingCount }}</p>
-                        <p class="text-base text-slate-400 mt-4">Laporan</p>
-                    </a>
+        .card .header h2 {
+            font-size: 1.875rem;
+            font-weight: 700;
+        }
 
-                    {{-- Card Belum Selesai --}}
-                    <a class="group block text-center bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border border-slate-200 dark:border-slate-700 rounded-2xl p-6 transform transition-all duration-300 ease-in-out shadow-lg hover:shadow-2xl hover:-translate-y-2 hover:border-red-500">
-                        <div class="flex justify-center mb-4">
-                            <div class="p-3 bg-red-100 dark:bg-red-900/50 rounded-full">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                </svg>
-                            </div>
-                        </div>
-                        <p class="text-xl font-semibold text-slate-500 dark:text-slate-400 mb-4">Belum Selesai</p>
-                        <p class="text-7xl font-bold text-red-500">{{ $belumSelesaiCount }}</p>
-                        <p class="text-base text-slate-400 mt-4">Laporan</p>
-                    </a>
+        .card .header .total {
+            font-size: 2.25rem;
+            font-weight: 800;
+        }
 
-                    {{-- Card Selesai --}}
-                    <a class="group block text-center bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border border-slate-200 dark:border-slate-700 rounded-2xl p-6 transform transition-all duration-300 ease-in-out shadow-lg hover:shadow-2xl hover:-translate-y-2 hover:border-emerald-500">
-                        <div class="flex justify-center mb-4">
-                            <div class="p-3 bg-emerald-100 dark:bg-emerald-900/50 rounded-full">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                            </div>
-                        </div>
-                        <p class="text-xl font-semibold text-slate-500 dark:text-slate-400 mb-4">Selesai</p>
-                        <p class="text-7xl font-bold text-emerald-500">{{ $selesaiCount }}</p>
-                        <p class="text-base text-slate-400 mt-4">Laporan</p>
-                    </a>
+        .card .stats {
+            margin-top: 1.5rem;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+            flex-grow: 1;
+            align-items: center;
+        }
+
+        .card .stats .stat-item p:first-child {
+            font-size: 2.25rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .card .stats .stat-item p:last-child {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .dark .card .stats .stat-item p:last-child {
+            color: #94a3b8;
+        }
+
+        /* PERBAIKAN: Mengubah .corner-symbol menjadi bentuk vektor */
+        .card .corner-symbol {
+            position: absolute;
+            top: -10px; /* Disesuaikan agar pas */
+            left: -10px; /* Disesuaikan agar pas */
+            width: 60px; /* Ukuran diperbesar */
+            height: 60px;
+            z-index: 4;
+        }
+
+        .corner-symbol .vector-shape {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: var(--symbol-color);
+            clip-path: path('M 60 30 C 60 46.56 46.56 60 30 60 L 10 60 C 4.48 60 0 55.52 0 50 L 0 10 C 0 4.48 4.48 0 10 0 L 30 0 C 46.56 0 60 13.44 60 30 Z');
+            box-shadow: 0 0 10px var(--symbol-color);
+        }
+
+        .corner-symbol .letter {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            padding-right: 10px; /* Disesuaikan agar huruf di tengah bentuk */
+            padding-bottom: 10px;
+        }
+
+        /* Warna spesifik untuk setiap kartu */
+        .card-m { color: #0284c7; --symbol-color: #38bdf8; } .dark .card-m { color: #38bdf8; }
+        .card-e { color: #16a34a; --symbol-color: #4ade80; } .dark .card-e { color: #4ade80; }
+        .card-u { color: #f97316; --symbol-color: #fb923c; } .dark .card-u { color: #fb923c; }
+        .card-c { color: #7c3aed; --symbol-color: #a78bfa; } .dark .card-c { color: #a78bfa; }
+    </style>
+
+    <div class="min-h-[calc(100vh-4rem)] flex flex-col items-center justify-start p-6 pt-12">
+        {{-- Bagian header --}}
+        <div class="text-center mb-12">
+            <h1 class="text-5xl lg:text-5xl font-bold tracking-tight mb-4 
+                       bg-gradient-to-r from-blue-600 to-teal-500 
+                       dark:from-blue-500 dark:to-teal-300 
+                       bg-clip-text text-transparent">
+                Work Of Maintenance
+            </h1>
+            <p class="text-lg text-slate-600 dark:text-slate-400 max-w-3xl mx-auto leading-relaxed">
+                Lihat ringkasan laporan kerusakan mesin.
+            </p>
+        </div>
+
+        <div class="card-grid-container">
+            {{-- Card Mekanik --}}
+            <a href="{{ route('maintenance.dashboard') }}" class="card card-m">
+                <div class="corner-symbol">
+                    <div class="vector-shape"></div>
+                    <div class="letter">M</div>
                 </div>
-            </div>
+                <div class="content">
+                    <div class="header">
+                        <h2>Mekanik</h2>
+                        <p class="total">{{ $mekanik['total'] }}</p>
+                    </div>
+                    <div class="stats">
+                        <div class="stat-item">
+                            <p>{{ $mekanik['pending'] }}</p>
+                            <p>Pending</p>
+                        </div>
+                        <div class="stat-item">
+                            <p>{{ $mekanik['belum_selesai'] }}</p>
+                            <p>On Progress</p>
+                        </div>
+                        <div class="stat-item">
+                            <p>{{ $mekanik['selesai'] }}</p>
+                            <p>Selesai</p>
+                        </div>
+                    </div>
+                </div>
+            </a>
 
+            {{-- Card Elektrik --}}
+            <a href="{{ route('maintenance.dashboard') }}" class="card card-e">
+                <div class="corner-symbol">
+                    <div class="vector-shape"></div>
+                    <div class="letter">E</div>
+                </div>
+                <div class="content">
+                    <div class="header">
+                        <h2>Elektrik</h2>
+                        <p class="total">{{ $elektrik['total'] }}</p>
+                    </div>
+                    <div class="stats">
+                        <div class="stat-item">
+                            <p>{{ $elektrik['pending'] }}</p>
+                            <p>Pending</p>
+                        </div>
+                        <div class="stat-item">
+                            <p>{{ $elektrik['belum_selesai'] }}</p>
+                            <p>On Progress</p>
+                        </div>
+                        <div class="stat-item">
+                            <p>{{ $elektrik['selesai'] }}</p>
+                            <p>Selesai</p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            {{-- Card Utility --}}
+            <a href="{{ route('maintenance.dashboard') }}" class="card card-u">
+                <div class="corner-symbol">
+                    <div class="vector-shape"></div>
+                    <div class="letter">U</div>
+                </div>
+                <div class="content">
+                    <div class="header">
+                        <h2>Utility</h2>
+                        <p class="total">{{ $utility['total'] }}</p>
+                    </div>
+                    <div class="stats">
+                        <div class="stat-item">
+                            <p>{{ $utility['pending'] }}</p>
+                            <p>Pending</p>
+                        </div>
+                        <div class="stat-item">
+                            <p>{{ $utility['belum_selesai'] }}</p>
+                            <p>On Progress</p>
+                        </div>
+                        <div class="stat-item">
+                            <p>{{ $utility['selesai'] }}</p>
+                            <p>Selesai</p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            {{-- Card Calibraty --}}
+            <a href="{{ route('maintenance.dashboard') }}" class="card card-c">
+                <div class="corner-symbol">
+                    <div class="vector-shape"></div>
+                    <div class="letter">C</div>
+                </div>
+                <div class="content">
+                    <div class="header">
+                        <h2>Calibraty</h2>
+                        <p class="total">{{ $calibraty['total'] }}</p>
+                    </div>
+                    <div class="stats">
+                        <div class="stat-item">
+                            <p>{{ $calibraty['pending'] }}</p>
+                            <p>Pending</p>
+                        </div>
+                        <div class="stat-item">
+                            <p>{{ $calibraty['belum_selesai'] }}</p>
+                            <p>On Progress</p>
+                        </div>
+                        <div class="stat-item">
+                            <p>{{ $calibraty['selesai'] }}</p>
+                            <p>Selesai</p>
+                        </div>
+                    </div>
+                </div>
+            </a>
         </div>
     </div>
 </x-layouts.app>

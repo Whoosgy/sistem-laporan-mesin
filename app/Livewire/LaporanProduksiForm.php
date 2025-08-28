@@ -11,7 +11,7 @@ use Livewire\Attributes\Title;
 
 
 #[Layout('components.layouts.app')]
-#[Title('Buat Laporan Produksi')]
+#[Title('Production report')]
 class LaporanProduksiForm extends Component
 {
     use WithPagination;

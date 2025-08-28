@@ -1,6 +1,6 @@
 <x-layouts.app>
     <x-slot name="title">
-        Buat Laporan Produksi
+        Production report
     </x-slot>
 
     <div class="container mx-auto px-4 py-8">

@@ -14,22 +14,31 @@ class PageController extends Controller
     /**
      * Menampilkan halaman utama (welcome) dengan data statistik.
      */
-    public function home()
+      public function home()
     {
-        // Menghitung jumlah laporan untuk kartu status
-        $pendingCount = Produksi::whereDoesntHave('maintenance')->orWhereHas('maintenance', function ($query) {
-            $query->where('status', 'Pending');
-        })->count();
-        
-        $belumSelesaiCount = Maintenance::where('status', 'Belum Selesai')->count();
-        
-        $selesaiCount = Maintenance::where('status', 'Selesai')->count();
 
-        // Kirim data ke view
+        $getStatusCounts = function ($keterangan) {
+            return [
+                'total' => Produksi::where('keterangan', $keterangan)->count(),
+                'pending' => Produksi::where('keterangan', $keterangan)
+                                ->where(function ($query) {
+                                    $query->whereDoesntHave('maintenance')
+                                          ->orWhereHas('maintenance', fn ($q) => $q->where('status', 'Pending'));
+                                })->count(),
+                'belum_selesai' => Produksi::where('keterangan', $keterangan)
+                                        ->whereHas('maintenance', fn ($q) => $q->where('status', 'Belum Selesai'))
+                                        ->count(),
+                'selesai' => Produksi::where('keterangan', $keterangan)
+                                    ->whereHas('maintenance', fn ($q) => $q->where('status', 'Selesai'))
+                                    ->count(),
+            ];
+        };
+
         return view('welcome', [
-            'pendingCount' => $pendingCount,
-            'belumSelesaiCount' => $belumSelesaiCount,
-            'selesaiCount' => $selesaiCount,
+            'mekanik'   => $getStatusCounts('M'),
+            'elektrik'  => $getStatusCounts('E'),
+            'utility'   => $getStatusCounts('U'),
+            'calibraty' => $getStatusCounts('C'),
         ]);
     }
 

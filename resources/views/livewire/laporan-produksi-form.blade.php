@@ -174,7 +174,7 @@
                         @error('keterangan') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
                     </div>
                 </div>
-                {{-- DIUBAH: Tata letak untuk Uraian Kerusakan dan Upload Foto --}}
+
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {{-- Kolom Uraian Kerusakan --}}
                     <div class="flex flex-col">
@@ -212,7 +212,7 @@
                                 </button>
                             </div>
                             @else
-                            {{-- Input File Kustom --}}
+                            {{-- Input File --}}
                             <div class="flex-grow flex justify-center items-center px-6 py-4 border-2 border-slate-300 dark:border-slate-600 border-dashed rounded-md">
                                 <div class="space-y-1 text-center">
                                     <svg class="mx-auto h-12 w-12 text-slate-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
@@ -235,7 +235,7 @@
                         <div x-show="isUploading" class="w-full bg-slate-200 rounded-full h-2.5 mt-2 dark:bg-slate-700">
                             <div class="bg-blue-600 h-2.5 rounded-full" :style="{ width: progress + '%' }"></div>
                         </div>
-                        @error('photo') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                        
                     </div>
                 </div>
             </div>
