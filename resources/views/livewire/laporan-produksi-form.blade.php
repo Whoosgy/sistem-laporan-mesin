@@ -25,22 +25,32 @@
                         else { this.shift = '3'; }
                     }
                 }">
+               <div class="p-5 space-y-4">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <label for="tanggal_lapor" class="block text-sm font-medium text-slate-600 dark:text-slate-400">Tanggal Lapor</label>
-                        <input wire:model.blur="tanggal_lapor" type="date" id="tanggal_lapor" required class="mt-1 block w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
+                        {{-- DIUBAH: readonly dihapus, min dan max ditambahkan --}}
+                        <input 
+                            wire:model.blur="tanggal_lapor" 
+                            type="date" 
+                            id="tanggal_lapor"
+                            min="{{ now()->format('Y-m-d') }}"
+                            max="{{ now()->format('Y-m-d') }}"
+                            required 
+                            class="mt-1 block w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
                         @error('tanggal_lapor') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
                     </div>
                     <div>
-                        <label for="jam_lapor" class="mb-1 block text-sm font-medium text-slate-600 dark:text-slate-400">Jam
-                            Lapor</label>
-                        {{-- Memanggil fungsi updateShift() saat jam diubah --}}
-                        <input wire:model.blur="jam_lapor" x-on:change="updateShift($event.target.value)" type="time"
-                            id="jam_lapor" required
+                        <label for="jam_lapor" class="block text-sm font-medium text-slate-600 dark:text-slate-400">Jam Lapor</label>
+                        <input 
+                            wire:model.blur="jam_lapor" 
+                            type="time" 
+                            id="jam_lapor" 
+                            max="{{ now('Asia/Jakarta')->format('H:i') }}"
+                            required 
                             class="mt-1 block w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
                         @error('jam_lapor') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
                     </div>
-
                     <div @click.away="openShift = false">
                         <label for="shift"
                             class="block text-sm font-medium text-slate-600 dark:text-slate-400">Shift</label>
@@ -137,13 +147,13 @@
                         <input wire:model.blur="bagian_rusak" type="text" id="bagian_rusak"
                             placeholder="Contoh: Take Up, dll"
                             class="mt-1 block w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
-
+                     @error('bagian_rusak') <span class="text-red-500 text-xs mt-1">{{$message}}</span> @enderror
                     </div>
 
 
                     <div @click.away="openKeterangan = false">
                         <label for="keterangan"
-                            class="block text-sm font-medium text-slate-600 dark:text-slate-400">Keterangan</label>
+                            class="block text-sm font-medium text-slate-600 dark:text-slate-400">keterangan Produksi </label>
                         <div class="relative mt-1">
                             <input x-model="keterangan" @click="openKeterangan = true" readonly id="keterangan" required
                                 placeholder="Pilih Keterangan..."
@@ -157,16 +167,16 @@
                             </div>
                             <div x-show="openKeterangan" style="display: none;"
                                 class="absolute z-10 w-full mt-1 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-md shadow-lg max-h-60 overflow-auto">
-                                <div @click="keterangan = 'M'; openKeterangan = false"
+                                <div @click="keterangan = 'Mekanik'; openKeterangan = false"
                                     class="cursor-pointer px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">
                                     M (Mekanik)</div>
-                                <div @click="keterangan = 'E'; openKeterangan = false"
+                                <div @click="keterangan = 'Elektrik'; openKeterangan = false"
                                     class="cursor-pointer px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">
                                     E (Elektrik)</div>
-                                <div @click="keterangan = 'U'; openKeterangan = false"
+                                <div @click="keterangan = 'Utility'; openKeterangan = false"
                                     class="cursor-pointer px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">
                                     U (Utility)</div>
-                                <div @click="keterangan = 'C'; openKeterangan = false"
+                                <div @click="keterangan = 'Calibraty'; openKeterangan = false"
                                     class="cursor-pointer px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">
                                     C (Calibraty)</div>
                             </div>

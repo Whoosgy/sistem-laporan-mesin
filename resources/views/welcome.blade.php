@@ -51,7 +51,7 @@
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 xl:gap-12" data-aos="fade-up" data-aos-delay="200">
 
                     <!-- Card Mekanik -->
-                    <a href="{{ route('maintenance.dashboard') }}"
+                    <a href="{{ route('maintenance.dashboard', ['keterangan' => 'M']) }}"
                         class="card-link group relative block p-8 rounded-3xl overflow-hidden bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border border-slate-200 dark:border-slate-700 transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-2xl hover:shadow-cyan-500/20"
                         style="--glow-color: #22d3ee;">
                         <div class="glow-effect absolute inset-0"></div>
@@ -86,7 +86,7 @@
                     </a>
 
                     <!-- Card Elektrik -->
-                    <a href="{{ route('maintenance.dashboard') }}"
+                   <a href="{{ route('maintenance.dashboard', ['keterangan' => 'E']) }}"
                         class="card-link group relative block p-8 rounded-3xl overflow-hidden bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border border-slate-200 dark:border-slate-700 transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-2xl hover:shadow-cyan-500/20"
                         style="--glow-color: #22d3ee;">
                         <div class="glow-effect absolute inset-0"></div>
@@ -121,7 +121,7 @@
                     </a>
 
                     <!-- Card Utility -->
-                    <a href="{{ route('maintenance.dashboard') }}"
+                  <a href="{{ route('maintenance.dashboard', ['keterangan' => 'U']) }}"
                         class="card-link group relative block p-8 rounded-3xl overflow-hidden bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border border-slate-200 dark:border-slate-700 transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-2xl hover:shadow-cyan-500/20"
                         style="--glow-color: #22d3ee;">
                         <div class="glow-effect absolute inset-0"></div>
@@ -156,7 +156,7 @@
                     </a>
 
                     <!-- Card Calibraty -->
-                    <a href="{{ route('maintenance.dashboard') }}"
+                    <a href="{{ route('maintenance.dashboard', ['keterangan' => 'C']) }}"
                         class="card-link group relative block p-8 rounded-3xl overflow-hidden bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border border-slate-200 dark:border-slate-700 transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-2xl hover:shadow-cyan-500/20"
                         style="--glow-color: #22d3ee;">
                         <div class="glow-effect absolute inset-0"></div>

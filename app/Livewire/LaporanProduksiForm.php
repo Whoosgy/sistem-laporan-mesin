@@ -72,7 +72,28 @@ class LaporanProduksiForm extends Component
     public function mount()
     {
         $this->listPlant = config('datamesin.plants');
+        $this->tanggal_lapor = now()->format('Y-m-d');
+        $now = now('Asia/Jakarta');
+        $this->jam_lapor = now()->format('H:i');
+        $this->updatedJamLapor($this->jam_lapor);
+        
     }
+
+       public function updatedJamLapor($value)
+    {
+        if (!$value) {
+            $this->shift = null;
+            return;
+        }
+        if ($value >= '06:45' && $value < '15:15') {
+            $this->shift = '1';
+        } else if ($value >= '15:15' && $value < '22:45') {
+            $this->shift = '2';
+        } else {
+            $this->shift = '3';
+        }
+    }
+    
 
     public function updatedPlant($value)
     {
@@ -129,8 +150,13 @@ class LaporanProduksiForm extends Component
         $this->reset([
             'tanggal_lapor', 'jam_lapor', 'shift', 'plant', 'nama_mesin', 
             'nama_pelapor', 'bagian_rusak', 'uraian_kerusakan', 'keterangan'
+            
         ]);
-        $this->mount();
+
+        $this->tanggal_lapor = now()->format('Y-m-d');
+        $this->jam_lapor = now()->format('H:i');
+        $this->updatedJamLapor($this->jam_lapor);
+        
     }
 
     public function render()

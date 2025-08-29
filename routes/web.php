@@ -13,7 +13,7 @@ Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/produksi/create', [PageController::class, 'createProduksi'])->name('produksi.create');
 
 // Rute untuk Dasbor Maintenance
-Route::get('/maintenance', MaintenanceDashboard::class)->name('maintenance.dashboard');
+Route::get('/maintenance/{keterangan?}', MaintenanceDashboard::class)->name('maintenance.dashboard');
 
 // Rute untuk Ekspor Data Laporan Maintenance
 Route::get('/export/excel', [PageController::class, 'exportExcel'])->name('export.excel');

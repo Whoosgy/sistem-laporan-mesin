@@ -21,16 +21,20 @@ class MaintenanceDashboard extends Component
     public string $search = '';
     public string $sortField = 'created_at';
     public string $sortDirection = 'desc';
-
-    
-
-    // Properti untuk filter status
     public string $statusFilter = '';
+
+
+    public ?string $keteranganFilter = null;
+
+    public function mount($keterangan = null)
+    {
+        $this->keteranganFilter = $keterangan;
+    }
 
     #[On('laporan-updated-sukses')]
     public function refreshComponent()
     {
-
+       
     }
 
     public function filterByStatus(string $status): void
@@ -39,25 +43,19 @@ class MaintenanceDashboard extends Component
         $this->resetPage();
     }
 
-     public function exportExcel()
+    public function exportExcel()
     {
-    
         $startDate = '1970-01-01';
         $endDate = now()->format('Y-m-d');
-
         return Excel::download(new LaporanMaintenanceExport($startDate, $endDate), 'laporan-maintenance.xlsx');
     }
 
-     public function exportCsv()
+    public function exportCsv()
     {
-
         $startDate = '1970-01-01';
         $endDate = now()->format('Y-m-d');
-
         return Excel::download(new LaporanMaintenanceExport($startDate, $endDate), 'laporan-maintenance.csv', \Maatwebsite\Excel\Excel::CSV);
     }
-
-
 
     public function sortBy($field)
     {
@@ -101,10 +99,13 @@ class MaintenanceDashboard extends Component
                 $query->whereHas('maintenance', fn ($q) => $q->where('status', $this->statusFilter));
             }
         });
-
-        // Menerapkan pengurutan dan paginasi
-        $laporanProduksi = $query->orderBy($this->sortField, $this->sortDirection)
-                                 ->paginate(10);
+        
+        // PERBAIKAN: Menggabungkan semua query builder menjadi satu rantai yang benar
+        $laporanProduksi = $query->when($this->keteranganFilter, function ($query) {
+            $query->where('keterangan', $this->keteranganFilter);
+        })
+        ->orderBy($this->sortField, $this->sortDirection)
+        ->paginate(10);
 
         // Menghitung jumlah untuk kartu status
         $pendingCount = Produksi::whereDoesntHave('maintenance')->orWhereHas('maintenance', function ($query) {
