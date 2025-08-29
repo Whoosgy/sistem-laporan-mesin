@@ -108,11 +108,27 @@ class MaintenanceDashboard extends Component
         ->paginate(10);
 
         // Menghitung jumlah untuk kartu status
-        $pendingCount = Produksi::whereDoesntHave('maintenance')->orWhereHas('maintenance', function ($query) {
-            $query->where('status', 'Pending');
-        })->count();
-        $prosesCount = Maintenance::where('status', 'Belum Selesai')->count();
-        $selesaiCount = Maintenance::where('status', 'Selesai')->count();
+       $baseProduksiQuery = Produksi::query()
+    ->when($this->keteranganFilter, function ($query) {
+        $query->where('keterangan', $this->keteranganFilter);
+    });
+
+// Hitung ulang Pending berdasarkan query yang sudah difilter
+$pendingCount = (clone $baseProduksiQuery)->where(function ($query) {
+    $query->whereDoesntHave('maintenance')
+          ->orWhereHas('maintenance', fn ($q) => $q->where('status', 'Pending'));
+})->count();
+
+$prosesCount = Maintenance::where('status', 'Belum Selesai')
+    ->when($this->keteranganFilter, function ($query) {
+        $query->whereHas('produksi', fn ($q) => $q->where('keterangan', $this->keteranganFilter));
+    })->count();
+
+// Hitung ulang Selesai dengan filter
+$selesaiCount = Maintenance::where('status', 'Selesai')
+    ->when($this->keteranganFilter, function ($query) {
+        $query->whereHas('produksi', fn ($q) => $q->where('keterangan', $this->keteranganFilter));
+    })->count();
 
         // Data untuk grafik trend bulanan (6 bulan terakhir)
         $monthlyData = [];

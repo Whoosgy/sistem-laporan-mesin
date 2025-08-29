@@ -34,11 +34,14 @@ class PageController extends Controller
             ];
         };
 
+        $laporanTerbaru = Produksi::with('maintenance')->latest()->take(3)->get();
+
         return view('welcome', [
-            'mekanik'   => $getStatusCounts('M'),
-            'elektrik'  => $getStatusCounts('E'),
-            'utility'   => $getStatusCounts('U'),
-            'calibraty' => $getStatusCounts('C'),
+            'mekanik'   => $getStatusCounts('Mekanik'),
+            'elektrik'  => $getStatusCounts('Elektrik'),
+            'utility'   => $getStatusCounts('Utility'),
+            'calibraty' => $getStatusCounts('Calibraty'),
+            'laporanTerbaru' => $laporanTerbaru,
         ]);
     }
 

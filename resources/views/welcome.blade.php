@@ -42,16 +42,14 @@
 
                         Work Of Maintenance
                     </h1>
-                    <p class="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto leading-relaxed">
-                        Ringkasan laporan kerusakan dan pemeliharaan mesin secara real-time.
-                    </p>
+                    
                 </div>
 
                 <!-- Grid untuk Kartu Statistik -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 xl:gap-12" data-aos="fade-up" data-aos-delay="200">
 
                     <!-- Card Mekanik -->
-                    <a href="{{ route('maintenance.dashboard', ['keterangan' => 'M']) }}"
+                    <a href="{{ route('maintenance.dashboard', ['keterangan' => 'Mekanik']) }}" 
                         class="card-link group relative block p-8 rounded-3xl overflow-hidden bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border border-slate-200 dark:border-slate-700 transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-2xl hover:shadow-cyan-500/20"
                         style="--glow-color: #22d3ee;">
                         <div class="glow-effect absolute inset-0"></div>
@@ -86,7 +84,7 @@
                     </a>
 
                     <!-- Card Elektrik -->
-                   <a href="{{ route('maintenance.dashboard', ['keterangan' => 'E']) }}"
+                   <a href="{{ route('maintenance.dashboard', ['keterangan' => 'Elektrik']) }}"
                         class="card-link group relative block p-8 rounded-3xl overflow-hidden bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border border-slate-200 dark:border-slate-700 transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-2xl hover:shadow-cyan-500/20"
                         style="--glow-color: #22d3ee;">
                         <div class="glow-effect absolute inset-0"></div>
@@ -121,7 +119,7 @@
                     </a>
 
                     <!-- Card Utility -->
-                  <a href="{{ route('maintenance.dashboard', ['keterangan' => 'U']) }}"
+                  <a href="{{ route('maintenance.dashboard', ['keterangan' => 'Utility']) }}"
                         class="card-link group relative block p-8 rounded-3xl overflow-hidden bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border border-slate-200 dark:border-slate-700 transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-2xl hover:shadow-cyan-500/20"
                         style="--glow-color: #22d3ee;">
                         <div class="glow-effect absolute inset-0"></div>
@@ -156,7 +154,7 @@
                     </a>
 
                     <!-- Card Calibraty -->
-                    <a href="{{ route('maintenance.dashboard', ['keterangan' => 'C']) }}"
+                    <a href="{{ route('maintenance.dashboard', ['keterangan' => 'Calibraty']) }}"
                         class="card-link group relative block p-8 rounded-3xl overflow-hidden bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border border-slate-200 dark:border-slate-700 transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-2xl hover:shadow-cyan-500/20"
                         style="--glow-color: #22d3ee;">
                         <div class="glow-effect absolute inset-0"></div>
@@ -189,11 +187,15 @@
                             </div>
                         </div>
                     </a>
+                    
 
                 </div>
             </div>
         </div>
     </div>
+
+    
+    
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -241,38 +243,38 @@
             }
 
 
-            function init() {
-                setCanvasSize();
-                particlesArray = [];
-                let numberOfParticles = (canvas.height * canvas.width) / 9000;
-                for (let i = 0; i < numberOfParticles; i++) {
-                    let size = (Math.random() * 2) + 1;
-                    let x = (Math.random() * ((canvas.width - size * 2) - (size * 2)) + size * 2);
-                    let y = (Math.random() * ((canvas.height - size * 2) - (size * 2)) + size * 2);
-                    let directionX = (Math.random() * .4) - .2;
-                    let directionY = (Math.random() * .4) - .2;
-                    particlesArray.push(new Particle(x, y, directionX, directionY, size, particleColor));
-                }
-            }
+            // function init() {
+            //     setCanvasSize();
+            //     particlesArray = [];
+            //     let numberOfParticles = (canvas.height * canvas.width) / 9000;
+            //     for (let i = 0; i < numberOfParticles; i++) {
+            //         let size = (Math.random() * 2) + 1;
+            //         let x = (Math.random() * ((canvas.width - size * 2) - (size * 2)) + size * 2);
+            //         let y = (Math.random() * ((canvas.height - size * 2) - (size * 2)) + size * 2);
+            //         let directionX = (Math.random() * .4) - .2;
+            //         let directionY = (Math.random() * .4) - .2;
+            //         particlesArray.push(new Particle(x, y, directionX, directionY, size, particleColor));
+            //     }
+            // }
 
-            function connect() {
-                let opacityValue = 1;
-                for (let a = 0; a < particlesArray.length; a++) {
-                    for (let b = a; b < particlesArray.length; b++) {
-                        let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x)) +
-                            ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
-                        if (distance < (canvas.width / 7) * (canvas.height / 7)) {
-                            opacityValue = 1 - (distance / 20000);
-                            ctx.strokeStyle = lineColor.replace('0.1', opacityValue);
-                            ctx.lineWidth = 1;
-                            ctx.beginPath();
-                            ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
-                            ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
-                            ctx.stroke();
-                        }
-                    }
-                }
-            }
+            // function connect() {
+            //     let opacityValue = 1;
+            //     for (let a = 0; a < particlesArray.length; a++) {
+            //         for (let b = a; b < particlesArray.length; b++) {
+            //             let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x)) +
+            //                 ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
+            //             if (distance < (canvas.width / 7) * (canvas.height / 7)) {
+            //                 opacityValue = 1 - (distance / 20000);
+            //                 ctx.strokeStyle = lineColor.replace('0.1', opacityValue);
+            //                 ctx.lineWidth = 1;
+            //                 ctx.beginPath();
+            //                 ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+            //                 ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+            //                 ctx.stroke();
+            //             }
+            //         }
+            //     }
+            // }
 
             // Loop animasi
             function animate() {

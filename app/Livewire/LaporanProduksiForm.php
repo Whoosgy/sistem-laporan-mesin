@@ -8,6 +8,7 @@ use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
+use Livewire\Attributes\On;
 
 
 #[Layout('components.layouts.app')]
@@ -21,6 +22,12 @@ class LaporanProduksiForm extends Component
     public $tanggal_lapor, $jam_lapor, $shift = '', $plant, $nama_mesin, $nama_pelapor, $bagian_rusak, $uraian_kerusakan, $keterangan = '';
     public $photo;
 
+     public function refreshRiwayat()
+    {
+        // Method kosong ini sudah cukup untuk memicu Livewire
+        // agar menjalankan ulang method render() dan mengambil data terbaru.
+    }
+
     // Properti untuk dropdown & interaktivitas
     public $listPlant = [];
     public $namaMesinPlaceholder = 'Pilih atau cari Mesin';
@@ -32,7 +39,7 @@ class LaporanProduksiForm extends Component
     public string $sortField = 'created_at'; 
     public string $sortDirection = 'desc';
     
-    // DITAMBAHKAN: Properti untuk filter status
+    // Properti untuk filter status
     public string $statusFilter = '';
 
     public function sortBy($field)
@@ -46,7 +53,7 @@ class LaporanProduksiForm extends Component
         $this->resetPage();
     }
 
-    // DITAMBAHKAN: Method untuk mengubah filter status
+    // ethod untuk mengubah filter status
     public function filterByStatus(string $status): void
     {
         $this->statusFilter = $status;
@@ -64,7 +71,7 @@ class LaporanProduksiForm extends Component
             'nama_pelapor' => 'required|string|max:255',
             'bagian_rusak' => 'nullable|string|max:255',
             'uraian_kerusakan' => 'required|string',
-            'keterangan' => 'required|string|max:20',
+            'keterangan' => 'required|string|in:Mekanik,Elektrik,Utility,Calibraty',
             'photo' => 'nullable|image|max:102400',
         ];
     }
@@ -143,6 +150,7 @@ class LaporanProduksiForm extends Component
         $this->closeModal();
         $this->resetForm();
         $this->dispatch('laporan-sukses', 'Laporan kerusakan mesin berhasil dikirim!');
+        $this->dispatch('laporan-tersimpan');
     }
 
      public function resetForm()

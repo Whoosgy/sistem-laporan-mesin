@@ -46,7 +46,7 @@
                             wire:model.blur="jam_lapor" 
                             type="time" 
                             id="jam_lapor" 
-                            max="{{ now('Asia/Jakarta')->format('H:i') }}"
+                            readonly
                             required 
                             class="mt-1 block w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
                         @error('jam_lapor') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
@@ -267,7 +267,7 @@
 
         {{-- Card 2: Tabel Riwayat Laporan--}}
 
-        <div id="riwayat-tabel" class="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
+        <div id="riwayat-tabel" class="bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-slate-200 dark:border-slate-700 overflow-hidden">
             <div class="p-5 flex flex-wrap gap-4 justify-between items-center">
                 <div>
                     <h2 class="text-base font-semibold text-slate-900 dark:text-white">Riwayat Laporan Terakhir</h2>
