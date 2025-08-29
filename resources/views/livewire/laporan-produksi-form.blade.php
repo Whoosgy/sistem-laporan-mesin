@@ -46,7 +46,8 @@
                             wire:model.blur="jam_lapor" 
                             type="time" 
                             id="jam_lapor" 
-                            readonly
+                            min="{{ now()->format('H:i:s') }}"
+                           
                             required 
                             class="mt-1 block w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
                         @error('jam_lapor') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror

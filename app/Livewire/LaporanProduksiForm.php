@@ -79,9 +79,10 @@ class LaporanProduksiForm extends Component
     public function mount()
     {
         $this->listPlant = config('datamesin.plants');
-        $this->tanggal_lapor = now()->format('Y-m-d');
         $now = now('Asia/Jakarta');
-        $this->jam_lapor = now()->format('H:i');
+        $this->tanggal_lapor = $now->format('Y-m-d');
+        
+        $this->jam_lapor = now()->format('H:i:s');
         $this->updatedJamLapor($this->jam_lapor);
         
     }
