@@ -25,6 +25,7 @@
                             <label for="status" class="block text-sm font-medium text-slate-600 dark:text-slate-400">Status</label>
                             <select wire:model="status" id="status" required class="mt-1 block w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
                                 <option value="Pending">Pending</option>
+                                <option value="On Progress">On Progress</option>
                                 <option value="Belum Selesai">Belum Selesai</option>
                                 <option value="Selesai">Selesai</option>
                             </select>
