@@ -36,3 +36,78 @@ option[value=""][disabled] {
 option {
   @apply text-slate-900;
 }
+
+.swiper-button-prev,
+.swiper-button-next {
+    position: absolute; /* Tetap absolute */
+    top: 50%; /* Pusatkan secara vertikal */
+    transform: translateY(-50%); /* Penyesuaian agar benar-benar di tengah */
+    width: 4rem; /* Lebar total tombol */
+    height: 4rem; /* Tinggi total tombol */
+    display: flex; /* Untuk memposisikan ikon di tengah */
+    align-items: center; /* Pusatkan ikon secara vertikal */
+    justify-content: center; /* Pusatkan ikon secara horizontal */
+    color: #0f172a; /* Warna ikon (slate-900) */
+    background-color: transparent; /* Awalnya transparan */
+    border-radius: 9999px; /* Lingkaran penuh */
+    cursor: pointer;
+    z-index: 10; /* Pastikan di atas kartu */
+    transition: all 0.3s ease; 
+    box-shadow: none;
+}
+
+/* Warna ikon untuk dark mode */
+html.dark .swiper-button-prev,
+html.dark .swiper-button-next {
+    color: #cbd5e1; /* slate-300 */
+}
+
+/* Efek lingkaran blur / background */
+.swiper-button-prev::before,
+.swiper-button-next::before {
+    content: '';
+    position: absolute;
+    inset: 0; /* Mengisi seluruh area tombol */
+    background-color: white; /* Warna background default */
+    border-radius: 9999px;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    opacity: 0.8; /* Sedikit transparan */
+    filter: blur(4px); /* Efek blur */
+    transition: all 0.3s ease;
+    z-index: -1; /* Pastikan di belakang ikon panah */
+}
+
+html.dark .swiper-button-prev::before,
+html.dark .swiper-button-next::before {
+    background-color: #1e293b; /* Warna background dark mode (slate-800) */
+    opacity: 0.7;
+}
+
+/* Hover effect */
+.swiper-button-prev:hover::before,
+.swiper-button-next:hover::before {
+    opacity: 1; /* Lebih solid saat hover */
+    filter: blur(2px); /* Blur sedikit berkurang */
+    transform: scale(1.05); /* Sedikit membesar */
+}
+
+/* Posisi spesifik */
+.swiper-button-prev {
+    left: 0;
+}
+.swiper-button-next {
+    right: 0;
+}
+
+/* Mengatur ulang ikon bawaan Swiper */
+.swiper-button-prev:after,
+.swiper-button-next:after {
+    font-size: 2rem !important; /* Ukuran ikon panah */
+    font-weight: bold;
+}
+
+/* Hapus default background dari swiper-button */
+.swiper-button-prev:not(.swiper-button-disabled),
+.swiper-button-next:not(.swiper-button-disabled) {
+    background-color: transparent; /* Hapus latar belakang putih bawaan Swiper */
+}

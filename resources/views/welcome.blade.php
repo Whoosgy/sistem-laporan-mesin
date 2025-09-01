@@ -23,7 +23,7 @@
 
 
     <div class="relative min-h-[calc(100vh-4rem)] w-full overflow-hidden">
-    
+
         <canvas id="particle-background" class="absolute top-0 left-0 w-full h-full z-0"></canvas>
 
         <!-- Kontainer Konten Utama -->
@@ -42,14 +42,14 @@
 
                         Work Of Maintenance
                     </h1>
-                    
+
                 </div>
 
                 <!-- Grid untuk Kartu Statistik -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 xl:gap-12" data-aos="fade-up" data-aos-delay="200">
 
                     <!-- Card Mekanik -->
-                    <a href="{{ route('maintenance.dashboard', ['keterangan' => 'Mekanik']) }}" 
+                    <a href="{{ route('maintenance.dashboard', ['keterangan' => 'Mekanik']) }}"
                         class="card-link group relative block p-8 rounded-3xl overflow-hidden bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border border-slate-200 dark:border-slate-700 transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-2xl hover:shadow-cyan-500/20"
                         style="--glow-color: #22d3ee;">
                         <div class="glow-effect absolute inset-0"></div>
@@ -84,7 +84,7 @@
                     </a>
 
                     <!-- Card Elektrik -->
-                   <a href="{{ route('maintenance.dashboard', ['keterangan' => 'Elektrik']) }}"
+                    <a href="{{ route('maintenance.dashboard', ['keterangan' => 'Elektrik']) }}"
                         class="card-link group relative block p-8 rounded-3xl overflow-hidden bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border border-slate-200 dark:border-slate-700 transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-2xl hover:shadow-cyan-500/20"
                         style="--glow-color: #22d3ee;">
                         <div class="glow-effect absolute inset-0"></div>
@@ -119,7 +119,7 @@
                     </a>
 
                     <!-- Card Utility -->
-                  <a href="{{ route('maintenance.dashboard', ['keterangan' => 'Utility']) }}"
+                    <a href="{{ route('maintenance.dashboard', ['keterangan' => 'Utility']) }}"
                         class="card-link group relative block p-8 rounded-3xl overflow-hidden bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border border-slate-200 dark:border-slate-700 transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-2xl hover:shadow-cyan-500/20"
                         style="--glow-color: #22d3ee;">
                         <div class="glow-effect absolute inset-0"></div>
@@ -187,114 +187,189 @@
                             </div>
                         </div>
                     </a>
-                    
+
+                </div>
+                <div class="mt-10 lg:mt-24 w-full" data-aos="fade-up">
+                    <div class="text-center mb-10">
+                        <h3 class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-teal-500 dark:from-blue-500 dark:to-teal-300 bg-clip-text text-transparent">
+                            Laporan Terbaru
+                        </h3>
+                    </div>
+
+                    <div x-data="{
+            swiper: null,
+            init() {
+                this.swiper = new Swiper(this.$refs.container, {
+                    modules: [window.SwiperModules.Navigation, window.SwiperModules.Pagination, window.SwiperModules.Autoplay],
+                    loop: {{ count($laporanTerbaru) > 3 ? 'true' : 'false' }},
+                    autoplay: {
+                        delay: 5000,
+                        disableOnInteraction: false,
+                    },
+                    spaceBetween: 16,
+                    slidesPerView: 1,
+                    breakpoints: {
+                        640: { slidesPerView: 2, spaceBetween: 24 },
+                        1024: { slidesPerView: 3, spaceBetween: 30 }
+                    },
+                    pagination: {
+                        el: this.$refs.pagination,
+                        clickable: true,
+                    },
+                    navigation: {
+                        nextEl: this.$refs.next,
+                        prevEl: this.$refs.prev,
+                    },
+                });
+            }
+        }"
+                        x-init="init()"
+                        class="relative px-4">
+                        <div class="swiper-container overflow-hidden" x-ref="container">
+                            <div class="swiper-wrapper">
+
+                                @forelse($laporanTerbaru as $laporan)
+                                <div class="swiper-slide h-auto pb-10">
+                                    <div class="report-card bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-slate-200/80 dark:border-slate-700/80 rounded-2xl p-6 flex flex-col h-full hover:shadow-lg hover:shadow-blue-500/20 transition-shadow duration-300">
+
+                                        <div class="flex-shrink-0 mb-4">
+                                            @php $status = optional($laporan->maintenance)->status ?? 'Pending'; @endphp
+                                            <div class="flex items-center justify-between">
+
+                                                <div class="flex items-center gap-3 min-w-0">
+                                                    @if($status == 'Pending')
+                                                    <div class="w-10 h-10 rounded-full bg-yellow-100 dark:bg-yellow-500/20 flex items-center justify-center flex-shrink-0">
+                                                        <svg class="w-5 h-5 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                        </svg>
+                                                    </div>
+                                                    @elseif($status == 'Belum Selesai')
+                                                    <div class="w-10 h-10 rounded-full bg-red-100 dark:bg-red-500/20 flex items-center justify-center flex-shrink-0">
+                                                        <svg class="w-5 h-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                                        </svg>
+                                                    </div>
+                                                    @else
+                                                    <div class="w-10 h-10 rounded-full bg-green-100 dark:bg-green-500/20 flex items-center justify-center flex-shrink-0">
+                                                        <svg class="w-5 h-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                        </svg>
+                                                    </div>
+                                                    @endif
+                                                    <p class="font-semibold text-slate-800 dark:text-slate-100 text-lg truncate">{{ $laporan->nama_mesin }}</p>
+                                                </div>
+
+                                                <div class="flex items-center gap-2 flex-shrink-0">
+                                                    <span class="text-xs font-medium px-2.5 py-1 rounded-full
+                                            @if($laporan->keterangan == 'Mekanik') bg-sky-100 text-sky-800 dark:bg-sky-900/50 dark:text-sky-300 @endif
+                                            @if($laporan->keterangan == 'Elektrik') bg-indigo-100 text-indigo-800 dark:bg-indigo-900/50 dark:text-indigo-300 @endif
+                                            @if($laporan->keterangan == 'Utility') bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300 @endif
+                                            @if($laporan->keterangan == 'Calibraty') bg-rose-100 text-rose-800 dark:bg-rose-900/50 dark:text-rose-300 @endif
+                                        ">{{ $laporan->keterangan }}</span>
+
+                                                    <span class="text-xs font-medium px-2.5 py-1 rounded-full
+                                            @if($status == 'Pending') bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-300 @endif
+                                            @if($status == 'Belum Selesai') bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300 @endif
+                                            @if($status == 'Selesai') bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300 @endif
+                                        ">{{ $status }}</span>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="flex-grow">
+                                            <p class="text-slate-600 dark:text-slate-300 mt-2 text-base line-clamp-3">{{ $laporan->uraian_kerusakan }}</p>
+                                        </div>
+
+                                        <div class="mt-4 pt-4 border-t border-slate-200/80 dark:border-slate-700/80">
+                                            <p class="text-xs text-slate-400 dark:text-slate-500">{{ \Carbon\Carbon::parse($laporan->created_at)->diffForHumans() }} oleh {{ $laporan->nama_pelapor }}</p>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                @empty
+                                <div class="swiper-slide">
+                                    <div class="text-center p-10 text-slate-500">Belum ada laporan terbaru.</div>
+                                </div>
+                                @endforelse
+
+                            </div>
+                        </div>
+
+                        <div x-ref="prev" class="swiper-button-prev -left-2 text-blue-600 dark:text-teal-400 after:text-2xl font-extrabold hidden lg:flex"></div>
+                        <div x-ref="next" class="swiper-button-next -right-2 text-blue-600 dark:text-teal-400 after:text-2xl font-extrabold hidden lg:flex"></div>
+                        <div x-ref="pagination" class="swiper-pagination mt-4 !bottom-0"></div>
+                    </div>
 
                 </div>
             </div>
         </div>
-    </div>
 
-    
-    
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const canvas = document.getElementById('particle-background');
+                const ctx = canvas.getContext('2d');
+                let particlesArray;
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const canvas = document.getElementById('particle-background');
-            const ctx = canvas.getContext('2d');
-            let particlesArray;
-
-            function setCanvasSize() {
-                const parent = canvas.parentElement;
-                canvas.width = parent.clientWidth;
-                canvas.height = parent.clientHeight;
-            }
-
-            const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-            const particleColor = isDarkMode ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0, 0, 0, 0.7)';
-            const lineColor = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
-
-            // partikel
-            class Particle {
-                constructor(x, y, directionX, directionY, size, color) {
-                    this.x = x;
-                    this.y = y;
-                    this.directionX = directionX;
-                    this.directionY = directionY;
-                    this.size = size;
-                    this.color = color;
+                function setCanvasSize() {
+                    const parent = canvas.parentElement;
+                    canvas.width = parent.clientWidth;
+                    canvas.height = parent.clientHeight;
                 }
-                draw() {
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
-                    ctx.fillStyle = this.color;
-                    ctx.fill();
-                }
-                update() {
-                    if (this.x > canvas.width || this.x < 0) {
-                        this.directionX = -this.directionX;
+
+                const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                const particleColor = isDarkMode ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0, 0, 0, 0.7)';
+                const lineColor = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+
+                // partikel
+                class Particle {
+                    constructor(x, y, directionX, directionY, size, color) {
+                        this.x = x;
+                        this.y = y;
+                        this.directionX = directionX;
+                        this.directionY = directionY;
+                        this.size = size;
+                        this.color = color;
                     }
-                    if (this.y > canvas.height || this.y < 0) {
-                        this.directionY = -this.directionY;
+                    draw() {
+                        ctx.beginPath();
+                        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+                        ctx.fillStyle = this.color;
+                        ctx.fill();
                     }
-                    this.x += this.directionX;
-                    this.y += this.directionY;
-                    this.draw();
+                    update() {
+                        if (this.x > canvas.width || this.x < 0) {
+                            this.directionX = -this.directionX;
+                        }
+                        if (this.y > canvas.height || this.y < 0) {
+                            this.directionY = -this.directionY;
+                        }
+                        this.x += this.directionX;
+                        this.y += this.directionY;
+                        this.draw();
+                    }
                 }
-            }
 
-
-            // function init() {
-            //     setCanvasSize();
-            //     particlesArray = [];
-            //     let numberOfParticles = (canvas.height * canvas.width) / 9000;
-            //     for (let i = 0; i < numberOfParticles; i++) {
-            //         let size = (Math.random() * 2) + 1;
-            //         let x = (Math.random() * ((canvas.width - size * 2) - (size * 2)) + size * 2);
-            //         let y = (Math.random() * ((canvas.height - size * 2) - (size * 2)) + size * 2);
-            //         let directionX = (Math.random() * .4) - .2;
-            //         let directionY = (Math.random() * .4) - .2;
-            //         particlesArray.push(new Particle(x, y, directionX, directionY, size, particleColor));
-            //     }
-            // }
-
-            // function connect() {
-            //     let opacityValue = 1;
-            //     for (let a = 0; a < particlesArray.length; a++) {
-            //         for (let b = a; b < particlesArray.length; b++) {
-            //             let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x)) +
-            //                 ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
-            //             if (distance < (canvas.width / 7) * (canvas.height / 7)) {
-            //                 opacityValue = 1 - (distance / 20000);
-            //                 ctx.strokeStyle = lineColor.replace('0.1', opacityValue);
-            //                 ctx.lineWidth = 1;
-            //                 ctx.beginPath();
-            //                 ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
-            //                 ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
-            //                 ctx.stroke();
-            //             }
-            //         }
-            //     }
-            // }
-
-            // Loop animasi
-            function animate() {
-                requestAnimationFrame(animate);
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                for (let i = 0; i < particlesArray.length; i++) {
-                    particlesArray[i].update();
+                // Loop animasi
+                function animate() {
+                    requestAnimationFrame(animate);
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    for (let i = 0; i < particlesArray.length; i++) {
+                        particlesArray[i].update();
+                    }
+                    connect();
                 }
-                connect();
-            }
 
-            // Event listener untuk resize window
-            window.addEventListener('resize', function() {
+                // Event listener untuk resize window
+                window.addEventListener('resize', function() {
+                    init();
+                });
+
+
                 init();
+                animate();
             });
+        </script>
 
-
-            init();
-            animate();
-        });
-    </script>
 
 </x-layouts.app>

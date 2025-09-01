@@ -5,6 +5,14 @@ import Swal from 'sweetalert2';
 
 import { tsParticles } from "tsparticles-engine";
 import { loadSlim } from "tsparticles-slim"; 
+import Swiper from 'swiper';
+import { Navigation, Pagination, Autoplay } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+
+window.Swiper = Swiper;
+window.SwiperModules = { Navigation, Pagination, Autoplay };
 
 // Jadikan Swal bisa diakses secara global
 window.Swal = Swal;
@@ -79,3 +87,36 @@ document.addEventListener('DOMContentLoaded', (event) => {
     // Panggil fungsi untuk memuat partikel
     loadParticles(particleOptions);
 });
+
+ // 1. Pilih semua elemen kartu laporan yang ingin dianimasikan
+    const reportCards = document.querySelectorAll('.water-flow-item');
+
+    // 2. Loop melalui setiap kartu dan terapkan animasi secara langsung
+    reportCards.forEach((card, index) => {
+        // Sembunyikan kartu terlebih dahulu agar tidak "flash" sebelum animasi dimulai
+        card.style.opacity = 0;
+
+        // Definisikan keyframes animasi (dari mana ke mana)
+        const keyframes = [
+            { 
+                opacity: 0, 
+                transform: 'translateY(40px) translateX(-15px)' 
+            }, // Posisi awal
+            { 
+                opacity: 1, 
+                transform: 'translateY(0) translateX(0)' 
+            }  // Posisi akhir
+        ];
+
+        // Definisikan opsi animasi (durasi, easing, dan delay)
+        const options = {
+            duration: 800, // Durasi animasi 0.8 detik
+            easing: 'cubic-bezier(0.25, 0.8, 0.25, 1)', // Easing function untuk efek halus
+            delay: index * 200, // Delay 200ms per kartu untuk efek mengalir
+            fill: 'forwards' // Memastikan elemen tetap di posisi akhir setelah animasi selesai
+        };
+
+        // 3. Jalankan animasi menggunakan Web Animations API
+        card.animate(keyframes, options);
+    });
+

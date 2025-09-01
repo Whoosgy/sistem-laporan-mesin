@@ -13,7 +13,6 @@
       {{-- 3 Card Status --}}
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
                 {{-- Card Pending --}}
-                {{-- DIUBAH: Menambahkan shadow yang lebih jelas dan efek hover --}}
                 <div class="bg-white dark:bg-slate-800 rounded-xl p-5 flex items-center shadow-lg transition-all duration-300 hover:shadow-xl hover:shadow-amber-500/20 hover:-translate-y-1">
                     <div class="w-12 h-12 rounded-lg bg-amber-100 dark:bg-amber-900/50 flex-shrink-0 flex items-center justify-center mr-4">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-500 dark:text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -215,22 +214,7 @@
                     }
                 });
 
-                 window.onload = function() {
-                    let isLoggedIn = false;
-
-                    while (!isLoggedIn) {
-                        const username = prompt("Masukkan username:");
-                        const password = prompt("Masukkan password:");
-
-                        if (username === "maintenance" && password === "welcome123") {
-                            alert("Login berhasil! Selamat datang, admin.");
-                            isLoggedIn = true;
-                        } else {
-                            alert("Login gagal. Silakan coba lagi.");
-                        }
-                    }
-                };
-
+                 
               
             </script>
 
