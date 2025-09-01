@@ -34,7 +34,7 @@ class PageController extends Controller
             ];
         };
 
-        $laporanTerbaru = Produksi::with('maintenance')->latest()->take(3)->get();
+        $laporanTerbaru = Produksi::with('maintenance')->latest()->take(5)->get();
 
         return view('welcome', [
             'mekanik'   => $getStatusCounts('Mekanik'),

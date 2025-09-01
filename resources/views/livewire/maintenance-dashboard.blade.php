@@ -10,57 +10,56 @@
             <livewire:download-laporan-button />
         </div>
 
-      {{-- 3 Card Status --}}
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-                {{-- Card Pending --}}
-                {{-- DIUBAH: Menambahkan shadow yang lebih jelas dan efek hover --}}
-                <div class="bg-white dark:bg-slate-800 rounded-xl p-5 flex items-center shadow-lg transition-all duration-300 hover:shadow-xl hover:shadow-amber-500/20 hover:-translate-y-1">
-                    <div class="w-12 h-12 rounded-lg bg-amber-100 dark:bg-amber-900/50 flex-shrink-0 flex items-center justify-center mr-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-500 dark:text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                    </div>
-                    <div>
-                        <h3 class="text-base font-semibold text-slate-700 dark:text-slate-200">Pending</h3>
-                        <div class="flex items-baseline space-x-2">
-                            <p class="text-3xl font-bold text-amber-500 dark:text-amber-400">{{ $pendingCount }}</p>
-                            <p class="text-sm text-slate-500 dark:text-slate-400">Laporan</p>
-                        </div>
-                    </div>
+        {{-- 3 Card Status --}}
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            {{-- Card Pending --}}
+            <div class="bg-white dark:bg-slate-800 rounded-xl p-5 flex items-center shadow-lg transition-all duration-300 hover:shadow-xl hover:shadow-amber-500/20 hover:-translate-y-1">
+                <div class="w-12 h-12 rounded-lg bg-amber-100 dark:bg-amber-900/50 flex-shrink-0 flex items-center justify-center mr-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-500 dark:text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
                 </div>
-
-                {{-- Card Belum Selesai --}}
-                <div class="bg-white dark:bg-slate-800 rounded-xl p-5 flex items-center shadow-lg transition-all duration-300 hover:shadow-xl hover:shadow-red-500/20 hover:-translate-y-1">
-                    <div class="w-12 h-12 rounded-lg bg-red-100 dark:bg-red-900/50 flex-shrink-0 flex items-center justify-center mr-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500 dark:text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                        </svg>
-                    </div>
-                    <div>
-                        <h3 class="text-base font-semibold text-slate-700 dark:text-slate-200">Belum Selesai</h3>
-                        <div class="flex items-baseline space-x-2">
-                            <p class="text-3xl font-bold text-red-500 dark:text-red-400">{{ $prosesCount }}</p>
-                            <p class="text-sm text-slate-500 dark:text-slate-400">Laporan</p>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- Card Selesai --}}
-                <div class="bg-white dark:bg-slate-800 rounded-xl p-5 flex items-center shadow-lg transition-all duration-300 hover:shadow-xl hover:shadow-emerald-500/20 hover:-translate-y-1">
-                    <div class="w-12 h-12 rounded-lg bg-emerald-100 dark:bg-emerald-900/50 flex-shrink-0 flex items-center justify-center mr-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-emerald-500 dark:text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                    </div>
-                    <div>
-                        <h3 class="text-base font-semibold text-slate-700 dark:text-slate-200">Selesai</h3>
-                        <div class="flex items-baseline space-x-2">
-                            <p class="text-3xl font-bold text-emerald-500 dark:text-emerald-400">{{ $selesaiCount }}</p>
-                            <p class="text-sm text-slate-500 dark:text-slate-400">Laporan</p>
-                        </div>
+                <div>
+                    <h3 class="text-base font-semibold text-slate-700 dark:text-slate-200">Pending</h3>
+                    <div class="flex items-baseline space-x-2">
+                        <p class="text-3xl font-bold text-amber-500 dark:text-amber-400">{{ $pendingCount }}</p>
+                        <p class="text-sm text-slate-500 dark:text-slate-400">Laporan</p>
                     </div>
                 </div>
             </div>
+
+            {{-- Card Belum Selesai --}}
+            <div class="bg-white dark:bg-slate-800 rounded-xl p-5 flex items-center shadow-lg transition-all duration-300 hover:shadow-xl hover:shadow-red-500/20 hover:-translate-y-1">
+                <div class="w-12 h-12 rounded-lg bg-red-100 dark:bg-red-900/50 flex-shrink-0 flex items-center justify-center mr-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500 dark:text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="text-base font-semibold text-slate-700 dark:text-slate-200">Belum Selesai</h3>
+                    <div class="flex items-baseline space-x-2">
+                        <p class="text-3xl font-bold text-red-500 dark:text-red-400">{{ $prosesCount }}</p>
+                        <p class="text-sm text-slate-500 dark:text-slate-400">Laporan</p>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Card Selesai --}}
+            <div class="bg-white dark:bg-slate-800 rounded-xl p-5 flex items-center shadow-lg transition-all duration-300 hover:shadow-xl hover:shadow-emerald-500/20 hover:-translate-y-1">
+                <div class="w-12 h-12 rounded-lg bg-emerald-100 dark:bg-emerald-900/50 flex-shrink-0 flex items-center justify-center mr-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-emerald-500 dark:text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="text-base font-semibold text-slate-700 dark:text-slate-200">Selesai</h3>
+                    <div class="flex items-baseline space-x-2">
+                        <p class="text-3xl font-bold text-emerald-500 dark:text-emerald-400">{{ $selesaiCount }}</p>
+                        <p class="text-sm text-slate-500 dark:text-slate-400">Laporan</p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         {{-- Tabel Daftar Laporan --}}
         <div class="bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-slate-200 dark:border-slate-700 overflow-hidden">
@@ -215,7 +214,21 @@
                     }
                 });
 
-              
+                window.onload = function() {
+                    let isLoggedIn = false;
+
+                    while (!isLoggedIn) {
+                        const username = prompt("Masukkan username:");
+                        const password = prompt("Masukkan password:");
+
+                        if (username === "maintenance" && password === "welcome123") {
+                            alert("Login berhasil! Selamat datang, admin.");
+                            isLoggedIn = true;
+                        } else {
+                            alert("Login gagal. Silakan coba lagi.");
+                        }
+                    }
+                };
             </script>
 
             @endscript
