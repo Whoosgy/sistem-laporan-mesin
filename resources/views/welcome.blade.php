@@ -50,7 +50,7 @@
 
                     <!-- Card Mekanik -->
                     <a href="{{ route('maintenance.dashboard', ['keterangan' => 'Mekanik']) }}"
-                        class="card-link group relative block p-8 rounded-3xl overflow-hidden bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border border-slate-200 dark:border-slate-700 transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-2xl hover:shadow-cyan-500/20"
+                       class="card-link group relative block p-8 rounded-3xl overflow-hidden bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm shadow-md border border-slate-200 dark:border-slate-700 transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-2xl hover:shadow-cyan-500/20"
                         style="--glow-color: #22d3ee;">
                         <div class="glow-effect absolute inset-0"></div>
                         <div class="relative z-10">
@@ -85,7 +85,7 @@
 
                     <!-- Card Elektrik -->
                     <a href="{{ route('maintenance.dashboard', ['keterangan' => 'Elektrik']) }}"
-                        class="card-link group relative block p-8 rounded-3xl overflow-hidden bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border border-slate-200 dark:border-slate-700 transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-2xl hover:shadow-cyan-500/20"
+                       class="card-link group relative block p-8 rounded-3xl overflow-hidden bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm shadow-md border border-slate-200 dark:border-slate-700 transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-2xl hover:shadow-cyan-500/20"
                         style="--glow-color: #22d3ee;">
                         <div class="glow-effect absolute inset-0"></div>
                         <div class="relative z-10">
@@ -120,7 +120,7 @@
 
                     <!-- Card Utility -->
                     <a href="{{ route('maintenance.dashboard', ['keterangan' => 'Utility']) }}"
-                        class="card-link group relative block p-8 rounded-3xl overflow-hidden bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border border-slate-200 dark:border-slate-700 transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-2xl hover:shadow-cyan-500/20"
+                        class="card-link group relative block p-8 rounded-3xl overflow-hidden bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm shadow-md border border-slate-200 dark:border-slate-700 transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-2xl hover:shadow-cyan-500/20"
                         style="--glow-color: #22d3ee;">
                         <div class="glow-effect absolute inset-0"></div>
                         <div class="relative z-10">
@@ -155,7 +155,7 @@
 
                     <!-- Card Calibraty -->
                     <a href="{{ route('maintenance.dashboard', ['keterangan' => 'Calibraty']) }}"
-                        class="card-link group relative block p-8 rounded-3xl overflow-hidden bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border border-slate-200 dark:border-slate-700 transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-2xl hover:shadow-cyan-500/20"
+                       class="card-link group relative block p-8 rounded-3xl overflow-hidden bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm shadow-md border border-slate-200 dark:border-slate-700 transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-2xl hover:shadow-cyan-500/20"
                         style="--glow-color: #22d3ee;">
                         <div class="glow-effect absolute inset-0"></div>
                         <div class="relative z-10">
@@ -192,7 +192,7 @@
                 <div class="mt-10 lg:mt-24 w-full" data-aos="fade-up">
                     <div class="text-center mb-10">
                         <h3 class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-teal-500 dark:from-blue-500 dark:to-teal-300 bg-clip-text text-transparent">
-                            Laporan Terbaru
+                            Latest Report
                         </h3>
                     </div>
 
@@ -230,7 +230,7 @@
 
                                 @forelse($laporanTerbaru as $laporan)
                                 <div class="swiper-slide h-auto pb-10">
-                                    <div class="report-card bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-slate-200/80 dark:border-slate-700/80 rounded-2xl p-6 flex flex-col h-full hover:shadow-lg hover:shadow-blue-500/20 transition-shadow duration-300">
+                                    <div class="report-card bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm shadow-lg border border-slate-200/80 dark:border-slate-700/80 rounded-2xl p-6 flex flex-col h-full hover:shadow-lg hover:shadow-sky-500/20 transition-shadow duration-300">
 
                                         <div class="flex-shrink-0 mb-4">
                                             @php $status = optional($laporan->maintenance)->status ?? 'Pending'; @endphp
