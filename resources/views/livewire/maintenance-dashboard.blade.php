@@ -214,6 +214,7 @@
                     }
                 });
 
+
                 window.onload = function() {
                     let isLoggedIn = false;
 

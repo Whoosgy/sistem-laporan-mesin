@@ -1,15 +1,14 @@
 {{-- File: resources/views/livewire/maintenance/update-laporan.blade.php --}}
 <div>
     @if($isModalOpen && $laporanProduksi)
-    <div 
+    <div
         x-data="{ show: @entangle('isModalOpen') }"
         x-show="show"
         x-on:keydown.escape.window="show = false"
         class="fixed inset-0 z-50 flex items-center justify-center p-4"
-        style="display: none;"
-    >
+        style="display: none;">
         <div x-show="show" x-transition.opacity class="fixed inset-0 bg-black/60 backdrop-blur-sm" wire:click="closeModal"></div>
-        
+
         <div x-show="show" x-transition class="relative w-full max-w-2xl bg-white dark:bg-slate-800 rounded-lg shadow-xl border border-slate-200 dark:border-slate-700">
             <form wire:submit.prevent="updateLaporan">
                 <div class="p-5 border-b border-slate-200 dark:border-slate-700">
@@ -20,7 +19,7 @@
 
                 <div class="p-6 space-y-4 text-sm max-h-[70vh] overflow-y-auto">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        
+
                         <div>
                             <label for="status" class="block text-sm font-medium text-slate-600 dark:text-slate-400">Status</label>
                             <select wire:model="status" id="status" required class="mt-1 block w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
@@ -32,7 +31,7 @@
                         </div>
                         <div>
                             <label for="tanggal_selesai" class="block text-sm font-medium text-slate-600 dark:text-slate-400">Tanggal Selesai</label>
-                            <input wire:model="tanggal_selesai" type="date" id="tanggal_selesai" required class="mt-1 block w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
+                            <input wire:model="tanggal_selesai" type="date" id="tanggal_selesai" class="mt-1 block w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
                         </div>
 
                         <div>
@@ -41,40 +40,43 @@
                         </div>
                         <div>
                             <label for="waktu_selesai" class="block text-sm font-medium text-slate-600 dark:text-slate-400">Waktu Selesai Perbaikan</label>
-                            <input wire:model="waktu_selesai" type="time" id="waktu_selesai" required class="mt-1 block w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
+                            <input wire:model="waktu_selesai" type="time" id="waktu_selesai" class="mt-1 block w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
                         </div>
-                        
+
 
                         <div class="sm:col-span-2"
-                             x-data="{ open: false }" 
-                             @click.away="open = false" 
-                             class="relative">
+                            x-data="{ open: false }"
+                            @click.away="open = false"
+                            class="relative">
                             <label for="nama_teknisi_search" class="block text-sm font-medium text-slate-600 dark:text-slate-400">Nama Teknisi <span class="text-xs text-slate-400">(Maks. 5)</span></label>
                             <div class="mt-1 flex flex-wrap gap-1 mb-2">
                                 @foreach($selectedTechnicians as $index => $technician)
-                                    <span class="inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs font-medium text-white bg-blue-600">
-                                        {{ $technician }}
-                                        <button type="button" wire:click="removeTechnician({{ $index }})" class="group relative -mr-1 h-3.5 w-3.5 rounded-sm hover:bg-blue-500/20">
-                                            <span class="sr-only">Remove</span>
-                                            <svg viewBox="0 0 14 14" class="h-3.5 w-3.5 stroke-blue-100/50 group-hover:stroke-blue-100"><path d="M4 4l6 6m0-6l-6 6" /></svg>
-                                            <span class="absolute -inset-1"></span>
-                                        </button>
-                                    </span>
+                                <span class="inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs font-medium text-white bg-blue-600">
+                                    {{ $technician }}
+                                    <button type="button" wire:click="removeTechnician({{ $index }})" class="group relative -mr-1 h-3.5 w-3.5 rounded-sm hover:bg-blue-500/20">
+                                        <span class="sr-only">Remove</span>
+                                        <svg viewBox="0 0 14 14" class="h-3.5 w-3.5 stroke-blue-100/50 group-hover:stroke-blue-100">
+                                            <path d="M4 4l6 6m0-6l-6 6" />
+                                        </svg>
+                                        <span class="absolute -inset-1"></span>
+                                    </button>
+                                </span>
                                 @endforeach
                             </div>
-                            @if(count($selectedTechnicians) < 5)
+                            @if(count($selectedTechnicians)
+                            < 5)
                                 <input id="nama_teknisi_search" type="text" placeholder="Cari atau pilih teknisi..." wire:model.live.debounce.300ms="searchQuery" @focus="open = true" autocomplete="off" class="block w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm" />
                             @else
-                                <div class="mt-1 p-2 w-full text-center text-xs text-slate-400 bg-slate-100 dark:bg-slate-700 rounded-md">Batas maksimal 5 teknisi.</div>
+                            <div class="mt-1 p-2 w-full text-center text-xs text-slate-400 bg-slate-100 dark:bg-slate-700 rounded-md">Batas maksimal 5 teknisi.</div>
                             @endif
                             <div x-show="open" x-transition style="display: none;" class="absolute z-10 mt-1 w-full max-h-48 overflow-y-auto rounded-md bg-white dark:bg-slate-700 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                                 <ul class="py-1">
                                     @forelse($this->filteredTechnicians as $teknisi)
-                                        <li wire:click="selectTechnician('{{ $teknisi }}')" @click="open = false" class="cursor-pointer select-none relative py-2 pl-3 pr-9 text-slate-900 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-600">{{ $teknisi }}</li>
+                                    <li wire:click="selectTechnician('{{ $teknisi }}')" @click="open = false" class="cursor-pointer select-none relative py-2 pl-3 pr-9 text-slate-900 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-600">{{ $teknisi }}</li>
                                     @empty
-                                        @if(!empty($searchQuery))
-                                            <li class="relative py-2 px-3 text-slate-500 dark:text-slate-400">Tidak ada hasil ditemukan.</li>
-                                        @endif
+                                    @if(!empty($searchQuery))
+                                    <li class="relative py-2 px-3 text-slate-500 dark:text-slate-400">Tidak ada hasil ditemukan.</li>
+                                    @endif
                                     @endforelse
                                 </ul>
                             </div>
@@ -90,12 +92,14 @@
                             <div class="relative mt-1">
                                 <input x-model="keterangan_maintenance" @click="openKeterangan = true" readonly id="keterangan_maintenance" required placeholder="Pilih Keterangan..." class="w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm cursor-pointer">
                                 <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                                    <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a.75.75 0 01.53.22l3.5 3.5a.75.75 0 01-1.06 1.06L10 4.81 7.03 7.78a.75.75 0 01-1.06-1.06l3.5-3.5A.75.75 0 0110 3zm-3.72 9.53a.75.75 0 011.06 0L10 15.19l2.97-2.97a.75.75 0 111.06 1.06l-3.5 3.5a.75.75 0 01-1.06 0l-3.5-3.5a.75.75 0 010-1.06z" clip-rule="evenodd" /></svg>
+                                    <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M10 3a.75.75 0 01.53.22l3.5 3.5a.75.75 0 01-1.06 1.06L10 4.81 7.03 7.78a.75.75 0 01-1.06-1.06l3.5-3.5A.75.75 0 0110 3zm-3.72 9.53a.75.75 0 011.06 0L10 15.19l2.97-2.97a.75.75 0 111.06 1.06l-3.5 3.5a.75.75 0 01-1.06 0l-3.5-3.5a.75.75 0 010-1.06z" clip-rule="evenodd" />
+                                    </svg>
                                 </div>
                                 {{-- DIUBAH: max-h-60 menjadi max-h-32 --}}
                                 <div x-show="openKeterangan" style="display: none;" class="absolute z-10 w-full mt-1 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-md shadow-lg max-h-32 overflow-y-auto">
                                     @foreach(['TM','TE','TU','LM','LE','LU'] as $keterangan)
-                                        <div @click="keterangan_maintenance = '{{ $keterangan }}'; openKeterangan = false" class="cursor-pointer px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">{{ $keterangan }}</div>
+                                    <div @click="keterangan_maintenance = '{{ $keterangan }}'; openKeterangan = false" class="cursor-pointer px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">{{ $keterangan }}</div>
                                     @endforeach
                                 </div>
                             </div>

@@ -47,7 +47,7 @@ class UpdateLaporan extends Component
         'SUKINO', 'AWALUDIN .F', 'SUPARTA'
     ];
 
-  
+ 
     #[Computed]
     public function filteredTechnicians()
     {
@@ -80,28 +80,30 @@ class UpdateLaporan extends Component
         }
     }
 
-     public function setKeteranganMaintenance($value)
+      public function setKeteranganMaintenance($value)
     {
         $this->keterangan_maintenance = $value;
         $this->showKeteranganDropdown = false;
     }
 
 
-    protected function rules()
-    {
-        return [
-            'waktu_perbaikan' => 'required',
-            'waktu_selesai' => 'required',
-            'tanggal_selesai' => 'required|date',
-            'selectedTechnicians' => 'required|array|min:1|max:5',
-            'jenis_perbaikan' => 'nullable|string',
-            'sparepart' => 'nullable|string',
-            'keterangan' => 'nullable|string',
-            'status' => 'required|string|in:Pending,Belum Selesai,Selesai',
-            'keterangan_maintenance' => 'nullable|string',
-        ];
-    }
-
+  protected function rules()
+{
+    return [
+        // Pastikan ini ada dan wajib
+        'waktu_perbaikan' => 'required',
+        // Ini harus nullable
+        'waktu_selesai' => 'nullable', 
+        'tanggal_selesai' => 'nullable|date',
+        // Pastikan ini wajib dan minimal 1
+        'selectedTechnicians' => 'required|array|min:1|max:5',
+        'jenis_perbaikan' => 'nullable|string',
+        'sparepart' => 'nullable|string',
+        'keterangan' => 'nullable|string',
+        'status' => 'required|string|in:Pending,Belum Selesai,Selesai',
+        'keterangan_maintenance' => 'nullable|string',
+    ];
+}
     #[On('open-update-modal')]
     public function loadLaporan($produksiId)
     {
@@ -122,7 +124,7 @@ class UpdateLaporan extends Component
                 $this->keterangan_maintenance = $maintenance->keterangan_maintenance;
                 $this->status = $maintenance->status;
             } else {
-                $this->reset(['waktu_perbaikan', 'tanggal_selesai', 'selectedTechnicians', 'jenis_perbaikan', 'sparepart', 'keterangan']);
+                $this->reset(['waktu_perbaikan', 'tanggal_selesai', 'selectedTechnicians', 'jenis_perbaikan', 'sparepart', 'keterangan', 'waktu_selesai']);
                 $this->status = 'Pending';
             }
             $this->searchQuery = '';
@@ -136,8 +138,8 @@ class UpdateLaporan extends Component
         
         $dataToSave = [
             'waktu_perbaikan' => $this->waktu_perbaikan,
-            'waktu_selesai'   => $this->waktu_selesai,
-            'tanggal_selesai' => $this->tanggal_selesai,
+            'waktu_selesai'   => $this->waktu_selesai ?? null, 
+            'tanggal_selesai' => $this->tanggal_selesai ?? null,
             'nama_teknisi'    => implode(', ', $this->selectedTechnicians),
             'jenis_perbaikan' => $this->jenis_perbaikan ?? 'N/A',
             'sparepart'       => $this->sparepart ?? 'Tidak ada',

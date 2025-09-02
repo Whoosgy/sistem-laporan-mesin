@@ -106,7 +106,7 @@ class LaporanProduksiForm extends Component
     public function updatedPlant($value)
     {
         $this->reset('nama_mesin');
-        $manualInputPlants = ['SS', 'SC', 'PE', 'QC', 'GA'];
+        $manualInputPlants = ['SS', 'SC', 'PE', 'QC', 'GA','MT','FH' ];
         $this->isPlantManual = in_array($value, $manualInputPlants);
         $this->namaMesinPlaceholder = $this->isPlantManual ? 'Lainnya (Input Manual)' : 'Pilih atau cari Mesin';
     }
@@ -171,7 +171,7 @@ class LaporanProduksiForm extends Component
     public function render()
     {
         // Logika untuk dropdown mesin 
-        $manualInputPlants = ['SS', 'SC', 'PE', 'QC', 'GA'];
+        $manualInputPlants = ['SS', 'SC', 'PE', 'QC', 'GA','MT','FH' ];
         $listMesinUntukDitampilkan = collect();
         $emptyMessage = 'Nama mesin tidak ditemukan.';
         if ($this->plant) {
