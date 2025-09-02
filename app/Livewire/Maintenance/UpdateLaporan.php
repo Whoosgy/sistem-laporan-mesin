@@ -26,11 +26,9 @@ class UpdateLaporan extends Component
 
     public bool $showKeteranganDropdown = false;
     public function toggleKeteranganDropdown()
-{
-    $this->showKeteranganDropdown = !$this->showKeteranganDropdown;
-}
-
-    
+    {
+        $this->showKeteranganDropdown = !$this->showKeteranganDropdown;
+    }
 
     public array $selectedTechnicians = [];
 
@@ -47,7 +45,10 @@ class UpdateLaporan extends Component
         'SUKINO', 'AWALUDIN .F', 'SUPARTA'
     ];
 
+<<<<<<< HEAD
  
+=======
+>>>>>>> a3580bfc022f82236129bed43c627de4b139fb34
     #[Computed]
     public function filteredTechnicians()
     {
@@ -56,7 +57,7 @@ class UpdateLaporan extends Component
             $notSelected = !in_array($technician, $this->selectedTechnicians);
             // Kondisi 2: Cocok dengan pencarian (jika ada)
             $matchesSearch = empty($this->searchQuery) || str_contains(strtolower($technician), strtolower($this->searchQuery));
-            
+
             return $notSelected && $matchesSearch;
         })->values()->all();
     }
@@ -64,10 +65,10 @@ class UpdateLaporan extends Component
     // Fungsi untuk MEMILIH teknisi dari daftar
     public function selectTechnician($technicianName)
     {
-        //  hanya 5 teknisi
-       if (count($this->selectedTechnicians) < 5 && !in_array($technicianName, $this->selectedTechnicians)) {
+        // hanya 5 teknisi
+        if (count($this->selectedTechnicians) < 5 && !in_array($technicianName, $this->selectedTechnicians)) {
             $this->selectedTechnicians[] = $technicianName;
-            $this->searchQuery = ''; 
+            $this->searchQuery = '';
         }
     }
 
@@ -76,16 +77,21 @@ class UpdateLaporan extends Component
     {
         if (isset($this->selectedTechnicians[$index])) {
             unset($this->selectedTechnicians[$index]);
-            $this->selectedTechnicians = array_values($this->selectedTechnicians); 
+            $this->selectedTechnicians = array_values($this->selectedTechnicians);
         }
     }
 
+<<<<<<< HEAD
       public function setKeteranganMaintenance($value)
+=======
+    public function setKeteranganMaintenance($value)
+>>>>>>> a3580bfc022f82236129bed43c627de4b139fb34
     {
         $this->keterangan_maintenance = $value;
         $this->showKeteranganDropdown = false;
     }
 
+<<<<<<< HEAD
 
   protected function rules()
 {
@@ -104,6 +110,24 @@ class UpdateLaporan extends Component
         'keterangan_maintenance' => 'nullable|string',
     ];
 }
+=======
+    protected function rules()
+    {
+        return [
+            // KEMBALIKAN ATURAN INI
+            'tanggal_selesai' => 'required_if:status,Selesai|nullable|date',
+            'waktu_selesai' => 'required_if:status,Selesai|nullable|string',
+            'waktu_perbaikan' => 'required',
+            'selectedTechnicians' => 'required|array|min:1|max:5',
+            'jenis_perbaikan' => 'nullable|string',
+            'sparepart' => 'nullable|string',
+            'keterangan' => 'nullable|string',
+            'status' => 'required|string|in:Pending,On Progress,Belum Selesai,Selesai',
+            'keterangan_maintenance' => 'nullable|string',
+        ];
+
+    }
+>>>>>>> a3580bfc022f82236129bed43c627de4b139fb34
     #[On('open-update-modal')]
     public function loadLaporan($produksiId)
     {
@@ -135,10 +159,14 @@ class UpdateLaporan extends Component
     public function updateLaporan()
     {
         $this->validate();
-        
+
         $dataToSave = [
             'waktu_perbaikan' => $this->waktu_perbaikan,
+<<<<<<< HEAD
             'waktu_selesai'   => $this->waktu_selesai ?? null, 
+=======
+            'waktu_selesai'   => $this->waktu_selesai ?? null,
+>>>>>>> a3580bfc022f82236129bed43c627de4b139fb34
             'tanggal_selesai' => $this->tanggal_selesai ?? null,
             'nama_teknisi'    => implode(', ', $this->selectedTechnicians),
             'jenis_perbaikan' => $this->jenis_perbaikan ?? 'N/A',
@@ -147,7 +175,7 @@ class UpdateLaporan extends Component
             'keterangan_maintenance' => $this->keterangan_maintenance ?? 'Tidak ada',
             'status'          => $this->status,
         ];
-        
+
         Maintenance::updateOrCreate(
             ['produksi_id' => $this->produksi_id],
             $dataToSave
