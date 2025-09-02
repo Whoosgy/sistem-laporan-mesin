@@ -4,7 +4,7 @@ return [
     'plants' => [
         'A', 'B', 'C', 'D', 'E',
       
-        'SS', 'SC', 'PE', 'QC', 'GA'
+        'SS', 'SC', 'PE', 'QC', 'GA', 'MT', 'FH'  // Plant baru
     ],
 
     'mesins' => [
@@ -59,5 +59,7 @@ return [
         'PE' => [],
         'QC' => [],
         'GA' => [],
+        'MT' => [],
+        'FH' => [],
     ]
 ];
