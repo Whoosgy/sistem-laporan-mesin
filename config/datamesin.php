@@ -4,11 +4,8 @@ return [
     'plants' => [
         'A', 'B', 'C', 'D', 'E',
       
-<<<<<<< HEAD
         'SS', 'SC', 'PE', 'QC', 'GA', 'MT', 'FH'
-=======
-        'SS', 'SC', 'PE', 'QC', 'GA', 'MT', 'FH'  // Plant baru
->>>>>>> a3580bfc022f82236129bed43c627de4b139fb34
+        
     ],
 
     'mesins' => [

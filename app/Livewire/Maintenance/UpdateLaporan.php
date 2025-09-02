@@ -45,10 +45,6 @@ class UpdateLaporan extends Component
         'SUKINO', 'AWALUDIN .F', 'SUPARTA'
     ];
 
-<<<<<<< HEAD
- 
-=======
->>>>>>> a3580bfc022f82236129bed43c627de4b139fb34
     #[Computed]
     public function filteredTechnicians()
     {
@@ -81,40 +77,15 @@ class UpdateLaporan extends Component
         }
     }
 
-<<<<<<< HEAD
-      public function setKeteranganMaintenance($value)
-=======
     public function setKeteranganMaintenance($value)
->>>>>>> a3580bfc022f82236129bed43c627de4b139fb34
     {
         $this->keterangan_maintenance = $value;
         $this->showKeteranganDropdown = false;
     }
 
-<<<<<<< HEAD
-
-  protected function rules()
-{
-    return [
-        // Pastikan ini ada dan wajib
-        'waktu_perbaikan' => 'required',
-        // Ini harus nullable
-        'waktu_selesai' => 'nullable', 
-        'tanggal_selesai' => 'nullable|date',
-        // Pastikan ini wajib dan minimal 1
-        'selectedTechnicians' => 'required|array|min:1|max:5',
-        'jenis_perbaikan' => 'nullable|string',
-        'sparepart' => 'nullable|string',
-        'keterangan' => 'nullable|string',
-        'status' => 'required|string|in:Pending,Belum Selesai,Selesai',
-        'keterangan_maintenance' => 'nullable|string',
-    ];
-}
-=======
     protected function rules()
     {
         return [
-            // KEMBALIKAN ATURAN INI
             'tanggal_selesai' => 'required_if:status,Selesai|nullable|date',
             'waktu_selesai' => 'required_if:status,Selesai|nullable|string',
             'waktu_perbaikan' => 'required',
@@ -127,7 +98,6 @@ class UpdateLaporan extends Component
         ];
 
     }
->>>>>>> a3580bfc022f82236129bed43c627de4b139fb34
     #[On('open-update-modal')]
     public function loadLaporan($produksiId)
     {
@@ -162,11 +132,7 @@ class UpdateLaporan extends Component
 
         $dataToSave = [
             'waktu_perbaikan' => $this->waktu_perbaikan,
-<<<<<<< HEAD
-            'waktu_selesai'   => $this->waktu_selesai ?? null, 
-=======
             'waktu_selesai'   => $this->waktu_selesai ?? null,
->>>>>>> a3580bfc022f82236129bed43c627de4b139fb34
             'tanggal_selesai' => $this->tanggal_selesai ?? null,
             'nama_teknisi'    => implode(', ', $this->selectedTechnicians),
             'jenis_perbaikan' => $this->jenis_perbaikan ?? 'N/A',

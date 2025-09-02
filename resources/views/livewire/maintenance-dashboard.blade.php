@@ -214,14 +214,8 @@
                     }
                 });
 
-<<<<<<< HEAD
-
-                window.onload = function() {
-                    let isLoggedIn = false;
-=======
                 // window.onload = function() {
                 //     let isLoggedIn = false;
->>>>>>> a3580bfc022f82236129bed43c627de4b139fb34
 
                 //     while (!isLoggedIn) {
                 //         const username = prompt("Masukkan username:");

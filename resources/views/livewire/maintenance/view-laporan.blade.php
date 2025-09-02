@@ -1,25 +1,24 @@
 {{-- File: resources/views/livewire/maintenance/view-laporan.blade.php --}}
 <div>
     @if($isModalOpen && $laporanProduksi)
-    <div 
+    <div
         x-data="{ show: @entangle('isModalOpen') }"
         x-show="show"
         x-on:keydown.escape.window="show = false"
         class="fixed inset-0 z-50 flex items-center justify-center p-4"
-        style="display: none;"
-    >
+        style="display: none;">
         {{-- Latar Belakang Overlay --}}
         <div x-show="show" x-transition.opacity class="fixed inset-0 bg-black/60 backdrop-blur-sm" wire:click="closeModal"></div>
 
         {{-- Konten Modal dengan transisi fade dan scale --}}
         <div x-show="show"
-             x-transition:enter="transition ease-out duration-300"
-             x-transition:enter-start="opacity-0 scale-90"
-             x-transition:enter-end="opacity-100 scale-100"
-             x-transition:leave="transition ease-in duration-200"
-             x-transition:leave-start="opacity-100 scale-100"
-             x-transition:leave-end="opacity-0 scale-90"
-             class="relative w-full max-w-2xl bg-white dark:bg-slate-800 rounded-lg shadow-xl border border-slate-200 dark:border-slate-700">
+            x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0 scale-90"
+            x-transition:enter-end="opacity-100 scale-100"
+            x-transition:leave="transition ease-in duration-200"
+            x-transition:leave-start="opacity-100 scale-100"
+            x-transition:leave-end="opacity-0 scale-90"
+            class="relative w-full max-w-2xl bg-white dark:bg-slate-800 rounded-lg shadow-xl border border-slate-200 dark:border-slate-700">
 
             {{-- Header Modal --}}
             <div class="p-5 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center">
@@ -60,7 +59,7 @@
                             <dt class="font-medium text-slate-500">Bagian Rusak</dt>
                             <dd class="text-slate-900 dark:text-white">{{ $laporanProduksi->bagian_rusak ?? '-' }}</dd>
                         </div>
-                        {{-- DIUBAH: Posisi Keterangan dan Uraian --}}
+
                         <div class="sm:col-span-1">
                             <dt class="font-medium text-slate-500">Keterangan Produksi</dt>
                             <dd class="text-slate-900 dark:text-white mt-1">{{ $laporanProduksi->keterangan }}</dd>
@@ -112,7 +111,7 @@
                         </div>
                         <div class="sm:col-span-1">
                             <dt class="font-medium text-slate-500">Tanggal Selesai</dt>
-                            <dd class="text-slate-900 dark:text-white">{{ \Carbon\Carbon::parse($laporanProduksi->maintenance->tanggal_selesai)->format('d M Y') }}</dd>
+                            <dd class="text-slate-900 dark:text-white">{{ $laporanProduksi->maintenance->tanggal_selesai }}</dd>
                         </div>
                         <div class="sm:col-span-1">
                             <dt class="font-medium text-slate-500">Waktu Mulai Perbaikan</dt>
@@ -131,9 +130,13 @@
                             <dt class="font-medium text-slate-500">Keterangan Maintenance</dt>
                             <dd class="text-slate-900 dark:text-white">{{ $laporanProduksi->maintenance->keterangan_maintenance }}</dd>
                         </div>
-                        <div class="sm:col-span-2">
+                        <div class="sm:col-span-1">
                             <dt class="font-medium text-slate-500">Uraian Perbaikan</dt>
                             <dd class="text-slate-900 dark:text-white mt-1">{{ $laporanProduksi->maintenance->jenis_perbaikan }}</dd>
+                        </div>
+                        <div class="sm:col-span-1">
+                            <dt class="font-medium text-slate-500">Sparepart</dt>
+                            <dd class="text-slate-900 dark:text-white mt-1">{{ $laporanProduksi->maintenance->sparepart ?? 'Tidak ada' }}</dd>
                         </div>
                     </dl>
                     @else
