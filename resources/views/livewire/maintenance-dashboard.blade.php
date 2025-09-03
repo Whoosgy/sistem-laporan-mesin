@@ -236,7 +236,7 @@
                         const password = prompt("Masukkan password:");
 
                         if (username === "maintenance" && password === "welcome123") {
-                            alert("Login berhasil! Selamat datang, admin.");
+                            alert("Login berhasil! Selamat datang, Admin.");
                             isLoggedIn = true;
                         } else {
                             alert("Login gagal. Silakan coba lagi.");
