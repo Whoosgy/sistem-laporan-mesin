@@ -228,22 +228,22 @@
                     }
                 });
 
-            //     window.onload = function() {
-            //         let isLoggedIn = false;
+                window.onload = function() {
+                    let isLoggedIn = false;
 
-            //         while (!isLoggedIn) {
-            //             const username = prompt("Masukkan username:");
-            //             const password = prompt("Masukkan password:");
+                    while (!isLoggedIn) {
+                        const username = prompt("Masukkan username:");
+                        const password = prompt("Masukkan password:");
 
-            //             if (username === "maintenance" && password === "welcome123") {
-            //                 alert("Login berhasil! Selamat datang, admin.");
-            //                 isLoggedIn = true;
-            //             } else {
-            //                 alert("Login gagal. Silakan coba lagi.");
-            //             }
-            //         }
-            //     };
-            // </script>
+                        if (username === "maintenance" && password === "welcome123") {
+                            alert("Login berhasil! Selamat datang, admin.");
+                            isLoggedIn = true;
+                        } else {
+                            alert("Login gagal. Silakan coba lagi.");
+                        }
+                    }
+                };
+            </script>
 
             @endscript
 
