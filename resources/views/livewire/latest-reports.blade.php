@@ -1,4 +1,4 @@
-<div class="mt-24 lg:mt-32 w-full" data-aos="fade-up" wire:poll.10s>
+<div class="mt-16 lg:mt-20 w-full" data-aos="fade-up" wire:poll.10s>
     <div class="text-center mb-10">
         <h3 class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-teal-500 dark:from-blue-500 dark:to-teal-300 bg-clip-text text-transparent">
             Laporan Terbaru

@@ -3,8 +3,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
 /* Custom styles untuk DataTables */
 .dataTables_wrapper {
   @apply mt-4;
@@ -106,8 +104,58 @@ html.dark .swiper-button-next::before {
     font-weight: bold;
 }
 
-/* Hapus default background dari swiper-button */
+
 .swiper-button-prev:not(.swiper-button-disabled),
 .swiper-button-next:not(.swiper-button-disabled) {
     background-color: transparent; /* Hapus latar belakang putih bawaan Swiper */
+}
+
+/* Icon Animation Keyframes */
+@keyframes gentle-float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-4px); }
+}
+
+@keyframes spin-slow {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes progress-fill {
+    0% { transform: scaleX(0); }
+    50% { transform: scaleX(1); }
+    100% { transform: scaleX(0.8); }
+}
+
+@keyframes check-bounce {
+    0%, 20%, 50%, 80%, 100% { transform: scale(1); }
+    40% { transform: scale(1.1); }
+    60% { transform: scale(1.05); }
+}
+
+@keyframes edit-wiggle {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-2deg); }
+    75% { transform: rotate(2deg); }
+}
+
+/* Icon Animation Classes */
+.animate-gentle-float {
+    animation: gentle-float 3s ease-in-out infinite;
+}
+
+.animate-spin-slow {
+    animation: spin-slow 8s linear infinite;
+}
+
+.animate-progress-fill {
+    animation: progress-fill 2s ease-in-out infinite;
+}
+
+.animate-check-bounce {
+    animation: check-bounce 2s ease-in-out infinite;
+}
+
+.animate-edit-wiggle {
+    animation: edit-wiggle 2s ease-in-out infinite;
 }

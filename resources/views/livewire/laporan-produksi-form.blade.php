@@ -363,9 +363,14 @@
                                 <td class="px-5 py-4 whitespace-nowrap text-center">
                                     @php $status = optional($laporan->maintenance)->status ?? 'Pending'; @endphp
 
-                                    {{-- PERBAIKAN: Logika @if/elseif diperbarui untuk memisahkan semua status --}}
+
                                     @if($status == 'Pending')
                                     <span class="inline-flex items-center justify-center rounded-full bg-amber-100 px-2.5 py-0.5 text-amber-700 dark:bg-amber-900/50 dark:text-amber-400">
+                                        <p class="whitespace-nowrap text-xs font-semibold">{{ $status }}</p>
+                                    </span>
+
+                                    @elseif($status == 'On Progress')
+                                    <span class="inline-flex items-center justify-center rounded-full bg-sky-100 px-2.5 py-0.5 text-sky-700 dark:bg-sky-900/50 dark:text-sky-400">
                                         <p class="whitespace-nowrap text-xs font-semibold">{{ $status }}</p>
                                     </span>
 

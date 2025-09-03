@@ -3,11 +3,15 @@
             class="inline-flex items-center gap-x-2 rounded-md 
                    bg-gradient-to-r from-blue-600 to-teal-500 
                    dark:from-blue-500 dark:to-teal-300 
-                   px-4 py-2.5 text-sm font-semibold text-white shadow-sm 
-                   hover:opacity-90 focus-visible:outline 
-                   focus-visible:outline-2 focus-visible:outline-offset-2 
-                   focus-visible:outline-blue-600 transition-opacity duration-300">
-        <svg xmlns="http://www.w3.org/2000/svg" class="-ml-0.5 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                   px-4 py-2.5 text-sm font-semibold text-white shadow-lg 
+                   hover:from-blue-700 hover:to-teal-600 
+                   dark:hover:from-blue-600 dark:hover:to-teal-400
+                   focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 
+                   focus-visible:outline-blue-500 
+                   transition-all duration-300 ease-out
+                   transform active:scale-95 active:shadow-md
+                   hover:shadow-xl hover:-translate-y-0.5">
+        <svg xmlns="http://www.w3.org/2000/svg" class="-ml-0.5 h-5 w-5 transition-transform duration-200 active:scale-110" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
         </svg>
         Download Laporan

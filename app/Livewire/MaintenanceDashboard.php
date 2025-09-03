@@ -22,11 +22,9 @@ class MaintenanceDashboard extends Component
     public string $sortField = 'created_at';
     public string $sortDirection = 'desc';
     public string $statusFilter = '';
-
-
     public ?string $keteranganFilter = null;
 
-    public function mount($keterangan = null)
+    public function mount(?string $keterangan = null)
     {
         $this->keteranganFilter = $keterangan;
     }
@@ -34,7 +32,7 @@ class MaintenanceDashboard extends Component
     #[On('laporan-updated-sukses')]
     public function refreshComponent()
     {
-       
+        // Fungsi ini bisa digunakan untuk me-refresh data lain jika perlu
     }
 
     public function filterByStatus(string $status): void
@@ -75,88 +73,63 @@ class MaintenanceDashboard extends Component
 
     public function render()
     {
-        // Memulai query dasar
-        $query = Produksi::with('maintenance');
-
-        // Menerapkan filter pencarian
-        if (!empty($this->search)) {
-            $query->where(function ($q) {
-                $q->where('nama_mesin', 'like', '%' . $this->search . '%')
-                    ->orWhere('nama_pelapor', 'like', '%' . $this->search . '%')
-                    ->orWhere('plant', 'like', '%' . $this->search . '%')
-                    ->orWhere('keterangan', 'like', '%' . $this->search . '%');
-            });
-        }
-
-        // Menerapkan filter status
-        $query->when($this->statusFilter, function ($query) {
-            if ($this->statusFilter === 'Pending') {
+        $laporanProduksi = Produksi::with('maintenance')
+            ->when($this->search, function ($query) {
                 $query->where(function ($q) {
-                    $q->whereDoesntHave('maintenance')
-                      ->orWhereHas('maintenance', fn ($sub) => $sub->where('status', 'Pending'));
+                    $q->where('nama_mesin', 'like', '%' . $this->search . '%')
+                      ->orWhere('nama_pelapor', 'like', '%' . $this->search . '%')
+                      ->orWhere('plant', 'like', '%' . $this->search . '%')
+                      ->orWhere('keterangan', 'like', '%' . $this->search . '%');
                 });
-            } else {
-                $query->whereHas('maintenance', fn ($q) => $q->where('status', $this->statusFilter));
-            }
-        });
+            })
+            ->when($this->statusFilter, function ($query) {
+                if ($this->statusFilter === 'Pending') {
+                    $query->where(function ($q) {
+                        $q->whereDoesntHave('maintenance')
+                          ->orWhereHas('maintenance', fn ($sub) => $sub->where('status', 'Pending'));
+                    });
+                } else {
+                    $query->whereHas('maintenance', fn ($q) => $q->where('status', $this->statusFilter));
+                }
+            })
+            ->when($this->keteranganFilter, function ($query) {
+                $query->where('keterangan', $this->keteranganFilter);
+            })
+            ->orderBy($this->sortField, $this->sortDirection)
+            ->paginate(10);
+
+        $baseProduksiQuery = Produksi::query()->when($this->keteranganFilter, fn($q) => $q->where('keterangan', $this->keteranganFilter));
         
-        // PERBAIKAN: Menggabungkan semua query builder menjadi satu rantai yang benar
-        $laporanProduksi = $query->when($this->keteranganFilter, function ($query) {
-            $query->where('keterangan', $this->keteranganFilter);
-        })
-        ->orderBy($this->sortField, $this->sortDirection)
-        ->paginate(10);
+        $pendingCount = (clone $baseProduksiQuery)->where(function ($query) {
+            $query->whereDoesntHave('maintenance')->orWhereHas('maintenance', fn ($q) => $q->where('status', 'Pending'));
+        })->count();
 
-        // Menghitung jumlah untuk kartu status
-       $baseProduksiQuery = Produksi::query()
-    ->when($this->keteranganFilter, function ($query) {
-        $query->where('keterangan', $this->keteranganFilter);
-    });
+        $baseMaintenanceQuery = Maintenance::query()->when($this->keteranganFilter, fn($q) => $q->whereHas('produksi', fn($sq) => $sq->where('keterangan', $this->keteranganFilter)));
 
-// Hitung ulang Pending berdasarkan query yang sudah difilter
-$pendingCount = (clone $baseProduksiQuery)->where(function ($query) {
-    $query->whereDoesntHave('maintenance')
-          ->orWhereHas('maintenance', fn ($q) => $q->where('status', 'Pending'));
-})->count();
+        // : Mengganti nama variabel kembali ke $prosesCount agar cocok dengan view
+        $prosesCount = (clone $baseMaintenanceQuery)->where('status', 'On Progress')->count();
+        $belumSelesaiCount = (clone $baseMaintenanceQuery)->where('status', 'Belum Selesai')->count();
+        $selesaiCount = (clone $baseMaintenanceQuery)->where('status', 'Selesai')->count();
 
-$prosesCount = Maintenance::where('status', 'Belum Selesai')
-    ->when($this->keteranganFilter, function ($query) {
-        $query->whereHas('produksi', fn ($q) => $q->where('keterangan', $this->keteranganFilter));
-    })->count();
-
-// Hitung ulang Selesai dengan filter
-$selesaiCount = Maintenance::where('status', 'Selesai')
-    ->when($this->keteranganFilter, function ($query) {
-        $query->whereHas('produksi', fn ($q) => $q->where('keterangan', $this->keteranganFilter));
-    })->count();
-
-        // Data untuk grafik trend bulanan (6 bulan terakhir)
         $monthlyData = [];
         for ($i = 5; $i >= 0; $i--) {
             $date = now()->subMonths($i);
             $monthName = $date->format('M Y');
-            $count = Produksi::whereYear('created_at', $date->year)
-                            ->whereMonth('created_at', $date->month)
-                            ->count();
-            $monthlyData[] = [
-                'month' => $monthName,
-                'count' => $count
-            ];
+            $count = Produksi::whereYear('created_at', $date->year)->whereMonth('created_at', $date->month)->count();
+            $monthlyData[] = ['month' => $monthName, 'count' => $count];
         }
 
-        // Data berdasarkan plant
-        $plantData = Produksi::selectRaw('plant, COUNT(*) as total')
-                            ->groupBy('plant')
-                            ->orderBy('total', 'desc')
-                            ->get();
+        $plantData = Produksi::selectRaw('plant, COUNT(*) as total')->groupBy('plant')->orderBy('total', 'desc')->get();
 
         return view('livewire.maintenance-dashboard', [
-            'pendingCount' => $pendingCount,
-            'prosesCount' => $prosesCount,
-            'selesaiCount' => $selesaiCount,
-            'semuaLaporan' => $laporanProduksi,
-            'monthlyData' => $monthlyData,
-            'plantData' => $plantData
+            'pendingCount'      => $pendingCount,
+            'prosesCount'       => $prosesCount, // PERBAIKAN: Mengirim variabel dengan nama yang benar
+            'belumSelesaiCount' => $belumSelesaiCount,
+            'selesaiCount'      => $selesaiCount,
+            'semuaLaporan'      => $laporanProduksi,
+            'monthlyData'       => $monthlyData,
+            'plantData'         => $plantData
         ]);
     }
 }
+
