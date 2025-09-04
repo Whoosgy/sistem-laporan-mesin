@@ -1,6 +1,8 @@
 <?php
 
+use App\Livewire\Maintenance\UpdateLaporan;
 use Illuminate\Support\Facades\Route;
+
 
 // Impor Controller dan Komponen Livewire
 use App\Http\Controllers\PageController;
@@ -18,3 +20,5 @@ Route::get('/maintenance/{keterangan?}', MaintenanceDashboard::class)->name('mai
 // Rute untuk Ekspor Data Laporan Maintenance
 Route::get('/export/excel', [PageController::class, 'exportExcel'])->name('export.excel');
 Route::get('/export/csv', [PageController::class, 'exportCsv'])->name('export.csv');
+
+Route::get('/maintenance/laporan/{id}/edit', UpdateLaporan::class)->name('maintenance.edit');
