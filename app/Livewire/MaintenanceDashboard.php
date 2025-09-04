@@ -24,11 +24,9 @@ class MaintenanceDashboard extends Component
       public string $filterCategory = '';
     public string $filterValue = '';
 
-
-
     public ?string $keteranganFilter = null;
 
-    public function mount($keterangan = null)
+    public function mount(?string $keterangan = null)
     {
         $this->keteranganFilter = $keterangan;
     }
@@ -36,7 +34,7 @@ class MaintenanceDashboard extends Component
     #[On('laporan-updated-sukses')]
     public function refreshComponent()
     {
-       
+        // Fungsi ini bisa digunakan untuk me-refresh data lain jika perlu
     }
 
     public function filterReports($category, $value)
@@ -132,7 +130,8 @@ class MaintenanceDashboard extends Component
     });
 
     $pendingCount = (clone $baseProduksiQuery)->whereDoesntHave('maintenance')->count();
-    $prosesCount = (clone $baseProduksiQuery)->whereHas('maintenance', fn ($q) => $q->where('status', 'Belum Selesai'))->count();
+    $prosesCount = (clone $baseProduksiQuery)->whereHas('maintenance', fn ($q) => $q->where('status', 'On Progress'))->count();
+    $belumSelesaiCount = (clone $baseProduksiQuery)->whereHas('maintenance', fn ($q) => $q->where('status', 'Belum Selesai'))->count();
     $selesaiCount = (clone $baseProduksiQuery)->whereHas('maintenance', fn ($q) => $q->where('status', 'Selesai'))->count();
 
     // Data untuk grafik trend bulanan dan plant (logika sama)
@@ -155,12 +154,13 @@ class MaintenanceDashboard extends Component
                          ->get();
 
     return view('livewire.maintenance-dashboard', [
-        'pendingCount' => $pendingCount,
-        'prosesCount' => $prosesCount,
-        'selesaiCount' => $selesaiCount,
-        'semuaLaporan' => $laporanProduksi,
-        'monthlyData' => $monthlyData,
-        'plantData' => $plantData
+        'pendingCount'      => $pendingCount,
+        'prosesCount'       => $prosesCount, // PERBAIKAN: Mengirim variabel dengan nama yang benar
+        'belumSelesaiCount' => $belumSelesaiCount,
+            'selesaiCount'      => $selesaiCount,
+        'semuaLaporan'      => $laporanProduksi,
+        'monthlyData'       => $monthlyData,
+        'plantData'         => $plantData
     ]);
 }
 }

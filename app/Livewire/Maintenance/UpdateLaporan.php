@@ -86,7 +86,6 @@ class UpdateLaporan extends Component
     protected function rules()
     {
         return [
-            // KEMBALIKAN ATURAN INI
             'tanggal_selesai' => 'required_if:status,Selesai|nullable|date',
             'waktu_selesai' => 'required_if:status,Selesai|nullable|string',
             'waktu_perbaikan' => 'required',

@@ -3,24 +3,18 @@
 
     <div class="container mx-auto px-4 py-8">
 
-
-
         {{-- Tombol Download Laporan --}}
-        <div class="mb-6 flex justify-end">
+         <div class="mb-6 flex justify-end">
             <livewire:download-laporan-button />
         </div>
 
-        {{-- 3 Card Status --}}
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        {{-- 4 Card Status --}}
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
             {{-- Card Pending --}}
-            <div
-                class="bg-white dark:bg-slate-800 rounded-xl p-5 flex items-center shadow-lg transition-all duration-300 hover:shadow-xl hover:shadow-amber-500/20 hover:-translate-y-1">
-                <div
-                    class="w-12 h-12 rounded-lg bg-amber-100 dark:bg-amber-900/50 flex-shrink-0 flex items-center justify-center mr-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-500 dark:text-amber-400"
-                        fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            <div class="bg-white dark:bg-slate-800 rounded-xl p-5 flex items-center shadow-lg shadow-amber-500/20 p-6 flex items-center transition-all duration-300 hover:-translate-y-1">
+                <div class="w-12 h-12 rounded-lg bg-amber-100 dark:bg-amber-900/50 flex-shrink-0 flex items-center justify-center mr-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-500 dark:text-amber-400 animate-spin-slow" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                 </div>
                 <div>
@@ -33,34 +27,43 @@
             </div>
 
             {{-- Card Belum Selesai --}}
-            <div
-                class="bg-white dark:bg-slate-800 rounded-xl p-5 flex items-center shadow-lg transition-all duration-300 hover:shadow-xl hover:shadow-red-500/20 hover:-translate-y-1">
-                <div
-                    class="w-12 h-12 rounded-lg bg-red-100 dark:bg-red-900/50 flex-shrink-0 flex items-center justify-center mr-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500 dark:text-red-400" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+            <div class="bg-white dark:bg-slate-800 rounded-xl p-5 flex items-center shadow-lg shadow-red-500/20 p-6 flex items-center transition-all duration-300 hover:-translate-y-1">
+                <div class="w-12 h-12 rounded-lg bg-red-100 dark:bg-red-900/50 flex-shrink-0 flex items-center justify-center mr-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500 dark:text-red-400 animate-edit-wiggle" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                     </svg>
                 </div>
                 <div>
                     <h3 class="text-base font-semibold text-slate-700 dark:text-slate-200">Belum Selesai</h3>
                     <div class="flex items-baseline space-x-2">
-                        <p class="text-3xl font-bold text-red-500 dark:text-red-400">{{ $prosesCount }}</p>
+                        <p class="text-3xl font-bold text-red-500 dark:text-red-400">{{ $belumSelesaiCount }}</p>
                         <p class="text-sm text-slate-500 dark:text-slate-400">Laporan</p>
                     </div>
                 </div>
             </div>
 
+            {{-- Card On Progress --}}
+            <div class="bg-white dark:bg-slate-800 rounded-xl shadow-lg shadow-sky-500/20 p-6 flex items-center transition-all duration-300 hover:-translate-y-1">
+                <div class="w-12 h-12 rounded-lg bg-sky-100 dark:bg-sky-900/50 flex-shrink-0 flex items-center justify-center mr-4 relative">
+                    <!-- Progress bar background -->
+                    <div class="absolute inset-0 rounded-lg overflow-hidden">
+                        <div class="h-full bg-sky-300/30 dark:bg-sky-600/30 animate-progress-fill origin-left"></div>
+                    </div>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-sky-500 dark:text-sky-400 relative z-10 animate-gentle-float" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M15,2 C16.5976809,2 17.9036609,3.24891996 17.9949073,4.82372721 L18,5 L18,8 C18,8.26038605 17.8985463,8.50867108 17.7201762,8.69380235 L17.624695,8.78086881 L13.6,12 L17.624695,15.2191312 C17.8619103,15.4089034 18,15.6962163 18,16 L18,19 C18,20.6568542 16.6568542,22 15,22 L9,22 C7.34314575,22 6,20.6568542 6,19 L6,16 C6,15.6962163 6.13808972,15.4089034 6.37530495,15.2191312 L10.399,12 L6.37530495,8.78086881 C6.17197761,8.61820694 6.04147718,8.3838825 6.00834087,8.12894825 L6,8 L6,5 C6,3.40231912 7.24891996,2.09633912 8.82372721,2.00509269 L9,2 L15,2 Z M12,13.281 L8,16.48 L8,19 C8,19.5522847 8.44771525,20 9,20 L15,20 L15.1166211,19.9932723 C15.6139598,19.9355072 16,19.5128358 16,19 L16,16.481 L12,13.281 Z M15,4 L9,4 C8.48716416,4 8.06449284,4.38604019 8.00672773,4.88337887 L8,5 L8,6 L16,6 L16,5 C16,4.52661307 15.6710663,4.13005271 15.2292908,4.02641071 L15.1166211,4.00672773 L15,4 Z" />
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="text-base font-semibold text-slate-700 dark:text-slate-200">On Progress</h3>
+                    <p class="text-3xl font-bold text-sky-500 dark:text-sky-400">{{ $prosesCount }}</p>
+                </div>
+            </div>
+
             {{-- Card Selesai --}}
-            <div
-                class="bg-white dark:bg-slate-800 rounded-xl p-5 flex items-center shadow-lg transition-all duration-300 hover:shadow-xl hover:shadow-emerald-500/20 hover:-translate-y-1">
-                <div
-                    class="w-12 h-12 rounded-lg bg-emerald-100 dark:bg-emerald-900/50 flex-shrink-0 flex items-center justify-center mr-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-emerald-500 dark:text-emerald-400"
-                        fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            <div class="bg-white dark:bg-slate-800 rounded-xl p-5 flex items-center shadow-lg shadow-emerald-500/20 p-6 flex items-center transition-all duration-300 hover:-translate-y-1">
+                <div class="w-12 h-12 rounded-lg bg-emerald-100 dark:bg-emerald-900/50 flex-shrink-0 flex items-center justify-center mr-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-emerald-500 dark:text-emerald-400 animate-check-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                 </div>
                 <div>
@@ -291,18 +294,17 @@
                                 <span>Mesin & Plant</span>
                                 @if($sortField == 'nama_mesin')
                                     <span class="ml-2">@if($sortDirection == 'asc') &uarr; @else &darr; @endif</span>
-                                @endif
-                            </div>
-                        </th>
-                        <th class="px-5 py-3 font-medium text-slate-600 dark:text-slate-300">Uraian Perbaikan</th>
-
-                        <th class="px-5 py-3 font-medium text-slate-600 dark:text-slate-300">Keterangan</th>
-                        <th class="px-5 py-3 font-medium text-slate-600 dark:text-slate-300 text-center">Status</th>
-                        <th class="px-5 py-3 font-medium text-slate-600 dark:text-slate-300 text-center">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
-                    @forelse ($semuaLaporan as $laporan)
+                                    @endif
+                                </div>
+                            </th>
+                            <th class="px-5 py-3 font-medium text-slate-600 dark:text-slate-300">Uraian Perbaikan</th>
+                            <th class="px-5 py-3 font-medium text-slate-600 dark:text-slate-300">Keterangan</th>
+                            <th class="px-5 py-3 font-medium text-slate-600 dark:text-slate-300 text-center">Status</th>
+                            <th class="px-5 py-3 font-medium text-slate-600 dark:text-slate-300 text-center">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
+                        @forelse ($semuaLaporan as $laporan)
                         <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50">
                             <td class="px-5 py-4 whitespace-nowrap">
                                 <p class="font-semibold text-slate-900 dark:text-white">{{ $laporan->nama_pelapor }}</p>
@@ -318,11 +320,9 @@
                             <td class="px-5 py-4 whitespace-nowrap text-slate-500 dark:text-slate-400">
                                 {{ optional($laporan->maintenance)->jenis_perbaikan ?? 'Belum Ditentukan' }}
                             </td>
-
                             <td class="px-5 py-4 whitespace-nowrap text-slate-500 dark:text-slate-400">
                                 {{ $laporan->keterangan }}
                             </td>
-
                             <td class="px-5 py-4 whitespace-nowrap text-center">
                                 @php $status = optional($laporan->maintenance)->status ?? 'Pending'; @endphp
 
@@ -331,6 +331,11 @@
                                         class="inline-flex items-center justify-center rounded-full bg-amber-100 px-2.5 py-0.5 text-amber-700 dark:bg-amber-900/50 dark:text-amber-400">
                                         <p class="whitespace-nowrap text-xs font-semibold">{{ $status }}</p>
                                     </span>
+
+                                @elseif($status == 'On Progress')
+                                <span class="inline-flex items-center justify-center rounded-full bg-sky-100 px-2.5 py-0.5 text-sky-700 dark:bg-sky-900/50 dark:text-sky-400">
+                                    <p class="whitespace-nowrap text-xs font-semibold">{{ $status }}</p>
+                                </span>
 
                                 @elseif($status == 'Dalam Proses' || $status == 'Belum Selesai')
                                     <span
@@ -409,7 +414,9 @@
 
         @endscript
 
-        {{-- Memanggil komponen modal Livewire --}}
-        <livewire:maintenance.view-laporan />
-        <livewire:maintenance.update-laporan />
+            {{-- Memanggil komponen modal Livewire --}}
+            <livewire:maintenance.view-laporan />
+            <livewire:maintenance.update-laporan />
+        </div>
     </div>
+</div>

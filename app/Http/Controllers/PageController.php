@@ -14,23 +14,27 @@ class PageController extends Controller
     /**
      * Menampilkan halaman utama (welcome) dengan data statistik.
      */
-      public function home()
+    public function home()
     {
 
         $getStatusCounts = function ($keterangan) {
             return [
                 'total' => Produksi::where('keterangan', $keterangan)->count(),
                 'pending' => Produksi::where('keterangan', $keterangan)
-                                ->where(function ($query) {
-                                    $query->whereDoesntHave('maintenance')
-                                          ->orWhereHas('maintenance', fn ($q) => $q->where('status', 'Pending'));
-                                })->count(),
+                    ->where(function ($query) {
+                        $query->whereDoesntHave('maintenance')
+                            ->orWhereHas('maintenance', fn($q) => $q->where('status', 'Pending'));
+                    })->count(),
+
+                'on_progress'   => Produksi::where('keterangan', $keterangan)
+                    ->whereHas('maintenance', fn($q) => $q->where('status', 'On Progress'))
+                    ->count(),
                 'belum_selesai' => Produksi::where('keterangan', $keterangan)
-                                        ->whereHas('maintenance', fn ($q) => $q->where('status', 'Belum Selesai'))
-                                        ->count(),
+                    ->whereHas('maintenance', fn($q) => $q->where('status', 'Belum Selesai'))
+                    ->count(),
                 'selesai' => Produksi::where('keterangan', $keterangan)
-                                    ->whereHas('maintenance', fn ($q) => $q->where('status', 'Selesai'))
-                                    ->count(),
+                    ->whereHas('maintenance', fn($q) => $q->where('status', 'Selesai'))
+                    ->count(),
             ];
         };
 
@@ -78,7 +82,7 @@ class PageController extends Controller
         return redirect()->back()->with('success', 'Laporan berhasil dikirim!');
     }
 
-   /**
+    /**
      * Memicu unduhan file Excel.
      */
     public function exportExcel(Request $request)
@@ -98,7 +102,7 @@ class PageController extends Controller
         // Mengambil tanggal dari URL
         $startDate = $request->query('start');
         $endDate = $request->query('end');
-        
+
         return Excel::download(new LaporanMaintenanceExport($startDate, $endDate), 'laporan-maintenance.csv', \Maatwebsite\Excel\Excel::CSV);
     }
 }
