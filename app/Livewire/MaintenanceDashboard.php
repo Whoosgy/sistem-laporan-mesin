@@ -123,7 +123,7 @@ class MaintenanceDashboard extends Component
 
         return view('livewire.maintenance-dashboard', [
             'pendingCount'      => $pendingCount,
-            'prosesCount'       => $prosesCount, // PERBAIKAN: Mengirim variabel dengan nama yang benar
+            'prosesCount'       => $prosesCount, 
             'belumSelesaiCount' => $belumSelesaiCount,
             'selesaiCount'      => $selesaiCount,
             'semuaLaporan'      => $laporanProduksi,
