@@ -302,7 +302,7 @@
                 </div>
 
                 <div class="flex items-center space-x-2">
-
+                    
                     {{-- Dropdown Kategori --}}
 
                     <div class="relative inline-block text-left"
@@ -696,4 +696,6 @@
             </div>
         </div>
     @endif
+    {{-- In any blade file --}}
+<livewire:users-table />
 </div>

@@ -14,7 +14,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 #[Layout('components.layouts.app')]
 #[Title('Dashboard Maintenance')]
-class MaintenanceDashboard extends Component
+class MaintenanceController extends Component
 {
     use WithPagination;
 
