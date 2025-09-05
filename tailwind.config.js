@@ -1,15 +1,24 @@
 import forms from '@tailwindcss/forms';
+
 /** @type {import('tailwindcss').Config} */
 export default {
-    presets: [ 
-        require('./vendor/tallstackui/tallstackui/tailwind.config.js') 
+    presets: [
+        require('./vendor/tallstackui/tallstackui/tailwind.config.js')
     ],
+
     content: [
+        // File Blade dan JavaScript proyek Anda
         "./resources/**/*.blade.php",
         "./resources/**/*.js",
-        "./resources/**/*.vue", // Tambahkan ini untuk jaga-jaga
-        './vendor/tallstackui/tallstackui/src/**/*.php', 
+        "./resources/**/*.vue",
+
+        // File-file dari paket TallStackUI
+        './vendor/tallstackui/tallstackui/src/**/*.php',
+
+        // File-file dari paket Livewire Datatable
+        "./vendor/developerawam/livewire-datatable/resources/views/**/*.blade.php",
     ],
+
     theme: {
         extend: {
             colors: {
@@ -20,7 +29,8 @@ export default {
             },
         },
     },
-    plugins: [ 
-        forms 
+
+    plugins: [
+        forms
     ],
-}
+};

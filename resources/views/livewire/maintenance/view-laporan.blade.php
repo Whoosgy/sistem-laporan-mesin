@@ -109,6 +109,10 @@
                             <dt class="font-medium text-slate-500">Status</dt>
                             <dd class="text-slate-900 dark:text-white font-semibold">{{ $laporanProduksi->maintenance->status }}</dd>
                         </div>
+                        {{-- <div class="sm:col-span-1">
+                            <dt class="font-medium text-slate-500">Tanggal Selesai</dt>
+                            <dd class="text-slate-900 dark:text-white">{{ \Carbon\Carbon::parse($laporanProduksi->maintenance->tanggal_selesai)->format('d M Y') }}</dd>
+                        </div> --}}
                         <div class="sm:col-span-1">
                             <dt class="font-medium text-slate-500">Tanggal Selesai</dt>
                             <dd class="text-slate-900 dark:text-white">{{ $laporanProduksi->maintenance->tanggal_selesai }}</dd>

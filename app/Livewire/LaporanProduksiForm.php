@@ -10,7 +10,6 @@ use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\On;
 
-
 #[Layout('components.layouts.app')]
 #[Title('Production report')]
 class LaporanProduksiForm extends Component
@@ -18,30 +17,59 @@ class LaporanProduksiForm extends Component
     use WithPagination;
     use WithFileUploads;
 
-    // Properti untuk data form
+    // Properti form
     public $tanggal_lapor, $jam_lapor, $shift = '', $plant, $nama_mesin, $nama_pelapor, $bagian_rusak, $uraian_kerusakan, $keterangan = '';
     public $photo;
 
-     public function refreshRiwayat()
-    {
-        // Method kosong ini sudah cukup untuk memicu Livewire
-        // agar menjalankan ulang method render() dan mengambil data terbaru.
-    }
-
-    // Properti untuk dropdown & interaktivitas
+    // Properti UI dan Logika
     public $listPlant = [];
     public $namaMesinPlaceholder = 'Pilih atau cari Mesin';
     public bool $isPlantManual = false;
     public bool $isModalOpen = false;
 
-    // Properti untuk search bar dan pengurutan riwayat
+    // Properti untuk Pencarian dan Filter
     public string $search = '';
-    public string $sortField = 'created_at'; 
+    public string $sortField = 'created_at';
     public string $sortDirection = 'desc';
-    
-    // Properti untuk filter status
-    public string $statusFilter = '';
+    public string $filterCategory = '';
+    public string $filterValue = '';
 
+    // Query String untuk menjaga state URL
+    protected $queryString = [
+        'search',
+        'sortField',
+        'sortDirection',
+        'filterCategory' => ['except' => ''],
+        'filterValue' => ['except' => ''],
+    ];
+
+    // Metode Mount untuk inisialisasi awal
+    public function mount()
+    {
+        $this->listPlant = config('datamesin.plants');
+        $now = now('Asia/Jakarta');
+        $this->tanggal_lapor = $now->format('Y-m-d');
+        $this->jam_lapor = now()->format('H:i');
+        $this->updatedJamLapor($this->jam_lapor);
+    }
+
+    // Aksi untuk filter
+    public function filterReports($category, $value)
+    {
+        $this->filterCategory = $category;
+        $this->filterValue = $value;
+        $this->resetPage();
+    }
+    
+    // Aksi untuk mereset semua filter
+    public function resetAllFilters()
+    {
+        $this->filterCategory = '';
+        $this->filterValue = '';
+        $this->resetPage();
+    }
+
+    // Aksi untuk sorting
     public function sortBy($field)
     {
         if ($this->sortField === $field) {
@@ -53,13 +81,13 @@ class LaporanProduksiForm extends Component
         $this->resetPage();
     }
 
-    // ethod untuk mengubah filter status
-    public function filterByStatus(string $status): void
+    // Metode yang dipanggil saat `search` diperbarui
+    public function updatingSearch()
     {
-        $this->statusFilter = $status;
         $this->resetPage();
     }
 
+    // Logika bisnis untuk form
     protected function rules()
     {
         return [
@@ -75,19 +103,8 @@ class LaporanProduksiForm extends Component
             'photo' => 'nullable|image|max:102400',
         ];
     }
-
-    public function mount()
-    {
-        $this->listPlant = config('datamesin.plants');
-        $now = now('Asia/Jakarta');
-        $this->tanggal_lapor = $now->format('Y-m-d');
-        
-        $this->jam_lapor = now()->format('H:i:s');
-        $this->updatedJamLapor($this->jam_lapor);
-        
-    }
-
-       public function updatedJamLapor($value)
+    
+    public function updatedJamLapor($value)
     {
         if (!$value) {
             $this->shift = null;
@@ -101,7 +118,6 @@ class LaporanProduksiForm extends Component
             $this->shift = '3';
         }
     }
-    
 
     public function updatedPlant($value)
     {
@@ -122,17 +138,7 @@ class LaporanProduksiForm extends Component
         $this->isModalOpen = false;
     }
     
-    public function setShift($value){ $this->shift = $value; }
-    public function setPlant($value){ $this->plant = $value; }
-    public function setNamaMesin($value){ $this->nama_mesin = $value; }
-    public function setKeterangan($value){ $this->keterangan = $value; }
-
-    public function updatedPage()
-    {
-        $this->dispatch('scroll-to-table');
-    }
-
-     public function removePhoto()
+    public function removePhoto()
     {
         $this->reset('photo');
     }
@@ -141,8 +147,7 @@ class LaporanProduksiForm extends Component
     {
         $validatedData = $this->validate();
 
-         if ($this->photo) {
-            // Simpan foto ke 'storage/app/public/photos' dan dapatkan path-nya
+        if ($this->photo) {
             $validatedData['photo_path'] = $this->photo->store('photos', 'public');
         }
         unset($validatedData['photo']);
@@ -154,26 +159,26 @@ class LaporanProduksiForm extends Component
         $this->dispatch('laporan-tersimpan');
     }
 
-     public function resetForm()
+    public function resetForm()
     {
         $this->reset([
             'tanggal_lapor', 'jam_lapor', 'shift', 'plant', 'nama_mesin', 
-            'nama_pelapor', 'bagian_rusak', 'uraian_kerusakan', 'keterangan'
-            
+            'nama_pelapor', 'bagian_rusak', 'uraian_kerusakan', 'keterangan', 'photo'
         ]);
-
+        
+        // Atur ulang nilai default
         $this->tanggal_lapor = now()->format('Y-m-d');
         $this->jam_lapor = now()->format('H:i');
         $this->updatedJamLapor($this->jam_lapor);
-        
     }
-
+    
+    // Metode utama untuk merender view dan data
     public function render()
     {
-        // Logika untuk dropdown mesin 
         $manualInputPlants = ['SS', 'SC', 'PE', 'QC', 'GA', 'MT', 'FH'];
         $listMesinUntukDitampilkan = collect();
         $emptyMessage = 'Nama mesin tidak ditemukan.';
+
         if ($this->plant) {
             if (in_array($this->plant, $manualInputPlants)) {
                 $listMesinUntukDitampilkan = collect();
@@ -184,38 +189,49 @@ class LaporanProduksiForm extends Component
         } else {
             $emptyMessage = 'Pilih Plant untuk melihat daftar mesin.';
         }
+        
         if (!empty($this->nama_mesin) && $listMesinUntukDitampilkan->isNotEmpty()) {
-             $listMesinUntukDitampilkan = $listMesinUntukDitampilkan->filter(function ($nama) {
-                 return stripos($nama, $this->nama_mesin) !== false;
+            $listMesinUntukDitampilkan = $listMesinUntukDitampilkan->filter(function ($nama) {
+                return stripos($nama, $this->nama_mesin) !== false;
             });
         }
-
-        // Query untuk mengambil data laporan
-        $laporanTerbaru = Produksi::with('maintenance')
-            ->when($this->search, function($q) {
+        
+        $query = Produksi::query();
+        
+        // Menerapkan filter pencarian
+        if (!empty($this->search)) {
+            $query->where(function ($q) {
                 $q->where('nama_mesin', 'like', '%' . $this->search . '%')
-                  ->orWhere('nama_pelapor', 'like', '%' . $this->search . '%')
-                  ->orWhere('plant', 'like', '%' . $this->search . '%')
-                  ->orWhere('uraian_kerusakan', 'like', '%' . $this->search . '%');
-            })
-            // Logika query untuk filter status
-            ->when($this->statusFilter, function ($query) {
-                if ($this->statusFilter === 'Pending') {
-                    $query->where(function ($q) {
-                        $q->whereDoesntHave('maintenance')
-                          ->orWhereHas('maintenance', fn ($sub) => $sub->where('status', 'Pending'));
-                    });
+                    ->orWhere('nama_pelapor', 'like', '%' . $this->search . '%')
+                    ->orWhere('plant', 'like', '%' . $this->search . '%')
+                    ->orWhere('uraian_kerusakan', 'like', '%' . $this->search . '%');
+            });
+        }
+        
+        // Menerapkan filter berdasarkan kategori
+        // Menggunakan when() adalah cara yang lebih ringkas dan elegan
+        $query->when($this->filterCategory && $this->filterValue, function ($q) {
+            if ($this->filterCategory === 'status') {
+                if ($this->filterValue === 'pending') {
+                    $q->whereDoesntHave('maintenance');
                 } else {
-                    $query->whereHas('maintenance', fn ($q) => $q->where('status', $this->statusFilter));
+                    $q->whereHas('maintenance', fn ($q2) => $q2->where('status', $this->filterValue));
                 }
-            })
+            } elseif ($this->filterCategory === 'plant') {
+                $q->where('plant', $this->filterValue);
+            } elseif ($this->filterCategory === 'keterangan') {
+                $q->where('keterangan', $this->filterValue);
+            }
+        });
+
+        $laporanTerbaru = $query
             ->orderBy($this->sortField, $this->sortDirection)
             ->paginate(10);
 
         return view('livewire.laporan-produksi-form', [
             'listMesin' => $listMesinUntukDitampilkan,
             'emptyMessage' => $emptyMessage,
-            'semuaLaporan' => $laporanTerbaru 
+            'semuaLaporan' => $laporanTerbaru
         ]);
     }
 }
