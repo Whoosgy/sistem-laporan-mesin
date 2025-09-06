@@ -32,7 +32,7 @@
             <div class="w-full max-w-7xl mx-auto">
                 <!-- Bagian Header -->
                 <div class="text-center mb-6 lg:mb-8" data-aos="fade-down">
-                    <h1 class="text-4xl lg:text-4xl font-bold tracking-tight mb-4 bg-gradient-to-r from-blue-600 to-teal-500 dark:from-blue-500 dark:to-teal-300 bg-clip-text text-transparent"> 
+                    <h1 class="text-4xl lg:text-4xl font-bold tracking-tight mb-4 bg-gradient-to-r from-blue-600 to-teal-500 dark:from-blue-500 dark:to-teal-300 bg-clip-text text-transparent">
                         Work Of Maintenance
                     </h1>
 
@@ -289,7 +289,7 @@
                                                     <p class="font-semibold text-slate-800 dark:text-slate-100 text-lg truncate">{{ $laporan->nama_mesin }}</p>
                                                 </div>
 
-                                                 <div class="flex items-center gap-2 flex-shrink-0">
+                                                <div class="flex items-center gap-2 flex-shrink-0">
                                                     <span class="text-xs font-medium px-2 py-0.5 rounded-full
                                             @if($laporan->keterangan == 'Mekanik') bg-orange-100 text-orange-800 dark:bg-orange-900/50 dark:text-orange-300 @endif
                                             @if($laporan->keterangan == 'Elektrik') bg-purple-100 text-purple-800 dark:bg-purple-900/50 dark:text-purple-300 @endif

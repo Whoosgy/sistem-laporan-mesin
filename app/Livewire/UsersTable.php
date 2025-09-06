@@ -2,29 +2,44 @@
 
 namespace App\Livewire;
 
-use App\Models\User;
 use App\Models\Produksi;
 use Livewire\Component;
-
+use Livewire\WithPagination;
 
 class UsersTable extends Component
 {
-  public function render()
-{
-    // Pastikan ini adalah nama model yang benar untuk tabel data Anda
-    return view('livewire.users-table', [
-        'model' => \App\Models\Produksi::class, // Contoh, jika Anda menampilkan data laporan
-        
-    'columns' => [
-    'tanggal_pelapor' => 'Tanggal & Pelapor', // nama kolom database
-    'mesin_plant' => 'Mesin & Plant',
-    'uraian_singkat' => 'Uraian Singkat',
-    'keterangan' => 'Keterangan',
-    'status' => 'Status',
-],
-        
-        // Nama-nama kolom di sini juga harus persis seperti di database
-        'searchable' => ['tanggal_pelapor', 'mesin_plant', 'uraian_singkat', 'keterangan', 'status'],
-    ]);
-}
+    use WithPagination;
+
+    public string $search = '';
+    public string $sortField = 'created_at';
+    public string $sortDirection = 'desc';
+
+    public function sortBy($field)
+    {
+        if ($this->sortField === $field) {
+            $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
+        } else {
+            $this->sortDirection = 'asc';
+        }
+        $this->sortField = $field;
+        $this->resetPage();
+    }
+
+    public function render()
+    {
+        $laporan = Produksi::with('maintenance')
+            ->where(function ($query) {
+                $query->where('nama_mesin', 'like', '%' . $this->search . '%')
+                      ->orWhere('nama_pelapor', 'like', '%' . $this->search . '%')
+                      ->orWhere('plant', 'like', '%' . $this->search . '%')
+                      ->orWhere('keterangan', 'like', '%' . $this->search . '%')
+                      ->orWhere('uraian_kerusakan', 'like', '%' . $this->search . '%');
+            })
+            ->orderBy($this->sortField, $this->sortDirection)
+            ->paginate(5); // Menampilkan 5 data per halaman
+
+        return view('livewire.users-table', [
+            'semuaLaporan' => $laporan,
+        ]);
+    }
 }

@@ -2,12 +2,15 @@ import forms from '@tailwindcss/forms';
 
 /** @type {import('tailwindcss').Config} */
 export default {
+    // Baris ini akan mengaktifkan dark mode berbasis class
+    darkMode: 'class',
+
     presets: [
         require('./vendor/tallstackui/tallstackui/tailwind.config.js')
     ],
 
     content: [
-        // File Blade dan JavaScript proyek Anda
+        // File Blade dan JavaScript proyek 
         "./resources/**/*.blade.php",
         "./resources/**/*.js",
         "./resources/**/*.vue",

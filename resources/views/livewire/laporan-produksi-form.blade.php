@@ -697,5 +697,5 @@
         </div>
     @endif
     {{-- In any blade file --}}
-<livewire:users-table />
+
 </div>

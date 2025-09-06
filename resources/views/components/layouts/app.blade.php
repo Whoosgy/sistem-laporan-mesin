@@ -1,5 +1,22 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}"
+      x-data="{
+          darkMode: localStorage.getItem('darkMode') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'),
+          init() {
+              this.$watch('darkMode', val => {
+                  localStorage.setItem('darkMode', val);
+                  if (val === 'dark') {
+                      document.documentElement.classList.add('dark');
+                  } else {
+                      document.documentElement.classList.remove('dark');
+                  }
+              });
+              if (this.darkMode === 'dark') {
+                  document.documentElement.classList.add('dark');
+              }
+          }
+      }"
+      x-init="init()">
 
 <head>
     <meta charset="utf-8">
@@ -8,8 +25,8 @@
 
     <title>{{ $title ?? 'Work of Maintenance' }}</title>
 
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <link rel="preconnect" href="[https://fonts.bunny.net](https://fonts.bunny.net)">
+    <link href="[https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap](https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap)" rel="stylesheet" />
     
     <tallstackui:script />
     @livewireStyles
@@ -29,7 +46,7 @@
             height: 100%;
             top: 0;
             left: 0;
-            z-index: 0; /* Pastikan partikel di belakang */
+            z-index: 0; /* partikel di belakang */
         }
     </style>
 </head>
@@ -53,4 +70,3 @@
 </body>
 
 </html>
-
