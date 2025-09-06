@@ -1,33 +1,34 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}"
-      x-data="{
+    x-data="{
           darkMode: localStorage.getItem('darkMode') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'),
           init() {
               this.$watch('darkMode', val => {
                   localStorage.setItem('darkMode', val);
-                  if (val === 'dark') {
-                      document.documentElement.classList.add('dark');
-                  } else {
-                      document.documentElement.classList.remove('dark');
-                  }
               });
-              if (this.darkMode === 'dark') {
-                  document.documentElement.classList.add('dark');
-              }
           }
       }"
-      x-init="init()">
+    x-init="init()"
+    :class="{ 'dark': darkMode === 'dark' }">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    <script>
+        if (localStorage.getItem('darkMode') === 'dark' || (!('darkMode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+
     <title>{{ $title ?? 'Work of Maintenance' }}</title>
 
     <link rel="preconnect" href="[https://fonts.bunny.net](https://fonts.bunny.net)">
     <link href="[https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap](https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap)" rel="stylesheet" />
-    
+
     <tallstackui:script />
     @livewireStyles
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -35,18 +36,23 @@
     {{-- CSS untuk Latar Belakang dan Partikel --}}
     <style>
         .particle-bg {
-            background-color: #f1f5f9; /* Warna terang */
+            background-color: #f1f5f9;
+            /* Warna terang */
         }
+
         .dark .particle-bg {
-            background-color: #111827; /* Warna gelap */
+            background-color: #111827;
+            /* Warna gelap */
         }
+
         #tsparticles {
             position: fixed;
             width: 100%;
             height: 100%;
             top: 0;
             left: 0;
-            z-index: 0; /* partikel di belakang */
+            z-index: 0;
+            /* Pastikan partikel di belakang */
         }
     </style>
 </head>
