@@ -22,10 +22,15 @@ document.addEventListener('livewire:init', () => {
     Livewire.on('laporan-sukses', (event) => {
         const message = Array.isArray(event) ? event[0] : event;
 
+        //dark mode
+        const isDarkMode = document.documentElement.classList.contains('dark');
+
         Swal.fire({
             title: 'Berhasil!',
             text: message,
             icon: 'success',
+            background: isDarkMode ? '#1f2937' : '#fff', 
+            color: isDarkMode ? '#f3f4f6' : '#111827',     
             confirmButtonText: 'OK',
             confirmButtonColor: '#2D3D8B'
         });

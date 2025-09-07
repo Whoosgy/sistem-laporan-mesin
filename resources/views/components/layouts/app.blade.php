@@ -32,29 +32,44 @@
     <tallstackui:script />
     @livewireStyles
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @stack('styles')
 
-    {{-- CSS untuk Latar Belakang dan Partikel --}}
+    {{-- ikon kalender & jam --}}
     <style>
-        .particle-bg {
-            background-color: #f1f5f9;
-            /* Warna terang */
+        .date-input-fix::-webkit-calendar-picker-indicator,
+        .time-input-fix::-webkit-calendar-picker-indicator {
+            filter: invert(0);
         }
 
-        .dark .particle-bg {
-            background-color: #111827;
-            /* Warna gelap */
-        }
-
-        #tsparticles {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 0;
-            /* Pastikan partikel di belakang */
+        .dark .date-input-fix::-webkit-calendar-picker-indicator,
+        .dark .time-input-fix::-webkit-calendar-picker-indicator {
+            filter: invert(1);
         }
     </style>
+</head>
+
+{{-- CSS untuk Latar Belakang dan Partikel --}}
+<style>
+    .particle-bg {
+        background-color: #f1f5f9;
+        /* Warna terang */
+    }
+
+    .dark .particle-bg {
+        background-color: #111827;
+        /* Warna gelap */
+    }
+
+    #tsparticles {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: 0;
+        /* Pastikan partikel di belakang */
+    }
+</style>
 </head>
 
 <body class="font-sans antialiased particle-bg">

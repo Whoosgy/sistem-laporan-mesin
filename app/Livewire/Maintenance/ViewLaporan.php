@@ -21,7 +21,7 @@ class ViewLaporan extends Component
         $this->laporanProduksi = Produksi::with('maintenance')->find($produksiId);
 
         if ($this->laporanProduksi) {
-            // PERBAIKAN: Menambahkan logika untuk mengambil dan memproses path foto
+            // Menambahkan logika untuk mengambil dan memproses path foto
             if (!empty($this->laporanProduksi->photo_path)) {
 
                  $decoded = json_decode($this->laporanProduksi->photo_path, true);
@@ -39,14 +39,14 @@ class ViewLaporan extends Component
         }
     }
 
-     // DITAMBAHKAN: Method untuk membuka lightbox
+     // Method untuk membuka lightbox
     public function openLightbox(string $imageUrl)
     {
         $this->lightboxImage = $imageUrl;
         $this->lightboxOpen = true;
     }
 
-    // DITAMBAHKAN: Method untuk menutup lightbox
+    // Method untuk menutup lightbox
     public function closeLightbox()
     {
         $this->reset('lightboxOpen', 'lightboxImage');
