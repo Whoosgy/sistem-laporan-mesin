@@ -209,7 +209,6 @@ class LaporanProduksiForm extends Component
         }
         
         // Menerapkan filter berdasarkan kategori
-        // Menggunakan when() adalah cara yang lebih ringkas dan elegan
         $query->when($this->filterCategory && $this->filterValue, function ($q) {
             if ($this->filterCategory === 'status') {
                 if ($this->filterValue === 'pending') {

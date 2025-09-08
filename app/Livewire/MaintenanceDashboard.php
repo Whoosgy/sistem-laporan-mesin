@@ -36,7 +36,7 @@ class MaintenanceDashboard extends Component
     #[On('laporan-updated-sukses')]
     public function refreshComponent()
     {
-        // Fungsi ini bisa digunakan untuk me-refresh data lain jika perlu
+        
     }
 
     public function filterReports($category, $value)
@@ -91,7 +91,22 @@ class MaintenanceDashboard extends Component
 
     public function render()
     {
-        $baseQuery = Produksi::query()
+        $cardBaseQuery = Produksi::query()
+            ->when($this->keteranganFilter, function ($query) {
+                $query->where('keterangan', $this->keteranganFilter);
+            });
+
+        // Menghitung jumlah untuk kartu status BERDASARKAN query dasar yang sudah difilter.
+        $pendingCount = (clone $cardBaseQuery)->where(function ($query) {
+            $query->whereDoesntHave('maintenance')->orWhereHas('maintenance', fn ($q) => $q->where('status', 'Pending'));
+        })->count();
+
+        $prosesCount = (clone $cardBaseQuery)->whereHas('maintenance', fn($q) => $q->where('status', 'On Progress'))->count();
+        $belumSelesaiCount = (clone $cardBaseQuery)->whereHas('maintenance', fn($q) => $q->where('status', 'Belum Selesai'))->count();
+        $selesaiCount = (clone $cardBaseQuery)->whereHas('maintenance', fn($q) => $q->where('status', 'Selesai'))->count();
+
+        // Mengambil data untuk tabel dengan menerapkan filter status tambahan.
+        $laporanProduksi = Produksi::with('maintenance')
             ->when($this->search, function ($query) {
                 $query->where(function ($q) {
                     $q->where('nama_mesin', 'like', '%' . $this->search . '%')
@@ -102,19 +117,8 @@ class MaintenanceDashboard extends Component
             })
             ->when($this->keteranganFilter, function ($query) {
                 $query->where('keterangan', $this->keteranganFilter);
-            });
+            })
 
-        // Menghitung jumlah untuk kartu status BERDASARKAN query dasar yang sudah difilter.
-        $pendingCount = (clone $baseQuery)->where(function ($query) {
-            $query->whereDoesntHave('maintenance')->orWhereHas('maintenance', fn ($q) => $q->where('status', 'Pending'));
-        })->count();
-
-        $prosesCount = (clone $baseQuery)->whereHas('maintenance', fn($q) => $q->where('status', 'On Progress'))->count();
-        $belumSelesaiCount = (clone $baseQuery)->whereHas('maintenance', fn($q) => $q->where('status', 'Belum Selesai'))->count();
-        $selesaiCount = (clone $baseQuery)->whereHas('maintenance', fn($q) => $q->where('status', 'Selesai'))->count();
-
-        // Mengambil data untuk tabel dengan menerapkan filter status tambahan.
-        $laporanProduksi = (clone $baseQuery)
             ->when($this->statusFilter, function ($query) {
                 if ($this->statusFilter === 'Pending') {
                     $query->where(function ($q) {
@@ -125,10 +129,11 @@ class MaintenanceDashboard extends Component
                     $query->whereHas('maintenance', fn ($q) => $q->where('status', $this->statusFilter));
                 }
             })
+            
             ->orderBy($this->sortField, $this->sortDirection)
             ->paginate(10);
 
-        // Data untuk grafik (tetap dipertahankan)
+        // Data untuk grafik 
         $monthlyData = [];
         for ($i = 5; $i >= 0; $i--) {
             $date = now()->subMonths($i);

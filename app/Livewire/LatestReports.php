@@ -11,7 +11,7 @@ class LatestReports extends Component
 {
     /**
      * Inisialisasi properti sebagai Collection kosong.
-     * Ini memastikan variabelnya tidak pernah null.
+     * 
      * @var Collection
      */
     public Collection $laporanTerbaru;
