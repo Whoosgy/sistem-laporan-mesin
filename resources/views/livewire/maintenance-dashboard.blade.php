@@ -179,24 +179,17 @@
                 <table class="min-w-full text-sm">
                     <thead class="bg-slate-50 dark:bg-slate-800/50 sticky top-0">
                         <tr class="text-left">
-                            <th class="px-5 py-3 font-medium text-slate-600 dark:text-slate-300 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700"
-                                wire:click="sortBy('tanggal_lapor')">
-                                <div class="flex items-center">
-                                    <span>Tanggal & Pelapor</span>
-                                    @if($sortField == 'tanggal_lapor')
-                                    <span class="ml-2">@if($sortDirection == 'asc') &uarr; @else &darr; @endif</span>
-                                    @endif
-                                </div>
-                            </th>
-                            <th class="px-5 py-3 font-medium text-slate-600 dark:text-slate-300 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700"
-                                wire:click="sortBy('nama_mesin')">
-                                <div class="flex items-center">
-                                    <span>Mesin & Plant</span>
-                                    @if($sortField == 'nama_mesin')
-                                    <span class="ml-2">@if($sortDirection == 'asc') &uarr; @else &darr; @endif</span>
-                                    @endif
-                                </div>
-                            </th>
+                            <th class="px-5 py-3 font-medium text-slate-600 dark:text-slate-300 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700" wire:click="sortBy('tanggal_lapor')">
+                                    <div class="flex items-center gap-2">
+                                        <span>Tanggal & Pelapor</span>
+                                        <svg class="h-4 w-4 @if($sortField !== 'tanggal_lapor') text-slate-400 @endif @if($sortDirection === 'desc' && $sortField === 'tanggal_lapor') transform rotate-180 @endif transition-transform" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M0 5H3L3 16H5L5 5L8 5V4L4 0L0 4V5Z" fill="currentColor"/>
+                                            <path d="M16 6H10V8H16V6Z" fill="currentColor"/>
+                                            <path d="M10 10H14V12H10V10Z" fill="currentColor"/>
+                                            <path d="M12 14H10V16H12V14Z" fill="currentColor"/>
+                                        </svg>
+                                    </div>
+                                </th>
                             <th class="px-5 py-3 font-medium text-slate-600 dark:text-slate-300">Uraian Perbaikan</th>
                             <th class="px-5 py-3 font-medium text-slate-600 dark:text-slate-300">Keterangan</th>
                             <th class="px-5 py-3 font-medium text-slate-600 dark:text-slate-300 text-center">Status</th>

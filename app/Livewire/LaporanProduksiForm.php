@@ -21,6 +21,8 @@ class LaporanProduksiForm extends Component
     public $tanggal_lapor, $jam_lapor, $shift = '', $plant, $nama_mesin, $nama_pelapor, $bagian_rusak, $uraian_kerusakan, $keterangan = '';
     public $photo;
 
+    public function refreshRiwayat() {}
+
     // Properti UI dan Logika
     public $listPlant = [];
     public $namaMesinPlaceholder = 'Pilih atau cari Mesin';
@@ -84,7 +86,7 @@ class LaporanProduksiForm extends Component
         $this->dispatch('scroll-to-table');
     }
 
-     public function updatedPage()
+    public function updatedPage()
     {
         $this->dispatch('scroll-to-table');
     }
@@ -169,18 +171,9 @@ class LaporanProduksiForm extends Component
 
     public function resetForm()
     {
-        $this->reset([
-            'tanggal_lapor',
-            'jam_lapor',
-            'shift',
-            'plant',
-            'nama_mesin',
-            'nama_pelapor',
-            'bagian_rusak',
-            'uraian_kerusakan',
-            'keterangan',
-            'photo'
-        ]);
+        $this->reset(['plant', 'nama_mesin', 'nama_pelapor', 'bagian_rusak', 'uraian_kerusakan', 'keterangan', 'photo']);
+        $this->mount();
+
 
         // Atur ulang nilai default
         $this->tanggal_lapor = now()->format('Y-m-d');
