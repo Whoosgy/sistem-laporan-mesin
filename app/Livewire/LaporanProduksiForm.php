@@ -31,6 +31,7 @@ class LaporanProduksiForm extends Component
     public string $search = '';
     public string $sortField = 'created_at';
     public string $sortDirection = 'desc';
+
     public string $filterCategory = '';
     public string $filterValue = '';
 
@@ -59,14 +60,15 @@ class LaporanProduksiForm extends Component
         $this->filterCategory = $category;
         $this->filterValue = $value;
         $this->resetPage();
+        $this->dispatch('scroll-to-table');
     }
-    
+
     // Aksi untuk mereset semua filter
     public function resetAllFilters()
     {
-        $this->filterCategory = '';
-        $this->filterValue = '';
+        $this->reset('filterCategory', 'filterValue');
         $this->resetPage();
+        $this->dispatch('scroll-to-table');
     }
 
     // Aksi untuk sorting
@@ -79,6 +81,12 @@ class LaporanProduksiForm extends Component
         }
         $this->sortField = $field;
         $this->resetPage();
+        $this->dispatch('scroll-to-table');
+    }
+
+     public function updatedPage()
+    {
+        $this->dispatch('scroll-to-table');
     }
 
     // Metode yang dipanggil saat `search` diperbarui
@@ -103,7 +111,7 @@ class LaporanProduksiForm extends Component
             'photo' => 'nullable|image|max:102400',
         ];
     }
-    
+
     public function updatedJamLapor($value)
     {
         if (!$value) {
@@ -132,12 +140,12 @@ class LaporanProduksiForm extends Component
         $this->validate();
         $this->isModalOpen = true;
     }
-    
+
     public function closeModal()
     {
         $this->isModalOpen = false;
     }
-    
+
     public function removePhoto()
     {
         $this->reset('photo');
@@ -151,7 +159,7 @@ class LaporanProduksiForm extends Component
             $validatedData['photo_path'] = $this->photo->store('photos', 'public');
         }
         unset($validatedData['photo']);
-        
+
         Produksi::create($validatedData);
         $this->closeModal();
         $this->resetForm();
@@ -162,17 +170,26 @@ class LaporanProduksiForm extends Component
     public function resetForm()
     {
         $this->reset([
-            'tanggal_lapor', 'jam_lapor', 'shift', 'plant', 'nama_mesin', 
-            'nama_pelapor', 'bagian_rusak', 'uraian_kerusakan', 'keterangan', 'photo'
+            'tanggal_lapor',
+            'jam_lapor',
+            'shift',
+            'plant',
+            'nama_mesin',
+            'nama_pelapor',
+            'bagian_rusak',
+            'uraian_kerusakan',
+            'keterangan',
+            'photo'
         ]);
-        
+
         // Atur ulang nilai default
         $this->tanggal_lapor = now()->format('Y-m-d');
         $this->jam_lapor = now()->format('H:i');
         $this->updatedJamLapor($this->jam_lapor);
     }
-    
+
     // Metode utama untuk merender view dan data
+
     public function render()
     {
         $manualInputPlants = ['SS', 'SC', 'PE', 'QC', 'GA', 'MT', 'FH'];
@@ -189,15 +206,15 @@ class LaporanProduksiForm extends Component
         } else {
             $emptyMessage = 'Pilih Plant untuk melihat daftar mesin.';
         }
-        
+
         if (!empty($this->nama_mesin) && $listMesinUntukDitampilkan->isNotEmpty()) {
             $listMesinUntukDitampilkan = $listMesinUntukDitampilkan->filter(function ($nama) {
                 return stripos($nama, $this->nama_mesin) !== false;
             });
         }
-        
+
         $query = Produksi::query();
-        
+
         // Menerapkan filter pencarian
         if (!empty($this->search)) {
             $query->where(function ($q) {
@@ -207,24 +224,25 @@ class LaporanProduksiForm extends Component
                     ->orWhere('uraian_kerusakan', 'like', '%' . $this->search . '%');
             });
         }
-        
+
         // Menerapkan filter berdasarkan kategori
         $query->when($this->filterCategory && $this->filterValue, function ($q) {
             if ($this->filterCategory === 'status') {
-                if ($this->filterValue === 'pending') {
-                    $q->whereDoesntHave('maintenance');
+                if ($this->filterValue === 'Pending') {
+                    $q->where(function ($subQuery) {
+                        $subQuery->whereDoesntHave('maintenance')
+                            ->orWhereHas('maintenance', fn($sub) => $sub->where('status', 'Pending'));
+                    });
                 } else {
-                    $q->whereHas('maintenance', fn ($q2) => $q2->where('status', $this->filterValue));
+                    $q->whereHas('maintenance', fn($sub) => $sub->where('status', $this->filterValue));
                 }
-            } elseif ($this->filterCategory === 'plant') {
-                $q->where('plant', $this->filterValue);
-            } elseif ($this->filterCategory === 'keterangan') {
-                $q->where('keterangan', $this->filterValue);
+            } else {
+                $q->where($this->filterCategory, $this->filterValue);
             }
         });
 
-        $laporanTerbaru = $query
-            ->orderBy($this->sortField, $this->sortDirection)
+        // Sorting & Pagination
+        $laporanTerbaru = $query->orderBy($this->sortField, $this->sortDirection)
             ->paginate(10);
 
         return view('livewire.laporan-produksi-form', [

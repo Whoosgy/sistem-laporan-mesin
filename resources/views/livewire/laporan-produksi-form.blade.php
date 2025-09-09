@@ -2,7 +2,7 @@
 
     <div class="space-y-8">
         {{-- Card 1: Form Input --}}
-       <div class="bg-white dark:bg-slate-800 rounded-lg shadow-xl border border-slate-200 dark:border-slate-700">
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-xl border border-slate-200 dark:border-slate-700">
             <div class="p-5 border-b border-slate-200 dark:border-slate-700">
                 <h2 class="text-base font-semibold text-slate-900 dark:text-white">
                     Isi Formulir Laporan Kerusakan
@@ -270,8 +270,8 @@
                     class="bg-slate-50 dark:bg-slate-800/50 px-5 py-3 flex justify-end items-center space-x-2 rounded-b-lg">
                     <button onclick="location.reload()" type="button" title="Reset"
                         class="p-2 text-slate-500 dark:text-slate-400 hover:text-blue-500 transition-colors duration-200 rounded-full hover:bg-slate-100 dark:hover:bg-slate-700">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                         stroke="currentColor" class="h-6 w-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="h-6 w-6">
                             <path
                                 d="M19 9H22M19 14H22M19 19H21M16 6L15.1991 18.0129C15.129 19.065 15.0939 19.5911 14.8667 19.99C14.6666 20.3412 14.3648 20.6235 14.0011 20.7998C13.588 21 13.0607 21 12.0062 21H7.99377C6.93927 21 6.41202 21 5.99889 20.7998C5.63517 20.6235 5.33339 20.3412 5.13332 19.99C4.90607 19.5911 4.871 19.065 4.80086 18.0129L4 6M2 6H18M14 6L13.7294 5.18807C13.4671 4.40125 13.3359 4.00784 13.0927 3.71698C12.8779 3.46013 12.6021 3.26132 12.2905 3.13878C11.9376 3 11.523 3 10.6936 3H9.30643C8.47705 3 8.06236 3 7.70951 3.13878C7.39792 3.26132 7.12208 3.46013 6.90729 3.71698C6.66405 4.00784 6.53292 4.40125 6.27064 5.18807L6 6M12 10V17M8 10L7.99995 16.9998"
                                 stroke-linecap="round" stroke-linejoin="round" />
@@ -303,186 +303,58 @@
 
                     {{-- Dropdown Kategori --}}
 
-                    <div class="relative inline-block text-left"
-                        x-data="{ open: false, selectedCategoryLabel: 'All Categories' }">
-                        <button @click="open = !open" type="button"
-                            class="inline-flex justify-center w-full rounded-md border border-slate-300 dark:border-slate-600 shadow-sm px-4 py-2 bg-white dark:bg-slate-900/50 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-100 focus:ring-blue-500">
-                            <span x-text="selectedCategoryLabel">All Categories</span>
-                            <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                fill="currentColor" aria-hidden="true">
-                                <path fill-rule="evenodd"
-                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                    clip-rule="evenodd" />
+                    <div class="relative inline-block text-left" x-data="{ open: false, selectedCategoryLabel: 'All Categories' }">
+                        <button @click="open = !open" type="button" class="inline-flex justify-center w-full rounded-md border border-slate-300 dark:border-slate-600 shadow-sm px-4 py-2 bg-white dark:bg-slate-900/50 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-100 focus:ring-blue-500">
+                            <span x-text="selectedCategoryLabel"></span>
+                            <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                             </svg>
                         </button>
-                        <div x-show="open" @click.away="open = false"
-                            class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-slate-800 ring-1 ring-black ring-opacity-5 z-20">
-                            <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                                <a href="#"
-                                    class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                    role="menuitem" wire:click="filterReports('', '')"
-                                    @click="selectedCategoryLabel = 'All Categories'; $dispatch('reset-availability'); open = false">All
-                                    Categories</a>
-                                <a href="#"
-                                    class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                    role="menuitem" wire:click="filterReports('plant', '')"
-                                    @click="selectedCategoryLabel = 'Plant'; open = false">Plant</a>
-                                <a href="#"
-                                    class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                    role="menuitem" wire:click="filterReports('status', '')"
-                                    @click="selectedCategoryLabel = 'Status'; open = false">Status</a>
-                                <a href="#"
-                                    class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                    role="menuitem" wire:click="filterReports('keterangan', '')"
-                                    @click="selectedCategoryLabel = 'Keterangan'; open = false">Keterangan</a>
+                        <div x-show="open" @click.away="open = false" class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-slate-800 ring-1 ring-black ring-opacity-5 z-20" style="display: none;">
+                            <div class="py-1">
+                                <a href="#" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700" role="menuitem" wire:click.prevent="resetAllFilters" @click="selectedCategoryLabel = 'All Categories'; $dispatch('reset-availability'); open = false">All Categories</a>
+                                <a href="#" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700" role="menuitem" wire:click.prevent="$set('filterCategory', 'plant')" @click="selectedCategoryLabel = 'Plant'; open = false">Plant</a>
+                                <a href="#" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700" role="menuitem" wire:click.prevent="$set('filterCategory', 'status')" @click="selectedCategoryLabel = 'Status'; open = false">Status</a>
+                                <a href="#" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700" role="menuitem" wire:click.prevent="$set('filterCategory', 'keterangan')" @click="selectedCategoryLabel = 'Keterangan'; open = false">Keterangan</a>
                             </div>
                         </div>
                     </div>
 
-                    <div class="relative inline-block text-left"
-                        x-data="{ open: false, selectedAvailabilityLabel: 'All Availability' }"
-                        @reset-availability.window="selectedAvailabilityLabel = 'All Availability'">
-                        <button @click="open = !open" type="button"
-                            class="inline-flex justify-center w-full rounded-md border border-slate-300 dark:border-slate-600 shadow-sm px-4 py-2 bg-white dark:bg-slate-900/50 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-100 focus:ring-blue-500">
-                            <span x-text="selectedAvailabilityLabel">All Availability</span>
-                            <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                fill="currentColor" aria-hidden="true">
-                                <path fill-rule="evenodd"
-                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                    clip-rule="evenodd" />
+                    {{-- Dropdown Opsi --}}
+                    <div class="relative inline-block text-left" x-data="{ open: false, selectedAvailabilityLabel: 'All Availability' }" @reset-availability.window="selectedAvailabilityLabel = 'All Availability'">
+                        <button @click="open = !open" type="button" class="inline-flex justify-center w-full rounded-md border border-slate-300 dark:border-slate-600 shadow-sm px-4 py-2 bg-white dark:bg-slate-900/50 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-100 focus:ring-blue-500">
+                            <span x-text="selectedAvailabilityLabel"></span>
+                            <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                             </svg>
                         </button>
-                        <div x-show="open" @click.away="open = false"
-                            class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-slate-800 ring-1 ring-black ring-opacity-5 z-20">
-                            <div class="py-1 max-h-60 overflow-y-auto" role="menu" aria-orientation="vertical"
-                                aria-labelledby="options-menu">
-                                <a href="#"
-                                    class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                    role="menuitem" wire:click="filterReports('', '')"
-                                    @click="selectedAvailabilityLabel = 'All Availability'; open = false">
-                                    All Availability
-                                </a>
-
+                        <div x-show="open" @click.away="open = false" class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-slate-800 ring-1 ring-black ring-opacity-5 z-20" style="display: none;">
+                            <div class="py-1 max-h-60 overflow-y-auto">
+                                <a href="#" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700" role="menuitem" wire:click.prevent="filterReports($wire.filterCategory, '')" @click="selectedAvailabilityLabel = 'All Availability'; open = false">All Availability</a>
                                 <template x-if="$wire.filterCategory === 'plant'">
                                     <div>
-                                        <a href="#"
-                                            class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                            role="menuitem" wire:click="filterReports('plant', 'a')"
-                                            @click="selectedAvailabilityLabel = 'A'; open = false">A</a>
-                                        <a href="#"
-                                            class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                            role="menuitem" wire:click="filterReports('plant', 'b')"
-                                            @click="selectedAvailabilityLabel = 'B'; open = false">B</a>
-                                        <a href="#"
-                                            class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                            role="menuitem" wire:click="filterReports('plant', 'c')"
-                                            @click="selectedAvailabilityLabel = 'C'; open = false">C</a>
-                                        <a href="#"
-                                            class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                            role="menuitem" wire:click="filterReports('plant', 'd')"
-                                            @click="selectedAvailabilityLabel = 'D'; open = false">D</a>
-                                        <a href="#"
-                                            class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                            role="menuitem" wire:click="filterReports('plant', 'e')"
-                                            @click="selectedAvailabilityLabel = 'E'; open = false">E</a>
-                                        <a href="#"
-                                            class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                            role="menuitem" wire:click="filterReports('plant', 'ss')"
-                                            @click="selectedAvailabilityLabel = 'SS'; open = false">SS</a>
-                                        <a href="#"
-                                            class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                            role="menuitem" wire:click="filterReports('plant', 'sc')"
-                                            @click="selectedAvailabilityLabel = 'SC'; open = false">SC</a>
-                                        <a href="#"
-                                            class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                            role="menuitem" wire:click="filterReports('plant', 'pe')"
-                                            @click="selectedAvailabilityLabel = 'PE'; open = false">PE</a>
-                                        <a href="#"
-                                            class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                            role="menuitem" wire:click="filterReports('plant', 'qc')"
-                                            @click="selectedAvailabilityLabel = 'QC'; open = false">QC</a>
-                                        <a href="#"
-                                            class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                            role="menuitem" wire:click="filterReports('plant', 'ga')"
-                                            @click="selectedAvailabilityLabel = 'GA'; open = false">GA</a>
-                                        <a href="#"
-                                            class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                            role="menuitem" wire:click="filterReports('plant', 'mt')"
-                                            @click="selectedAvailabilityLabel = 'MT'; open = false">MT</a>
-                                        <a href="#"
-                                            class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                            role="menuitem" wire:click="filterReports('plant', 'fh')"
-                                            @click="selectedAvailabilityLabel = 'FH'; open = false">FH</a>
+                                        @foreach(config('datamesin.plants') as $plant)
+                                        <a href="#" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700" role="menuitem" wire:click.prevent="filterReports('plant', '{{ $plant }}')" @click="selectedAvailabilityLabel = '{{ $plant }}'; open = false">{{ $plant }}</a>
+                                        @endforeach
                                     </div>
                                 </template>
                                 <template x-if="$wire.filterCategory === 'status'">
                                     <div>
-                                        <a href="#"
-                                            class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                            role="menuitem" wire:click="filterReports('status', 'Pending')"
-                                            @click="selectedAvailabilityLabel = 'Pending'; open = false">Pending</a>
-                                        <a href="#"
-                                            class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                            role="menuitem" wire:click="filterReports('status', 'Belum Selesai')"
-                                            @click="selectedAvailabilityLabel = 'On Progress'; open = false">On
-                                            Progress</a>
-                                        <a href="#"
-                                            class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                            role="menuitem" wire:click="filterReports('status', 'Selesai')"
-                                            @click="selectedAvailabilityLabel = 'Selesai'; open = false">Selesai</a>
+                                        @foreach(['Pending', 'On Progress', 'Belum Selesai', 'Selesai'] as $status)
+                                        <a href="#" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700" role="menuitem" wire:click.prevent="filterReports('status', '{{ $status }}')" @click="selectedAvailabilityLabel = '{{ $status }}'; open = false">{{ $status }}</a>
+                                        @endforeach
                                     </div>
                                 </template>
                                 <template x-if="$wire.filterCategory === 'keterangan'">
                                     <div>
-                                        <a href="#"
-                                            class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                            role="menuitem" wire:click="filterReports('keterangan', 'Mekanik')"
-                                            @click="selectedAvailabilityLabel = 'Mekanik'; open = false">Mekanik</a>
-                                        <a href="#"
-                                            class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                            role="menuitem" wire:click="filterReports('keterangan', 'Elektrik')"
-                                            @click="selectedAvailabilityLabel = 'Elektrik'; open = false">Elektrik</a>
-                                        <a href="#"
-                                            class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                            role="menuitem" wire:click="filterReports('keterangan', 'Utility')"
-                                            @click="selectedAvailabilityLabel = 'Utility'; open = false">Utility</a>
-                                        <a href="#"
-                                            class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                            role="menuitem" wire:click="filterReports('keterangan', 'Calibraty')"
-                                            @click="selectedAvailabilityLabel = 'Calibraty'; open = false">Calibraty</a>
+                                        @foreach(['Mekanik', 'Elektrik', 'Utility', 'Calibraty'] as $keterangan)
+                                        <a href="#" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700" role="menuitem" wire:click.prevent="filterReports('keterangan', '{{ $keterangan }}')" @click="selectedAvailabilityLabel = '{{ $keterangan }}'; open = false">{{ $keterangan }}</a>
+                                        @endforeach
                                     </div>
                                 </template>
                             </div>
                         </div>
                     </div>
-
-                    {{-- </button>
-                    <div class="relative" x-data="{ open: false }" @click.away="open = false">
-                        <button @click="open = !open" type="button" title="Filter status"
-                            class="p-2 text-slate-400 hover:text-blue-500 transition-colors duration-200 rounded-full hover:bg-slate-100 dark:hover:bg-slate-700">
-                            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M21 6H19M21 12H16M21 18H16M7 20V13.5612C7 13.3532 7 13.2492 6.97958 13.1497C6.96147 13.0615 6.93151 12.9761 6.89052 12.8958C6.84431 12.8054 6.77934 12.7242 6.64939 12.5617L3.35061 8.43826C3.22066 8.27583 3.15569 8.19461 3.10948 8.10417C3.06849 8.02393 3.03853 7.93852 3.02042 7.85026C3 7.75078 3 7.64677 3 7.43875V5.6C3 5.03995 3 4.75992 3.10899 4.54601C3.20487 4.35785 3.35785 4.20487 3.54601 4.10899C3.75992 4 4.03995 4 4.6 4H13.4C13.9601 4 14.2401 4 14.454 4.10899C14.6422 4.20487 14.7951 4.35785 14.891 4.54601C15 4.75992 15 5.03995 15 5.6V7.43875C15 7.64677 15 7.75078 14.9796 7.85026C14.9615 7.93852 14.9315 8.02393 14.8905 8.10417C14.8443 8.19461 14.7793 8.27583 14.6494 8.43826L11.3506 12.5617C11.2207 12.7242 11.1557 12.8054 11.1095 12.8958C11.0685 12.9761 11.0385 13.0615 11.0204 13.1497C11 13.2492 11 13.3532 11 13.5612V17L7 20Z"
-                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" />
-                            </svg>
-                        </button>
-                        <div x-show="open" x-transition style="display: none;"
-                            class="absolute right-0 mt-2 w-48 bg-white dark:bg-slate-700 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-20">
-                            <div class="py-1">
-                                <a wire:click.prevent="filterByStatus('')" href="#"
-                                    class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-600">Semua
-                                    Status</a>
-                                <a wire:click.prevent="filterByStatus('Pending')" href="#"
-                                    class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-600">Pending</a>
-                                <a wire:click.prevent="filterByStatus('Belum Selesai')" href="#"
-                                    class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-600">Belum
-                                    Selesai</a>
-                                <a wire:click.prevent="filterByStatus('Selesai')" href="#"
-                                    class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-600">Selesai</a>
-                            </div>
-                        </div>
-                    </div> --}}
 
                     {{-- Search Input --}}
                     <div class="relative">

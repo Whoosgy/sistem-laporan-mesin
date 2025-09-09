@@ -4,7 +4,7 @@
     <div class="container mx-auto px-4 py-8">
 
         {{-- Tombol Download Laporan --}}
-         <div class="mb-6 flex justify-end">
+        <div class="mb-6 flex justify-end">
             <livewire:download-laporan-button />
         </div>
 
@@ -105,162 +105,62 @@
                     </button>
                 </div> --}}
                 <div class="flex items-center space-x-2">
-                {{-- Dropdown Kategori --}}
-                
 
-                <div class="relative inline-block text-left"
-                    x-data="{ open: false, selectedCategoryLabel: 'All Categories' }">
-                    <button @click="open = !open" type="button"
-                        class="inline-flex justify-center w-full rounded-md border border-slate-300 dark:border-slate-600 shadow-sm px-4 py-2 bg-white dark:bg-slate-900/50 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-100 focus:ring-blue-500">
-                        <span x-text="selectedCategoryLabel">All Categories</span>
-                        <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                            fill="currentColor" aria-hidden="true">
-                            <path fill-rule="evenodd"
-                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                clip-rule="evenodd" />
-                        </svg>
-                    </button>
-                    <div x-show="open" @click.away="open = false"
-                        class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-slate-800 ring-1 ring-black ring-opacity-5 z-20">
-                        <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                            <a href="#"
-                                class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                role="menuitem" wire:click="filterReports('', '')"
-                                @click="selectedCategoryLabel = 'All Categories'; $dispatch('reset-availability'); open = false">All
-                                Categories</a>
-                            <a href="#"
-                                class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                role="menuitem" wire:click="filterReports('plant', '')"
-                                @click="selectedCategoryLabel = 'Plant'; open = false">Plant</a>
-                            <a href="#"
-                                class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                role="menuitem" wire:click="filterReports('status', '')"
-                                @click="selectedCategoryLabel = 'Status'; open = false">Status</a>
-                            <a href="#"
-                                class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                role="menuitem" wire:click="filterReports('keterangan', '')"
-                                @click="selectedCategoryLabel = 'Keterangan'; open = false">Keterangan</a>
+                    {{-- Dropdown Kategori --}}
+                    <div class="relative inline-block text-left" x-data="{ open: false, selectedCategoryLabel: 'All Categories' }">
+                        <button @click="open = !open" type="button" class="inline-flex justify-center w-full rounded-md border border-slate-300 dark:border-slate-600 shadow-sm px-4 py-2 bg-white dark:bg-slate-900/50 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-100 focus:ring-blue-500">
+                            <span x-text="selectedCategoryLabel"></span>
+                            <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                        <div x-show="open" @click.away="open = false" class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-slate-800 ring-1 ring-black ring-opacity-5 z-20" style="display: none;">
+                            <div class="py-1">
+                                <a href="#" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700" role="menuitem" wire:click.prevent="resetAllFilters" @click="selectedCategoryLabel = 'All Categories'; $dispatch('reset-availability'); open = false">All Categories</a>
+                                <a href="#" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700" role="menuitem" wire:click.prevent="$set('filterCategory', 'plant')" @click="selectedCategoryLabel = 'Plant'; open = false">Plant</a>
+                                <a href="#" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700" role="menuitem" wire:click.prevent="$set('filterCategory', 'status')" @click="selectedCategoryLabel = 'Status'; open = false">Status</a>
+                                <a href="#" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700" role="menuitem" wire:click.prevent="$set('filterCategory', 'keterangan')" @click="selectedCategoryLabel = 'Keterangan'; open = false">Keterangan</a>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="relative inline-block text-left"
-                    x-data="{ open: false, selectedAvailabilityLabel: 'All Availability' }"
-                    @reset-availability.window="selectedAvailabilityLabel = 'All Availability'">
-                    <button @click="open = !open" type="button"
-                        class="inline-flex justify-center w-full rounded-md border border-slate-300 dark:border-slate-600 shadow-sm px-4 py-2 bg-white dark:bg-slate-900/50 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-100 focus:ring-blue-500">
-                        <span x-text="selectedAvailabilityLabel">All Availability</span>
-                        <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                            fill="currentColor" aria-hidden="true">
-                            <path fill-rule="evenodd"
-                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                clip-rule="evenodd" />
-                        </svg>
-                    </button>
-                    <div x-show="open" @click.away="open = false"
-                        class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-slate-800 ring-1 ring-black ring-opacity-5 z-20">
-                        <div class="py-1 max-h-60 overflow-y-auto" role="menu" aria-orientation="vertical"
-                            aria-labelledby="options-menu">
-                            <a href="#"
-                                class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                role="menuitem" wire:click="filterReports('', '')"
-                                @click="selectedAvailabilityLabel = 'All Availability'; open = false">
-                                All Availability
-                            </a>
-
-                            <template x-if="$wire.filterCategory === 'plant'">
-                                <div>
-                                    <a href="#"
-                                        class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                        role="menuitem" wire:click="filterReports('plant', 'a')"
-                                        @click="selectedAvailabilityLabel = 'A'; open = false">A</a>
-                                    <a href="#"
-                                        class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                        role="menuitem" wire:click="filterReports('plant', 'b')"
-                                        @click="selectedAvailabilityLabel = 'B'; open = false">B</a>
-                                    <a href="#"
-                                        class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                        role="menuitem" wire:click="filterReports('plant', 'c')"
-                                        @click="selectedAvailabilityLabel = 'C'; open = false">C</a>
-                                    <a href="#"
-                                        class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                        role="menuitem" wire:click="filterReports('plant', 'd')"
-                                        @click="selectedAvailabilityLabel = 'D'; open = false">D</a>
-                                    <a href="#"
-                                        class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                        role="menuitem" wire:click="filterReports('plant', 'e')"
-                                        @click="selectedAvailabilityLabel = 'E'; open = false">E</a>
-                                    <a href="#"
-                                        class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                        role="menuitem" wire:click="filterReports('plant', 'ss')"
-                                        @click="selectedAvailabilityLabel = 'SS'; open = false">SS</a>
-                                    <a href="#"
-                                        class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                        role="menuitem" wire:click="filterReports('plant', 'sc')"
-                                        @click="selectedAvailabilityLabel = 'SC'; open = false">SC</a>
-                                    <a href="#"
-                                        class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                        role="menuitem" wire:click="filterReports('plant', 'pe')"
-                                        @click="selectedAvailabilityLabel = 'PE'; open = false">PE</a>
-                                    <a href="#"
-                                        class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                        role="menuitem" wire:click="filterReports('plant', 'qc')"
-                                        @click="selectedAvailabilityLabel = 'QC'; open = false">QC</a>
-                                    <a href="#"
-                                        class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                        role="menuitem" wire:click="filterReports('plant', 'ga')"
-                                        @click="selectedAvailabilityLabel = 'GA'; open = false">GA</a>
-                                    <a href="#"
-                                        class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                        role="menuitem" wire:click="filterReports('plant', 'mt')"
-                                        @click="selectedAvailabilityLabel = 'MT'; open = false">MT</a>
-                                    <a href="#"
-                                        class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                        role="menuitem" wire:click="filterReports('plant', 'fh')"
-                                        @click="selectedAvailabilityLabel = 'FH'; open = false">FH</a>
-                                </div>
-                            </template>
-                            <template x-if="$wire.filterCategory === 'status'">
-                                <div>
-                                    <a href="#"
-                                        class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                        role="menuitem" wire:click="filterReports('status', 'Pending')"
-                                        @click="selectedAvailabilityLabel = 'Pending'; open = false">Pending</a>
-                                    <a href="#"
-                                        class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                        role="menuitem" wire:click="filterReports('status', 'Belum Selesai')"
-                                        @click="selectedAvailabilityLabel = 'On Progress'; open = false">On
-                                        Progress</a>
-                                    <a href="#"
-                                        class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                        role="menuitem" wire:click="filterReports('status', 'Selesai')"
-                                        @click="selectedAvailabilityLabel = 'Selesai'; open = false">Selesai</a>
-                                </div>
-                            </template>
-                            <template x-if="$wire.filterCategory === 'keterangan'">
-                                <div>
-                                    <a href="#"
-                                        class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                        role="menuitem" wire:click="filterReports('keterangan', 'Mekanik')"
-                                        @click="selectedAvailabilityLabel = 'Mekanik'; open = false">Mekanik</a>
-                                    <a href="#"
-                                        class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                        role="menuitem" wire:click="filterReports('keterangan', 'Elektrik')"
-                                        @click="selectedAvailabilityLabel = 'Elektrik'; open = false">Elektrik</a>
-                                    <a href="#"
-                                        class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                        role="menuitem" wire:click="filterReports('keterangan', 'Utility')"
-                                        @click="selectedAvailabilityLabel = 'Utility'; open = false">Utility</a>
-                                    <a href="#"
-                                        class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                        role="menuitem" wire:click="filterReports('keterangan', 'Calibraty')"
-                                        @click="selectedAvailabilityLabel = 'Calibraty'; open = false">Calibraty</a>
-                                </div>
-                            </template>
+                    {{-- Dropdown Opsi --}}
+                    <div class="relative inline-block text-left" x-data="{ open: false, selectedAvailabilityLabel: 'All Availability' }" @reset-availability.window="selectedAvailabilityLabel = 'All Availability'">
+                        <button @click="open = !open" type="button" class="inline-flex justify-center w-full rounded-md border border-slate-300 dark:border-slate-600 shadow-sm px-4 py-2 bg-white dark:bg-slate-900/50 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-100 focus:ring-blue-500">
+                            <span x-text="selectedAvailabilityLabel"></span>
+                            <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                        <div x-show="open" @click.away="open = false" class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-slate-800 ring-1 ring-black ring-opacity-5 z-20" style="display: none;">
+                            <div class="py-1 max-h-60 overflow-y-auto">
+                                <a href="#" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700" role="menuitem" wire:click.prevent="filterReports($wire.filterCategory, '')" @click="selectedAvailabilityLabel = 'All Availability'; open = false">All Availability</a>
+                                <template x-if="$wire.filterCategory === 'plant'">
+                                    <div>
+                                        @foreach(config('datamesin.plants') as $plant)
+                                        <a href="#" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700" role="menuitem" wire:click.prevent="filterReports('plant', '{{ $plant }}')" @click="selectedAvailabilityLabel = '{{ $plant }}'; open = false">{{ $plant }}</a>
+                                        @endforeach
+                                    </div>
+                                </template>
+                                <template x-if="$wire.filterCategory === 'status'">
+                                    <div>
+                                        @foreach(['Pending', 'On Progress', 'Belum Selesai', 'Selesai'] as $status)
+                                        <a href="#" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700" role="menuitem" wire:click.prevent="filterReports('status', '{{ $status }}')" @click="selectedAvailabilityLabel = '{{ $status }}'; open = false">{{ $status }}</a>
+                                        @endforeach
+                                    </div>
+                                </template>
+                                <template x-if="$wire.filterCategory === 'keterangan'">
+                                    <div>
+                                        @foreach(['Mekanik', 'Elektrik', 'Utility', 'Calibraty'] as $keterangan)
+                                        <a href="#" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700" role="menuitem" wire:click.prevent="filterReports('keterangan', '{{ $keterangan }}')" @click="selectedAvailabilityLabel = '{{ $keterangan }}'; open = false">{{ $keterangan }}</a>
+                                        @endforeach
+                                    </div>
+                                </template>
+                            </div>
                         </div>
                     </div>
-                </div>
-                 {{-- Search Input --}}
+
+                    {{-- Search Input --}}
                     <div class="relative">
                         <input wire:model.live.debounce.300ms="search" type="text" placeholder="Cari laporan..."
                             class="w-full sm:w-64 rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 dark:text-slate-200 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm pl-9">
@@ -273,26 +173,26 @@
                         </div>
                     </div>
                 </div>
-           
-        </div>
-        <div class="overflow-x-auto max-h-[28rem] overflow-y-auto">
-            <table class="min-w-full text-sm">
-                <thead class="bg-slate-50 dark:bg-slate-800/50 sticky top-0">
-                    <tr class="text-left">
-                        <th class="px-5 py-3 font-medium text-slate-600 dark:text-slate-300 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700"
-                            wire:click="sortBy('tanggal_lapor')">
-                            <div class="flex items-center">
-                                <span>Tanggal & Pelapor</span>
-                                @if($sortField == 'tanggal_lapor')
+
+            </div>
+            <div class="overflow-x-auto max-h-[28rem] overflow-y-auto">
+                <table class="min-w-full text-sm">
+                    <thead class="bg-slate-50 dark:bg-slate-800/50 sticky top-0">
+                        <tr class="text-left">
+                            <th class="px-5 py-3 font-medium text-slate-600 dark:text-slate-300 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700"
+                                wire:click="sortBy('tanggal_lapor')">
+                                <div class="flex items-center">
+                                    <span>Tanggal & Pelapor</span>
+                                    @if($sortField == 'tanggal_lapor')
                                     <span class="ml-2">@if($sortDirection == 'asc') &uarr; @else &darr; @endif</span>
-                                @endif
-                            </div>
-                        </th>
-                        <th class="px-5 py-3 font-medium text-slate-600 dark:text-slate-300 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700"
-                            wire:click="sortBy('nama_mesin')">
-                            <div class="flex items-center">
-                                <span>Mesin & Plant</span>
-                                @if($sortField == 'nama_mesin')
+                                    @endif
+                                </div>
+                            </th>
+                            <th class="px-5 py-3 font-medium text-slate-600 dark:text-slate-300 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700"
+                                wire:click="sortBy('nama_mesin')">
+                                <div class="flex items-center">
+                                    <span>Mesin & Plant</span>
+                                    @if($sortField == 'nama_mesin')
                                     <span class="ml-2">@if($sortDirection == 'asc') &uarr; @else &darr; @endif</span>
                                     @endif
                                 </div>
@@ -327,10 +227,10 @@
                                 @php $status = optional($laporan->maintenance)->status ?? 'Pending'; @endphp
 
                                 @if($status == 'Pending')
-                                    <span
-                                        class="inline-flex items-center justify-center rounded-full bg-amber-100 px-2.5 py-0.5 text-amber-700 dark:bg-amber-900/50 dark:text-amber-400">
-                                        <p class="whitespace-nowrap text-xs font-semibold">{{ $status }}</p>
-                                    </span>
+                                <span
+                                    class="inline-flex items-center justify-center rounded-full bg-amber-100 px-2.5 py-0.5 text-amber-700 dark:bg-amber-900/50 dark:text-amber-400">
+                                    <p class="whitespace-nowrap text-xs font-semibold">{{ $status }}</p>
+                                </span>
 
                                 @elseif($status == 'On Progress')
                                 <span class="inline-flex items-center justify-center rounded-full bg-sky-100 px-2.5 py-0.5 text-sky-700 dark:bg-sky-900/50 dark:text-sky-400">
@@ -338,22 +238,22 @@
                                 </span>
 
                                 @elseif($status == 'Dalam Proses' || $status == 'Belum Selesai')
-                                    <span
-                                        class="inline-flex items-center justify-center rounded-full bg-red-100 px-2.5 py-0.5 text-red-700 dark:bg-red-900/50 dark:text-red-400">
-                                        <p class="whitespace-nowrap text-xs font-semibold">{{ $status }}</p>
-                                    </span>
+                                <span
+                                    class="inline-flex items-center justify-center rounded-full bg-red-100 px-2.5 py-0.5 text-red-700 dark:bg-red-900/50 dark:text-red-400">
+                                    <p class="whitespace-nowrap text-xs font-semibold">{{ $status }}</p>
+                                </span>
 
                                 @elseif($status == 'Selesai')
-                                    <span
-                                        class="inline-flex items-center justify-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-400">
-                                        <p class="whitespace-nowrap text-xs font-semibold">{{ $status }}</p>
-                                    </span>
+                                <span
+                                    class="inline-flex items-center justify-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-400">
+                                    <p class="whitespace-nowrap text-xs font-semibold">{{ $status }}</p>
+                                </span>
 
                                 @else
-                                    <span
-                                        class="inline-flex items-center justify-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-400">
-                                        <p class="whitespace-nowrap text-xs font-semibold">{{ $status }}</p>
-                                    </span>
+                                <span
+                                    class="inline-flex items-center justify-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-400">
+                                    <p class="whitespace-nowrap text-xs font-semibold">{{ $status }}</p>
+                                </span>
                                 @endif
                             </td>
                             <td class="px-5 py-4 whitespace-nowrap text-center space-x-2">
@@ -365,35 +265,35 @@
                                     class="font-medium text-slate-600 hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-500">Update</button>
                             </td>
                         </tr>
-                    @empty
+                        @empty
                         <tr class="dark:bg-slate-800">
                             <td colspan="6" class="px-6 py-12 text-center text-slate-500">
                                 @if(!empty($search))
-                                    Laporan dengan kata kunci "{{ $search }}" tidak ditemukan.
+                                Laporan dengan kata kunci "{{ $search }}" tidak ditemukan.
                                 @else
-                                    Belum ada laporan yang masuk.
+                                Belum ada laporan yang masuk.
                                 @endif
                             </td>
                         </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
-        {{-- Tautan Paginasi --}}
-        <div class="p-5 border-t border-slate-200 dark:border-slate-700">
-            {{ $semuaLaporan->links() }}
-        </div>
-        @script
-        <script>
-            $wire.on('scroll-to-table', () => {
-                const tableElement = document.getElementById('riwayat-tabel');
-                if (tableElement) {
-                    tableElement.scrollIntoView({
-                        behavior: 'auto',
-                        block: 'start'
-                    });
-                }
-            });
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+            {{-- Tautan Paginasi --}}
+            <div class="p-5 border-t border-slate-200 dark:border-slate-700">
+                {{ $semuaLaporan->links() }}
+            </div>
+            @script
+            <script>
+                $wire.on('scroll-to-table', () => {
+                    const tableElement = document.getElementById('riwayat-tabel');
+                    if (tableElement) {
+                        tableElement.scrollIntoView({
+                            behavior: 'auto',
+                            block: 'start'
+                        });
+                    }
+                });
 
                 // window.onload = function() {
                 //     let isLoggedIn = false;
@@ -412,7 +312,7 @@
                 // };
             </script>
 
-        @endscript
+            @endscript
 
             {{-- Memanggil komponen modal Livewire --}}
             <livewire:maintenance.view-laporan />
