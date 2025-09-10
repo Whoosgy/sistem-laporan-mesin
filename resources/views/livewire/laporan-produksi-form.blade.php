@@ -31,15 +31,24 @@
                                 class="block text-sm font-medium text-slate-600 dark:text-slate-400">Tanggal
                                 Lapor</label>
                             <input wire:model.blur="tanggal_lapor" type="date" id="tanggal_lapor"
-                                min="{{ now()->format('Y-m-d') }}" max="{{ now()->format('Y-m-d') }}" required
+                                @if($plant=='MT' )
+                                min=""
+                                @else
+                                min="{{ now()->format('Y-m-d') }}"
+                                @endif
+                                max="{{ now()->format('Y-m-d') }}" required
                                 class="mt-1 block w-full rounded-md border-slate-300 bg-slate-100 dark:bg-slate-900/50 dark:border-slate-700 dark:text-slate-200 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm date-input-fix">
                             @error('tanggal_lapor') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
                         </div>
                         <div>
                             <label for="jam_lapor"
                                 class="block text-sm font-medium text-slate-600 dark:text-slate-400">Jam Lapor</label>
-                            <input wire:model="jam_lapor" type="time" id="jam_lapor" readonly required
-                                class="mt-1 block w-full rounded-md border-slate-300 bg-slate-100 dark:bg-slate-900/50 dark:border-slate-700 dark:text-slate-200 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
+                            <input wire:model="jam_lapor" type="time" id="jam_lapor"
+                                @if ($isJamLaporReadonly)
+                                readonly
+                                @endif
+                                required
+                                class="mt-1 block w-full rounded-md border-slate-300 bg-slate-100 dark:bg-slate-900/50 dark:border-slate-700 dark:text-slate-200 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm date-input-fix">
                             @error('jam_lapor') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
                         </div>
                         <div @click.away="openShift = false">

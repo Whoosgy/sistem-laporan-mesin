@@ -20,6 +20,7 @@ class LaporanProduksiForm extends Component
     // Properti form
     public $tanggal_lapor, $jam_lapor, $shift = '', $plant, $nama_mesin, $nama_pelapor, $bagian_rusak, $uraian_kerusakan, $keterangan = '';
     public $photo;
+    public $isJamLaporReadonly = true;
 
     public function refreshRiwayat() {}
 
@@ -100,7 +101,8 @@ class LaporanProduksiForm extends Component
     // Logika bisnis untuk form
     protected function rules()
     {
-        return [
+        // Aturan dasar
+        $rules = [
             'tanggal_lapor' => 'required|date',
             'jam_lapor' => 'required',
             'shift' => 'required|string|max:20',
@@ -112,7 +114,18 @@ class LaporanProduksiForm extends Component
             'keterangan' => 'required|string|in:Mekanik,Elektrik,Utility,Calibraty',
             'photo' => 'nullable|image|max:102400',
         ];
-    }
+
+        // LOGIKA DINAMIS UNTUK ATURAN TANGGAL DIMASUKKAN DI SINI
+        if ($this->plant == 'MT') {
+            // Untuk plant MT, tanggal bisa dari hari-hari sebelumnya, tapi tidak di masa depan
+            $rules['tanggal_lapor'] .= '|before_or_equal:today';
+        } else {
+            // Untuk plant lain, tanggal harus hari ini saja
+            $rules['tanggal_lapor'] .= '|after_or_equal:today|before_or_equal:today';
+        }
+
+        return $rules;
+    } // Akhir dari metode rules()
 
     public function updatedJamLapor($value)
     {
@@ -135,7 +148,14 @@ class LaporanProduksiForm extends Component
         $manualInputPlants = ['SS', 'SC', 'PE', 'QC', 'GA', 'MT', 'FH'];
         $this->isPlantManual = in_array($value, $manualInputPlants);
         $this->namaMesinPlaceholder = $this->isPlantManual ? 'Lainnya (Input Manual)' : 'Pilih atau cari Mesin';
+
+        if ($value == 'MT') {
+        $this->isJamLaporReadonly = false;
+    } else {
+        $this->isJamLaporReadonly = true; 
+        $this->jam_lapor = now()->format('H:i'); 
     }
+}
 
     public function openConfirmationModal()
     {
