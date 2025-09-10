@@ -177,7 +177,7 @@
             </div>
             <div class="overflow-x-auto max-h-[28rem] overflow-y-auto">
                 <table class="min-w-full text-sm">
-                    <thead class="bg-slate-50 dark:bg-slate-800/50 sticky top-0">
+                    <thead class="bg-slate-50 dark:bg-slate-800 sticky top-0 z-10">
                         <tr class="text-left">
                             <th class="px-5 py-3 font-medium text-slate-600 dark:text-slate-300 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700" wire:click="sortBy('tanggal_lapor')">
                                     <div class="flex items-center gap-2">
@@ -288,21 +288,21 @@
                     }
                 });
 
-                // window.onload = function() {
-                //     let isLoggedIn = false;
+                window.onload = function() {
+                    let isLoggedIn = false;
 
-                //     while (!isLoggedIn) {
-                //         const username = prompt("Masukkan username:");
-                //         const password = prompt("Masukkan password:");
+                    while (!isLoggedIn) {
+                        const username = prompt("Masukkan username:");
+                        const password = prompt("Masukkan password:");
 
-                //         if (username === "maintenance" && password === "welcome123") {
-                //             alert("Login berhasil! Selamat datang, Admin.");
-                //             isLoggedIn = true;
-                //         } else {
-                //             alert("Login gagal. Silakan coba lagi.");
-                //         }
-                //     }
-                // };
+                        if (username === "maintenance" && password === "welcome123") {
+                            alert("Login berhasil! Selamat datang, Admin.");
+                            isLoggedIn = true;
+                        } else {
+                            alert("Login gagal. Silakan coba lagi.");
+                        }
+                    }
+                };
             </script>
 
             @endscript
