@@ -159,3 +159,9 @@ html.dark .swiper-button-next::before {
 .animate-edit-wiggle {
     animation: edit-wiggle 2s ease-in-out infinite;
 }
+
+/* Icon Kalender */
+.dark input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
+

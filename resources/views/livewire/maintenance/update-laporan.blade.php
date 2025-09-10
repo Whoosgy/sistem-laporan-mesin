@@ -33,26 +33,27 @@
 
                 <div class="p-6 space-y-4 text-sm max-h-[70vh] overflow-y-auto">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        
+
                         {{-- Form Status --}}
                         <div x-data="{ open: false, selected: @entangle('status') }" @click.away="open = false">
                             <label for="status_input" class="block text-sm font-medium text-slate-600 dark:text-slate-400">Status</label>
                             <div class="relative mt-1">
-                                <input 
-                                    type="text" 
-                                    id="status_input" 
-                                    readonly 
+                                <input
+                                    type="text"
+                                    id="status_input"
+                                    readonly
                                     x-model="selected"
-                                    @click="open = !open" 
-                                    placeholder="Pilih Status..." 
-                                    class="w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 dark:text-slate-200 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm cursor-pointer pl-3 pr-10 py-2"
-                                >
+                                    @click="open = !open"
+                                    placeholder="Pilih Status..."
+                                    class="w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 dark:text-slate-200 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm cursor-pointer pl-3 pr-10 py-2">
                                 <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                                    <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a.75.75 0 01.53.22l3.5 3.5a.75.75 0 01-1.06 1.06L10 4.81 7.03 7.78a.75.75 0 01-1.06-1.06l3.5-3.5A.75.75 0 0110 3zm-3.72 9.53a.75.75 0 011.06 0L10 15.19l2.97-2.97a.75.75 0 111.06 1.06l-3.5 3.5a.75.75 0 01-1.06 0l-3.5-3.5a.75.75 0 010-1.06z" clip-rule="evenodd" /></svg>
+                                    <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M10 3a.75.75 0 01.53.22l3.5 3.5a.75.75 0 01-1.06 1.06L10 4.81 7.03 7.78a.75.75 0 01-1.06-1.06l3.5-3.5A.75.75 0 0110 3zm-3.72 9.53a.75.75 0 011.06 0L10 15.19l2.97-2.97a.75.75 0 111.06 1.06l-3.5 3.5a.75.75 0 01-1.06 0l-3.5-3.5a.75.75 0 010-1.06z" clip-rule="evenodd" />
+                                    </svg>
                                 </div>
                                 <div x-show="open" style="display: none;" class="absolute z-10 w-full mt-1 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-md shadow-lg max-h-40 overflow-y-auto">
                                     @foreach(['Pending', 'On Progress', 'Belum Selesai', 'Selesai'] as $statusOption)
-                                        <div @click="selected = '{{ $statusOption }}'; open = false" class="cursor-pointer px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">{{ $statusOption }}</div>
+                                    <div @click="selected = '{{ $statusOption }}'; open = false" class="cursor-pointer px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">{{ $statusOption }}</div>
                                     @endforeach
                                 </div>
                             </div>
