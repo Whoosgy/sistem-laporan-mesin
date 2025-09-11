@@ -190,6 +190,15 @@
                                     </svg>
                                 </div>
                             </th>
+                             <th class="px-5 py-3 font-medium text-slate-600 dark:text-slate-300 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700"
+                                wire:click="sortBy('nama_mesin')">
+                                <div class="flex items-center">
+                                    <span>Mesin & Plant</span>
+                                    @if($sortField == 'nama_mesin')
+                                    <span class="ml-2">@if($sortDirection == 'asc') &uarr; @else &darr; @endif</span>
+                                    @endif
+                                </div>
+                            </th>
                             <th class="px-5 py-3 font-medium text-slate-600 dark:text-slate-300">Uraian Perbaikan</th>
                             <th class="px-5 py-3 font-medium text-slate-600 dark:text-slate-300">Keterangan</th>
                             <th class="px-5 py-3 font-medium text-slate-600 dark:text-slate-300 text-center">Status</th>
