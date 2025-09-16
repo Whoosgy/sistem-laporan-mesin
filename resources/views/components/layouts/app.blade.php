@@ -34,6 +34,31 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
 
+    <style>
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        /* Track atau latar belakang scrollbar */
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9; /* slate-100 */
+        }
+        /* Handle atau "jempol" scrollbar */
+        ::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1; /* slate-300 */
+            border-radius: 10px;
+            border: 2px solid #f1f5f9; /* slate-100 */
+        }
+        /* Scrollbar untuk Dark Mode */
+        .dark ::-webkit-scrollbar-track {
+            background: #1e293b; /* slate-800 */
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background-color: #475569; /* slate-600 */
+            border: 2px solid #1e293b; /* slate-800 */
+        }
+    </style>
+</head>
+
     {{-- ikon kalender & jam --}}
     <style>
         .date-input-fix::-webkit-calendar-picker-indicator,
