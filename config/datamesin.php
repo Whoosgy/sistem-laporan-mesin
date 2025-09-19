@@ -4,7 +4,7 @@ return [
     'plants' => [
         'A', 'B', 'C', 'D', 'E',
       
-        'SS', 'SC', 'PE', 'QC', 'GA', 'MT', 'FH'
+        'SS', 'SC', 'PE', 'QC', 'GA', 'MT', 'FH', 'FO'
         
     ],
 
@@ -25,7 +25,7 @@ return [
             'ST-7H', 'ST-7I', 'ST-6B', 'ST-7D', 'ST-7A', 'ST-7J', 'ST-12B',
             'ST-19C', 'ST-30B', 'ST-54A', 'ST-54C', 'ST-54E', 'EX-90B', 'EX-100B',
             'CB-2B', 'CB-2C', 'CB-4B', 'REW-1', 'REW-2', 'REW-3', 'REW-4',
-            'ST-54B', 'ST-54D', 'AR-72', 'WR-1',
+            'ST-54B', 'ST-54D', 'AR-72', 'WR-1','Heli 1,8 Ton','Nissan 3,5 Ton','Heli 3,5 Ton',
         ],
         'C' => [
             'MD-2C', 'MD-3C', 'TW-MD', 'FD-9', 'FD-10', 'FD-11', 'FD-12', 'FD-20',
@@ -45,7 +45,7 @@ return [
             'CCV-JHON ROYLE', 'CCV-PAMPASS', 'CCV-SUMITOMO', 'REW-5', 'REW-6',
             'REW-7', 'TP-5', 'TP-6', 'TP-8', 'TP-2', 'TP-11', 'TP-1', 'TP-3',
             'TP-4', 'EX--100A', 'CB-26A', 'CB-26B', 'EX--100C', 'EX--120B',
-            'EX--120C', 'EX--160A', 'TP-7',
+            'EX--120C', 'EX--160A', 'TP-7', 'Heli 10 Ton', 'Heli 2,5 Ton',
         ],
         'E' => [
             'COL-4A', 'COL-4B', 'COL-9F', 'COL-5F', 'COL-8F A', 'COL-8F B', 'EX-45-7F',
@@ -54,13 +54,23 @@ return [
             '"PATH CORD "', 'PIG TAILD', 'DC-1', 'DC-2', 'DC-3', 'CB-4F', 'CB-5F',
             'CB-6F', 'CB-7F', 'CB-8F', 'CB-9F', 'EX-90G', 'EX-90H', 'EX-90I', 'EX-90J',
         ],
+
+        'SC' => [
+            'Heli 2,5 Ton',
+            'Nissan 2,5 Ton',
+            'Heli 3,5 Ton',
+        ],
+        'FO' => [
+            'Heli 3,5 Ton',
+        ],
+        'FH' => [
+            'Heli 3,5 Ton',
+        ],
         //Plant baru dengan daftar mesin KOSONG
         'SS' => [],
-        'SC' => [],
         'PE' => [],
         'QC' => [],
         'GA' => [],
         'MT' => [],
-        'FH' => [],
     ]
 ];

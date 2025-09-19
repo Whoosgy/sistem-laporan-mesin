@@ -115,7 +115,6 @@ class LaporanProduksiForm extends Component
             'photo' => 'nullable|image|max:102400',
         ];
 
-        // LOGIKA DINAMIS UNTUK ATURAN TANGGAL DIMASUKKAN DI SINI
         if ($this->plant == 'MT') {
             // Untuk plant MT, tanggal bisa dari hari-hari sebelumnya, tapi tidak di masa depan
             $rules['tanggal_lapor'] .= '|before_or_equal:today';
@@ -145,17 +144,23 @@ class LaporanProduksiForm extends Component
     public function updatedPlant($value)
     {
         $this->reset('nama_mesin');
-        $manualInputPlants = ['SS', 'SC', 'PE', 'QC', 'GA', 'MT', 'FH'];
+        $manualInputPlants = ['SS', 'PE', 'QC', 'GA', 'MT'];
         $this->isPlantManual = in_array($value, $manualInputPlants);
-        $this->namaMesinPlaceholder = $this->isPlantManual ? 'Lainnya (Input Manual)' : 'Pilih atau cari Mesin';
+        
+        // Set placeholder berdasarkan jenis plant
+        if (in_array($value, ['SC', 'FO', 'FH'])) {
+            $this->namaMesinPlaceholder = 'Pilih Mesin atau Lainnya (Input Manual)';
+        } else {
+            $this->namaMesinPlaceholder = $this->isPlantManual ? 'Lainnya (Input Manual)' : 'Pilih atau cari Mesin';
+        }
 
         if ($value == 'MT') {
-        $this->isJamLaporReadonly = false;
-    } else {
-        $this->isJamLaporReadonly = true; 
-        $this->jam_lapor = now()->format('H:i'); 
+            $this->isJamLaporReadonly = false;
+        } else {
+            $this->isJamLaporReadonly = true; 
+            $this->jam_lapor = now()->format('H:i'); 
+        }
     }
-}
 
     public function openConfirmationModal()
     {
@@ -205,7 +210,7 @@ class LaporanProduksiForm extends Component
 
     public function render()
     {
-        $manualInputPlants = ['SS', 'SC', 'PE', 'QC', 'GA', 'MT', 'FH'];
+        $manualInputPlants = ['SS', 'PE', 'QC', 'GA', 'MT'];
         $listMesinUntukDitampilkan = collect();
         $emptyMessage = 'Nama mesin tidak ditemukan.';
 
@@ -215,6 +220,7 @@ class LaporanProduksiForm extends Component
                 $emptyMessage = 'Tidak ada pilihan. Silakan input manual.';
             } elseif (array_key_exists($this->plant, config('datamesin.mesins'))) {
                 $listMesinUntukDitampilkan = collect(config('datamesin.mesins')[$this->plant]);
+                $emptyMessage = 'Pilih Mesin dari dropdown atau ketik manual.';
             }
         } else {
             $emptyMessage = 'Pilih Plant untuk melihat daftar mesin.';

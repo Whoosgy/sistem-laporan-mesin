@@ -103,11 +103,12 @@
                         </div>
                         <div>
                             <label for="nama_mesin"
-                                class="block text-sm font-medium text-slate-600 dark:text-slate-400">Nama Mesin</label>
+                                class="block text-sm font-medium text-slate-600 dark:text-slate-400">Nama Mesin / Forklift</label>
                             @if ($isPlantManual)
-                            <input wire:model="nama_mesin" type="text" id="nama_mesin" required
-                                placeholder="{{ $namaMesinPlaceholder }}"
-                                class="mt-1 block w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 dark:text-slate-200 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
+                                {{-- Input manual untuk plant yang tidak memiliki daftar mesin --}}
+                                <input wire:model="nama_mesin" type="text" id="nama_mesin" required
+                                    placeholder="{{ $namaMesinPlaceholder }}"
+                                    class="mt-1 block w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 dark:text-slate-200 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
                             @else
 
                             <div @click.away="openMesin = false">
