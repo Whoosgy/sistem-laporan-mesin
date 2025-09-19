@@ -144,7 +144,7 @@ class LaporanProduksiForm extends Component
     public function updatedPlant($value)
     {
         $this->reset('nama_mesin');
-        $manualInputPlants = ['SS', 'PE', 'QC', 'GA', 'MT'];
+        $manualInputPlants = ['PE', 'QC', 'GA', 'MT'];
         $this->isPlantManual = in_array($value, $manualInputPlants);
         
         // Set placeholder berdasarkan jenis plant
@@ -210,7 +210,7 @@ class LaporanProduksiForm extends Component
 
     public function render()
     {
-        $manualInputPlants = ['SS', 'PE', 'QC', 'GA', 'MT'];
+        $manualInputPlants = ['PE', 'QC', 'GA', 'MT'];
         $listMesinUntukDitampilkan = collect();
         $emptyMessage = 'Nama mesin tidak ditemukan.';
 
@@ -221,6 +221,9 @@ class LaporanProduksiForm extends Component
             } elseif (array_key_exists($this->plant, config('datamesin.mesins'))) {
                 $listMesinUntukDitampilkan = collect(config('datamesin.mesins')[$this->plant]);
                 $emptyMessage = 'Pilih Mesin dari dropdown atau ketik manual.';
+            } else {
+                // Debug: jika plant tidak ditemukan di konfigurasi
+                $emptyMessage = 'Plant tidak ditemukan di konfigurasi: ' . $this->plant;
             }
         } else {
             $emptyMessage = 'Pilih Plant untuk melihat daftar mesin.';
