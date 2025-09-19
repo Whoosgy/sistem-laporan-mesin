@@ -295,6 +295,8 @@
                                             @if($laporan->keterangan == 'Elektrik') bg-purple-100 text-purple-800 dark:bg-purple-900/50 dark:text-purple-300 @endif
                                             @if($laporan->keterangan == 'Utility') bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300 @endif
                                             @if($laporan->keterangan == 'Calibraty') bg-rose-100 text-rose-800 dark:bg-rose-900/50 dark:text-rose-300 @endif
+                                            @if($laporan->keterangan == 'Battery') bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300 @endif
+                                            @if($laporan->keterangan == 'Bahan bakar solar') bg-pink-100 text-pink-800 dark:bg-pink-900/50 dark:text-pink-300 @endif
                                         ">{{ $laporan->keterangan }}</span>
 
                                                     <span class="text-xs font-medium px-2 py-0.5 rounded-full
