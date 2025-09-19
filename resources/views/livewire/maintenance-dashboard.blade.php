@@ -151,7 +151,7 @@
                                 </template>
                                 <template x-if="$wire.filterCategory === 'keterangan'">
                                     <div>
-                                        @foreach(['Mekanik', 'Elektrik', 'Utility', 'Calibraty'] as $keterangan)
+                                        @foreach(['Mekanik', 'Elektrik', 'Utility', 'Calibraty', 'Battery', 'Bahan Bakar Solar'] as $keterangan)
                                         <a href="#" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700" role="menuitem" wire:click.prevent="filterReports('keterangan', '{{ $keterangan }}')" @click="selectedAvailabilityLabel = '{{ $keterangan }}'; open = false">{{ $keterangan }}</a>
                                         @endforeach
                                     </div>

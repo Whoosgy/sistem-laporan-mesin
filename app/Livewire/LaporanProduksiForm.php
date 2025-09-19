@@ -148,7 +148,7 @@ class LaporanProduksiForm extends Component
         $this->isPlantManual = in_array($value, $manualInputPlants);
         
         // Set placeholder berdasarkan jenis plant
-        if (in_array($value, ['SC', 'FO', 'FH'])) {
+        if (in_array($value, ['SC','SS', 'FO','QR','FH'])) {
             $this->namaMesinPlaceholder = 'Pilih Mesin atau Lainnya (Input Manual)';
         } else {
             $this->namaMesinPlaceholder = $this->isPlantManual ? 'Lainnya (Input Manual)' : 'Pilih atau cari Mesin';

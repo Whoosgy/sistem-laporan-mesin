@@ -180,6 +180,12 @@
                                     <div @click="keterangan = 'Calibraty'; openKeterangan = false"
                                         class="cursor-pointer px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">
                                         C (Calibraty)</div>
+                                      <div @click="keterangan = 'Battery'; openKeterangan = false"
+                                        class="cursor-pointer px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">
+                                        B (Battery)</div>
+                                    <div @click="keterangan = 'Bahan Bakar Solar'; openKeterangan = false"
+                                        class="cursor-pointer px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">
+                                        BBS (Bahan Bakar Solar)</div>
                                 </div>
                             </div>
                             @error('keterangan') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
@@ -381,6 +387,14 @@
                                             class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
                                             role="menuitem" wire:click.prevent="filterReports('plant', 'fh')"
                                             @click="selectedAvailabilityLabel = 'FH'; open = false">FH</a>
+                                        <a href="#"
+                                            class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
+                                            role="menuitem" wire:click.prevent="filterReports('plant', 'fo')"
+                                            @click="selectedAvailabilityLabel = 'FO'; open = false">FO</a>
+                                        <a href="#"
+                                            class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
+                                            role="menuitem" wire:click.prevent="filterReports('plant', 'qr')"
+                                            @click="selectedAvailabilityLabel = 'QR'; open = false">QR</a>
                                     </div>
                                 </template>
                                 <template x-if="$wire.filterCategory === 'status'">
@@ -409,6 +423,14 @@
                                             class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
                                             role="menuitem" wire:click.prevent="filterReports('keterangan', 'Calibraty')"
                                             @click="selectedAvailabilityLabel = 'Calibraty'; open = false">Calibraty</a>
+                                        <a href="#"
+                                            class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
+                                            role="menuitem" wire:click.prevent="filterReports('keterangan', 'Battery')"
+                                            @click="selectedAvailabilityLabel = 'Battery'; open = false">Battery</a>
+                                        <a href="#"
+                                            class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
+                                            role="menuitem" wire:click.prevent="filterReports('keterangan', 'Bahan Bakar Solar')"
+                                            @click="selectedAvailabilityLabel = 'Bahan Bakar Solar'; open = false">Bahan Bakar Solar</a>
                                     </div>
                                 </template>
                             </div>

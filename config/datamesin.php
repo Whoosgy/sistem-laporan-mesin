@@ -4,7 +4,7 @@ return [
     'plants' => [
         'A', 'B', 'C', 'D', 'E',
       
-        'SS', 'SC', 'PE', 'QC', 'GA', 'MT', 'FH', 'FO'
+        'SS', 'SC', 'PE', 'QC', 'GA', 'MT', 'FH', 'FO', 'QR'
         
     ],
 
@@ -19,6 +19,7 @@ return [
             'EX-90F', 'EX-90D', 'EX-90K', 'EX-120D', 'EX-120+70', 'CB-1F', 'CL-1',
             'CL-2', 'CL-3', 'CL-4', 'CL-5', 'CL-6', 'CL-7', 'CL-8', 'MC-1', 'MC-2',
             'MC-3', 'REW-AR-21', 'AR-21', 'REW-AR-72B-1', 'REW-AR-72B-2', 'AR-72B',
+            'Heli 2,5 Ton','Heli 5 Ton','Heli 1,8 Ton',
         ],
         'B' => [
             'RBD-AL', 'HD-10A', 'HD-8C', 'HD-8E', 'MD-5', 'MD-6', 'MD-7', 'OVEN',
@@ -39,7 +40,7 @@ return [
             'REW-TWB-24A', 'REW-TWB-24B', 'TWB-24A', 'TWB-24B', 'TWB-24C', 'TWB-24D',
             'TWB-24E', 'REW-SWB-24A', 'REW-SWB-24B', 'SWB-24A', 'SWB-24B', 'SWB-24C',
             'SWB-24D', 'SWB-24E', 'REW-SWB-32A', 'REW-SWB-32B', 'SWB-32A', 'SWB-32B',
-            'REW-SWB-48A', 'SWB-48', 'TP-10',
+            'REW-SWB-48A', 'SWB-48', 'TP-10','Heli 2,5 Ton','Heli 3,5 Ton',
         ],
         'D' => [
             'CCV-JHON ROYLE', 'CCV-PAMPASS', 'CCV-SUMITOMO', 'REW-5', 'REW-6',
@@ -60,14 +61,22 @@ return [
             'Nissan 2,5 Ton',
             'Heli 3,5 Ton',
         ],
+        'SS' => [
+            'Nissan 3,5 Ton','Heli 3,5 Ton','Heli 7 Ton', 'Heli 10 Ton',
+        ],
+
         'FO' => [
             'Heli 3,5 Ton',
         ],
         'FH' => [
             'Heli 3,5 Ton',
         ],
-        //Plant baru dengan daftar mesin KOSONG
-        'SS' => [],
+        'QR' => [
+            'Heli 3,5 Ton',
+        ],
+
+    
+    //Plant baru dengan daftar mesin KOSONG
         'PE' => [],
         'QC' => [],
         'GA' => [],
