@@ -111,7 +111,7 @@ class LaporanProduksiForm extends Component
             'nama_pelapor' => 'required|string|max:255',
             'bagian_rusak' => 'nullable|string|max:255',
             'uraian_kerusakan' => 'required|string',
-            'keterangan' => 'required|string|in:Mekanik,Elektrik,Utility,Calibraty',
+            'keterangan' => 'required|string|in:Mekanik,Elektrik,Utility,Calibraty,Battery,Bahan bakar solar',
             'photo' => 'nullable|image|max:102400',
         ];
 
