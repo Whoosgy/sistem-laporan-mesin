@@ -1,15 +1,12 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}"
-    x-data="{
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" x-data="{
           darkMode: localStorage.getItem('darkMode') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'),
           init() {
               this.$watch('darkMode', val => {
                   localStorage.setItem('darkMode', val);
               });
           }
-      }"
-    x-init="init()"
-    :class="{ 'dark': darkMode === 'dark' }">
+      }" x-init="init()" :class="{ 'dark': darkMode === 'dark' }">
 
 <head>
     <meta charset="utf-8">
@@ -27,7 +24,9 @@
     <title>{{ $title ?? 'Work of Maintenance' }}</title>
 
     <link rel="preconnect" href="[https://fonts.bunny.net](https://fonts.bunny.net)">
-    <link href="[https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap](https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap)" rel="stylesheet" />
+    <link
+        href="[https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap](https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap)"
+        rel="stylesheet" />
 
     <tallstackui:script />
     @livewireStyles
@@ -38,39 +37,49 @@
         ::-webkit-scrollbar {
             width: 8px;
         }
+
         /* Track atau latar belakang scrollbar */
         ::-webkit-scrollbar-track {
-            background: #f1f5f9; /* slate-100 */
+            background: #f1f5f9;
+            /* slate-100 */
         }
+
         /* Handle atau "jempol" scrollbar */
         ::-webkit-scrollbar-thumb {
-            background-color: #cbd5e1; /* slate-300 */
+            background-color: #cbd5e1;
+            /* slate-300 */
             border-radius: 10px;
-            border: 2px solid #f1f5f9; /* slate-100 */
+            border: 2px solid #f1f5f9;
+            /* slate-100 */
         }
+
         /* Scrollbar untuk Dark Mode */
         .dark ::-webkit-scrollbar-track {
-            background: #1e293b; /* slate-800 */
+            background: #1e293b;
+            /* slate-800 */
         }
+
         .dark ::-webkit-scrollbar-thumb {
-            background-color: #475569; /* slate-600 */
-            border: 2px solid #1e293b; /* slate-800 */
+            background-color: #475569;
+            /* slate-600 */
+            border: 2px solid #1e293b;
+            /* slate-800 */
         }
     </style>
 </head>
 
-    {{-- ikon kalender & jam --}}
-    <style>
-        .date-input-fix::-webkit-calendar-picker-indicator,
-        .time-input-fix::-webkit-calendar-picker-indicator {
-            filter: invert(0);
-        }
+{{-- ikon kalender & jam --}}
+<style>
+    .date-input-fix::-webkit-calendar-picker-indicator,
+    .time-input-fix::-webkit-calendar-picker-indicator {
+        filter: invert(0);
+    }
 
-        .dark .date-input-fix::-webkit-calendar-picker-indicator,
-        .dark .time-input-fix::-webkit-calendar-picker-indicator {
-            filter: invert(1);
-        }
-    </style>
+    .dark .date-input-fix::-webkit-calendar-picker-indicator,
+    .dark .time-input-fix::-webkit-calendar-picker-indicator {
+        filter: invert(1);
+    }
+</style>
 </head>
 
 {{-- CSS untuk Latar Belakang dan Partikel --}}
@@ -110,6 +119,15 @@
         <main>
             {{ $slot }}
         </main>
+        <div class="py-4">
+            <hr class="my-0 border-gray-200 sm:mx-auto dark:border-gray-700" />
+            <span class="block text-sm text-gray-500 sm:text-center dark:text-gray-400 mt-2">
+                Copyright © 2025. Developed by UBSI Team, Ririn & Putri.
+            </span>
+        </div>
+        </footer>
+
+
     </div>
 
     @livewireScripts

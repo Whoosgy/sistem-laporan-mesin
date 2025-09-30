@@ -53,7 +53,6 @@ class LaporanMaintenanceExport implements FromCollection, WithHeadings, WithMapp
 
     public function map($laporan): array
     {
-        // $kuu = $this->$laporan->tanggal_lapor;
         // 1) Compose DateTime Lapor
         $laporDt = $this->joinDateTime(
             $laporan->tanggal_lapor ?? null,
@@ -63,9 +62,9 @@ class LaporanMaintenanceExport implements FromCollection, WithHeadings, WithMapp
         // 2) Compose DateTime Mulai Perbaikan & Selesai
         $mnt = $laporan->maintenance;
 
-        $tanggalSelesai = optional($mnt)->tanggal_selesai;          // e.g. '2025-09-11'
-        $waktuMulai     = optional($mnt)->waktu_perbaikan;          // e.g. '08:15:00'
-        $waktuSelesai   = optional($mnt)->waktu_selesai;            // e.g. '11:00:00'
+        $tanggalSelesai = optional($mnt)->tanggal_selesai;       // e.g. '2025-09-11'
+        $waktuMulai     = optional($mnt)->waktu_perbaikan;       // e.g. '08:15:00'
+        $waktuSelesai   = optional($mnt)->waktu_selesai;         // e.g. '11:00:00'
 
         // Asumsi tanggal mulai:
         // - kalau ada tanggal_selesai → pakai tanggal_selesai
@@ -79,11 +78,14 @@ class LaporanMaintenanceExport implements FromCollection, WithHeadings, WithMapp
         $dtm = $this->diffHHMM($laporDt, $selesaiDt);   // Selesai - Lapor
         $dtp = $this->diffHHMM($mulaiDt, $selesaiDt);   // Selesai - Mulai
 
-        // dd($kuu);
+        // Ambil waktu HH:MM untuk Jam Lapor dan Waktu Selesai Perbaikan
+        $jamLaporHHMM = $laporan->jam_lapor ? substr($laporan->jam_lapor, 0, 5) : null;
+        $waktuSelesaiHHMM = $waktuSelesai ? substr($waktuSelesai, 0, 5) : null;
+        $waktuMulaiHHMM = $waktuMulai ? substr($waktuMulai, 0, 5) : null;
 
         return [
             $laporan->tanggal_lapor,
-            $laporan->jam_lapor,
+            $jamLaporHHMM, // Menggunakan Jam Lapor (HH:MM) yang sudah diformat
             $laporan->shift,
             $laporan->nama_pelapor,
             $laporan->plant,
@@ -92,8 +94,8 @@ class LaporanMaintenanceExport implements FromCollection, WithHeadings, WithMapp
             optional($mnt)->jenis_perbaikan,
             optional($mnt)->sparepart,
             optional($mnt)->tanggal_selesai,
-            optional($mnt)->waktu_perbaikan,
-            optional($mnt)->waktu_selesai,
+            $waktuMulaiHHMM, // Menggunakan Waktu Mulai (HH:MM) yang sudah diformat
+            $waktuSelesaiHHMM, // Menggunakan Waktu Selesai (HH:MM) yang sudah diformat
             1,
             $dtm,       // hh:mm
             $dtp,       // hh:mm
@@ -104,6 +106,7 @@ class LaporanMaintenanceExport implements FromCollection, WithHeadings, WithMapp
         ];
     }
 
+    // ... (metode joinDateTime dan diffHHMM tetap sama)
     protected function joinDateTime(?string $date, ?string $time, string $tz = 'Asia/Jakarta'): ?Carbon
     {
         if (empty($date) || empty($time)) {

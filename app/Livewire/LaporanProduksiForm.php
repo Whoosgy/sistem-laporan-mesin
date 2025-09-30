@@ -111,7 +111,7 @@ class LaporanProduksiForm extends Component
             'nama_pelapor' => 'required|string|max:255',
             'bagian_rusak' => 'nullable|string|max:255',
             'uraian_kerusakan' => 'required|string',
-            'keterangan' => 'required|string|in:Mekanik,Elektrik,Utility,Calibraty',
+            'keterangan' => 'required|string|in:Mekanik,Elektrik,Utility,Calibraty,Battery','Bahan Bakar Solar',
             'photo' => 'nullable|image|max:102400',
         ];
 
@@ -144,7 +144,7 @@ class LaporanProduksiForm extends Component
     public function updatedPlant($value)
     {
         $this->reset('nama_mesin');
-        $manualInputPlants = ['SS', 'PE', 'QC', 'GA', 'MT'];
+        $manualInputPlants = ['PE', 'QC', 'GA', 'MT'];
         $this->isPlantManual = in_array($value, $manualInputPlants);
         
         // Set placeholder berdasarkan jenis plant
@@ -210,7 +210,7 @@ class LaporanProduksiForm extends Component
 
     public function render()
     {
-        $manualInputPlants = ['SS', 'PE', 'QC', 'GA', 'MT'];
+        $manualInputPlants = ['PE', 'QC', 'GA', 'MT'];
         $listMesinUntukDitampilkan = collect();
         $emptyMessage = 'Nama mesin tidak ditemukan.';
 
