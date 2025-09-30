@@ -90,7 +90,7 @@
                                     </svg>
                                 </div>
                                 <div x-show="openPlant" style="display: none;"
-                                    class="absolute z-10 w-full mt-1 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-md shadow-lg max-h-60 overflow-auto">
+                                    class="absolute z-10 w-full mt-1 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-md shadow-lg max-h-40 overflow-y-auto">
                                     @foreach($listPlant as $p)
                                     <div @click="plant = '{{ addslashes($p) }}'; openPlant = false"
                                         class="cursor-pointer px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">
@@ -124,7 +124,7 @@
                                         </svg>
                                     </div>
                                     <div x-show="openMesin" style="display: none;"
-                                        class="absolute z-10 w-full mt-1 bg-white dark:bg-slate-800 border border-slate-300 dark:text-slate-200 dark:border-slate-600 rounded-md shadow-lg max-h-60 overflow-auto">
+                                        class="absolute z-10 w-full mt-1 bg-white dark:bg-slate-800 border border-slate-300 dark:text-slate-200 dark:border-slate-600 rounded-md shadow-lg max-h-40 overflow-y-auto">
                                         @forelse($listMesin as $mesin)
                                         <div @click="nama_mesin = '{{ addslashes($mesin) }}'; openMesin = false"
                                             class="cursor-pointer px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">
@@ -167,7 +167,7 @@
                                     </svg>
                                 </div>
                                 <div x-show="openKeterangan" style="display: none;"
-                                    class="absolute z-10 w-full mt-1 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-md shadow-lg max-h-60 overflow-auto">
+                                    class="absolute z-10 w-full mt-1 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-md shadow-lg max-h-40 overflow-y-auto">
                                     <div @click="keterangan = 'Mekanik'; openKeterangan = false"
                                         class="cursor-pointer px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">
                                         M (Mekanik)</div>
@@ -183,9 +183,9 @@
                                       <div @click="keterangan = 'Battery'; openKeterangan = false"
                                         class="cursor-pointer px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">
                                         B (Battery)</div>
-                                    <div @click="keterangan = 'Bahan Bakar Solar'; openKeterangan = false"
+                                    <div @click="keterangan = 'Bahan bakar solar'; openKeterangan = false"
                                         class="cursor-pointer px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">
-                                        BBS (Bahan Bakar Solar)</div>
+                                        BBS (Bahan bakar solar)</div>
                                 </div>
                             </div>
                             @error('keterangan') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
@@ -406,7 +406,7 @@
                                     </div>
                                 </template>
                                 <template x-if="$wire.filterCategory === 'keterangan'">
-                                    <div>
+                                    <div class="max-h-24 overflow-y-auto">
                                         <a href="#"
                                             class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
                                             role="menuitem" wire:click.prevent="filterReports('keterangan', 'Mekanik')"
@@ -429,8 +429,8 @@
                                             @click="selectedAvailabilityLabel = 'Battery'; open = false">Battery</a>
                                         <a href="#"
                                             class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                            role="menuitem" wire:click.prevent="filterReports('keterangan', 'Bahan Bakar Solar')"
-                                            @click="selectedAvailabilityLabel = 'Bahan Bakar Solar'; open = false">Bahan Bakar Solar</a>
+                                            role="menuitem" wire:click.prevent="filterReports('keterangan', 'Bahan bakar solar')"
+                                            @click="selectedAvailabilityLabel = 'Bahan bakar solar'; open = false">Bahan bakar solar</a>
                                     </div>
                                 </template>
                             </div>

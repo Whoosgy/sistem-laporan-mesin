@@ -61,8 +61,12 @@ return [
             'Nissan 2,5 Ton',
             'Heli 3,5 Ton',
         ],
+        
         'SS' => [
-            'Nissan 3,5 Ton','Heli 3,5 Ton','Heli 7 Ton', 'Heli 10 Ton',
+            'Nissan 3,5 Ton',
+            'Heli 3,5 Ton',
+            'Heli 7 Ton', 
+            'Heli 10 Ton',
         ],
 
         'FO' => [
@@ -74,9 +78,7 @@ return [
         'QR' => [
             'Heli 3,5 Ton',
         ],
-
-    
-    //Plant baru dengan daftar mesin KOSONG
+        //Plant baru dengan daftar mesin KOSONG
         'PE' => [],
         'QC' => [],
         'GA' => [],

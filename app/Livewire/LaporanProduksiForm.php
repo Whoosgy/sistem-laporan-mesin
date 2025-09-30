@@ -111,7 +111,7 @@ class LaporanProduksiForm extends Component
             'nama_pelapor' => 'required|string|max:255',
             'bagian_rusak' => 'nullable|string|max:255',
             'uraian_kerusakan' => 'required|string',
-            'keterangan' => 'required|string|in:Mekanik,Elektrik,Utility,Calibraty,Battery','Bahan Bakar Solar',
+            'keterangan' => 'required|string|in:Mekanik,Elektrik,Utility,Calibraty',
             'photo' => 'nullable|image|max:102400',
         ];
 
@@ -221,6 +221,9 @@ class LaporanProduksiForm extends Component
             } elseif (array_key_exists($this->plant, config('datamesin.mesins'))) {
                 $listMesinUntukDitampilkan = collect(config('datamesin.mesins')[$this->plant]);
                 $emptyMessage = 'Pilih Mesin dari dropdown atau ketik manual.';
+            } else {
+                // Debug: jika plant tidak ditemukan di konfigurasi
+                $emptyMessage = 'Plant tidak ditemukan di konfigurasi: ' . $this->plant;
             }
         } else {
             $emptyMessage = 'Pilih Plant untuk melihat daftar mesin.';
