@@ -119,12 +119,10 @@
         <main>
             {{ $slot }}
         </main>
-        <div class="py-4">
-            <span class="block text-sm text-gray-500 sm:text-center dark:text-gray-400 mt-2">
-                © 2025. Developed by UBSI Team, Ririn & Putri.
-            </span>
-        </div>
-        </footer>
+   <div class="pb-4"> <span class="block text-sm text-gray-500 sm:text-center dark:text-gray-400">
+         Copyright © 2025. Developed by UBSI Team, Ririn & Putri.
+     </span>
+</div>
 
 
     </div>
