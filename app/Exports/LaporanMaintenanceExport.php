@@ -75,8 +75,8 @@ class LaporanMaintenanceExport implements FromCollection, WithHeadings, WithMapp
         $selesaiDt = $this->joinDateTime($tanggalSelesai, $waktuSelesai);
 
         // 3) Hitung durasi (dalam hh:mm), aman kalau null → '-' 
-        $dtm = $this->diffHHMM($laporDt, $selesaiDt);   // Selesai - Lapor
-        $dtp = $this->diffHHMM($mulaiDt, $selesaiDt);   // Selesai - Mulai
+        $dtm = $this->diffHH($laporDt, $selesaiDt);   // Selesai - Lapor
+        $dtp = $this->diffHH($mulaiDt, $selesaiDt);   // Selesai - Mulai
 
         // Ambil waktu HH:MM untuk Jam Lapor dan Waktu Selesai Perbaikan
         $jamLaporHHMM = $laporan->jam_lapor ? substr($laporan->jam_lapor, 0, 5) : null;
@@ -122,21 +122,36 @@ class LaporanMaintenanceExport implements FromCollection, WithHeadings, WithMapp
             return null;
         }
     }
-
-    protected function diffHHMM(?Carbon $start, ?Carbon $end): string
+    protected function diffHH(?Carbon $start, ?Carbon $end): string
     {
         if (!$start || !$end) {
             return '-';
         }
 
-        $seconds = $end->unix() - $start->unix(); // bisa negatif
-        $totalMinutes = (int) round($seconds / 60);
+        $seconds = $end->unix() - $start->unix();
+        
+        // Hitung total jam dengan pembagian floating point
+        // total jam = total detik / 3600 (detik dalam 1 jam)
+        $totalHours = $seconds / 3600;
 
-        $sign = $totalMinutes < 0 ? '-' : '';
-        $m = abs($totalMinutes);
-        $hours = intdiv($m, 60);
-        $minutes = $m % 60;
-
-        return sprintf('%s%02d:%02d', $sign, $hours, $minutes);
+        // Format output menjadi string desimal dengan dua angka di belakang koma (misalnya, 2.50)
+        // Tanda positif/negatif sudah otomatis terinclude karena $totalHours bisa negatif
+        return number_format($totalHours, 2, '.', '');
     }
+    // protected function diffHHMM(?Carbon $start, ?Carbon $end): string
+    // {
+    //     if (!$start || !$end) {
+    //         return '-';
+    //     }
+
+    //     $seconds = $end->unix() - $start->unix(); // bisa negatif
+    //     $totalMinutes = (int) round($seconds / 60);
+
+    //     $sign = $totalMinutes < 0 ? '-' : '';
+    //     $m = abs($totalMinutes);
+    //     $hours = intdiv($m, 60);
+    //     $minutes = $m % 60;
+
+    //     return sprintf('%s%02d:%02d', $sign, $hours, $minutes);
+    // }
 }

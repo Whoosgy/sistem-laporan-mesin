@@ -120,9 +120,8 @@
             {{ $slot }}
         </main>
         <div class="py-4">
-            <hr class="my-0 border-gray-200 sm:mx-auto dark:border-gray-700" />
             <span class="block text-sm text-gray-500 sm:text-center dark:text-gray-400 mt-2">
-                Copyright © 2025. Developed by UBSI Team, Ririn & Putri.
+                © 2025. Developed by UBSI Team, Ririn & Putri.
             </span>
         </div>
         </footer>
