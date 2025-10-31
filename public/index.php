@@ -7,11 +7,11 @@ define('LARAVEL_START', microtime(true));
 
 // Maintenance mode
 if (file_exists($maintenance = __DIR__ . '/../storage/framework/maintenance.php')) {
-    require $maintenance;
+    require_once $maintenance;
 }
 
 // Composer autoload
-require __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 // Bootstrap Laravel
 /** @var Application $app */
