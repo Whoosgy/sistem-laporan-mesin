@@ -33,7 +33,7 @@
                 <!-- Bagian Header -->
                 <div class="text-center mb-6 lg:mb-8" data-aos="fade-down">
                     <h1 class="text-4xl lg:text-4xl font-bold tracking-tight mb-4 bg-gradient-to-r from-blue-600 to-teal-500 dark:from-blue-500 dark:to-teal-300 bg-clip-text text-transparent">
-                        Work Of Maintenance
+                        Work Order Maintenance
                     </h1>
 
                 </div>

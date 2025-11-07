@@ -21,7 +21,7 @@
         }
     </script>
 
-    <title>{{ $title ?? 'Work of Maintenance' }}</title>
+    <title>{{ $title ?? 'Work Order Maintenance' }}</title>
 
     <link rel="preconnect" href="[https://fonts.bunny.net](https://fonts.bunny.net)">
     <link
