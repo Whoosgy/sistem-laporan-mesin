@@ -86,11 +86,15 @@
                             x-data="{ open: false }"
                             @click.away="open = false"
                             class="relative">
-                            <label for="nama_teknisi_search" class="block text-sm font-medium text-slate-600 dark:text-slate-400">Nama Teknisi <span class="text-xs text-slate-400">(Maks. 5)</span></label>
+
+                            <label for="nama_teknisi_search" class="block text-sm font-medium text-slate-600 dark:text-slate-400">Nama Teknisi 
+                                <span class="text-xs text-slate-400">(Maks. 5)</span></label>
+
                             <div class="mt-1 flex flex-wrap gap-1 mb-2">
                                 @foreach($selectedTechnicians as $index => $technician)
                                 <span class="inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs font-medium text-white bg-blue-600">
-                                    {{ $technician }}
+                                    
+                                    {{ $technician['name'] }}
                                     <button type="button" wire:click="removeTechnician({{ $index }})" class="group relative -mr-1 h-3.5 w-3.5 rounded-sm hover:bg-blue-500/20">
                                         <span class="sr-only">Remove</span>
                                         <svg viewBox="0 0 14 14" class="h-3.5 w-3.5 stroke-blue-100/50 group-hover:stroke-blue-100">
@@ -101,16 +105,30 @@
                                 </span>
                                 @endforeach
                             </div>
+
                             @if(count($selectedTechnicians)
                             < 5)
-                                <input id="nama_teknisi_search" type="text" placeholder="Cari atau pilih teknisi..." wire:model.live.debounce.300ms="searchQuery" @focus="open = true" autocomplete="off" class="block w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 dark:text-slate-200 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm" />
+                                <input id="nama_teknisi_search" 
+                                type="text" placeholder="Cari atau pilih teknisi..." 
+                                wire:model.live.debounce.300ms="searchQuery" 
+                                @focus="open = true" autocomplete="off" 
+                                class="block w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 dark:text-slate-200 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm" />
                             @else
+
                             <div class="mt-1 p-2 w-full text-center text-xs text-slate-400 bg-slate-100 dark:bg-slate-700 rounded-md">Batas maksimal 5 teknisi.</div>
                             @endif
-                            <div x-show="open" x-transition style="display: none;" class="absolute z-10 mt-1 w-full max-h-48 overflow-y-auto rounded-md bg-white dark:bg-slate-700 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+
+                            <div x-show="open" 
+                            x-transition 
+                            style="display: none;" 
+                            class="absolute z-10 mt-1 w-full max-h-48 overflow-y-auto rounded-md bg-white dark:bg-slate-700 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                                 <ul class="py-1">
                                     @forelse($this->filteredTechnicians as $teknisi)
-                                    <li wire:click="selectTechnician('{{ $teknisi }}')" @click="open = false" class="cursor-pointer select-none relative py-2 pl-3 pr-9 text-slate-900 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-600">{{ $teknisi }}</li>
+                                    <li wire:click="selectTechnician({{ $teknisi['id'] }}, '{{ $teknisi['name'] }}')"
+                                     @click="open = false" 
+                                     class="cursor-pointer select-none relative py-2 pl-3 pr-9 text-slate-900 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-600">
+                                     {{ $teknisi['name'] }}
+                                    </li>
                                     @empty
                                     @if(!empty($searchQuery))
                                     <li class="relative py-2 px-3 text-slate-500 dark:text-slate-400">Tidak ada hasil ditemukan.</li>

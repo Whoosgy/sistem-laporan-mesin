@@ -22,8 +22,8 @@ services:
         networks:
             - sail
         depends_on:
-            # DIHAPUS: Dependensi ke pgsql dihapus karena tidak digunakan
             - mysql
+
     mysql:
         image: 'mysql/mysql-server:8.0'
         ports:
@@ -49,12 +49,24 @@ services:
             retries: 3
             timeout: 5s
 
-# DIPERBAIKI: Konfigurasi Jaringan diaktifkan kembali
+    phpmyadmin:
+        image: 'phpmyadmin:latest'
+        ports:
+            - '8080:80'
+        networks:
+            - sail
+        environment:
+            PMA_ARBITRARY: 1
+            PMA_HOST: mysql
+            PMA_USER: '${DB_USERNAME}'
+            PMA_PASSWORD: '${DB_PASSWORD}'
+        depends_on:
+            - mysql
+
 networks:
     sail:
         driver: bridge
 
-# DIPERBAIKI: Konfigurasi Volume diaktifkan kembali
 volumes:
     sail-mysql:
         driver: local

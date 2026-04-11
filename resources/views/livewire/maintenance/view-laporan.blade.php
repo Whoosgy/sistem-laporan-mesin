@@ -125,11 +125,39 @@
                     <dt class="font-medium text-slate-500">Waktu Selesai Perbaikan</dt>
                     <dd class="text-slate-900 dark:text-white">{{ $laporanProduksi->maintenance->waktu_selesai }}</dd>
                 </div>
-                {{-- DIUBAH: Posisi Teknisi dan Keterangan --}}
-                <div class="sm:col-span-1">
-                    <dt class="font-medium text-slate-500">Teknisi</dt>
-                    <dd class="text-slate-900 dark:text-white">{{ $laporanProduksi->maintenance->nama_teknisi }}</dd>
-                </div>
+                {{-- Posisi Teknisi dan Keterangan --}}
+                <div class="sm:col-span-1 border-b border-slate-100 dark:border-slate-800 pb-3">
+    {{-- Judul Label: Menjadi Slate-400 saat Dark Mode agar lebih soft --}}
+    <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">Teknisi</dt>
+    
+    <dd class="mt-2 flex flex-wrap gap-2">
+        @if($laporanProduksi && $laporanProduksi->maintenance)
+            @forelse($laporanProduksi->maintenance->technicians as $tech)
+                <span class="inline-flex items-center rounded-md px-2 py-1 text-xs font-semibold 
+                    {{-- Mode Terang: Biru Lembut --}}
+                    bg-blue-50 text-blue-700 ring-1 ring-inset ring-blue-700/10 
+                    {{-- Mode Gelap: Biru Transparan (Glow Effect) --}}
+                    dark:bg-blue-400/10 dark:text-blue-400 dark:ring-blue-400/20 shadow-sm">
+                    
+                    {{-- Ikon kecil di depan nama agar lebih pro --}}
+                    <svg class="mr-1 h-3 w-3 fill-blue-500 dark:fill-blue-400" viewBox="0 0 6 6" aria-hidden="true">
+                        <circle cx="3" cy="3" r="3" />
+                    </svg>
+                    
+                    {{ $tech->name }}
+                </span>
+            @empty
+                <span class="text-sm italic text-slate-400 dark:text-slate-500">
+                    Tidak ada teknisi terpilih
+                </span>
+            @endforelse
+        @else
+            <span class="text-sm italic text-slate-400 dark:text-slate-500">
+                Data belum diinput
+            </span>
+        @endif
+    </dd>
+</div>
                 <div class="sm:col-span-1">
                     <dt class="font-medium text-slate-500">Keterangan Maintenance</dt>
                     <dd class="text-slate-900 dark:text-white">{{ $laporanProduksi->maintenance->keterangan_maintenance }}</dd>

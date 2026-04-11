@@ -103,7 +103,7 @@ class MaintenanceDashboard extends Component
 
 
         // --- QUERY UNTUK MENAMPILKAN DATA DI TABEL ---
-        $laporanProduksi = Produksi::with('maintenance')
+        $laporanProduksi = Produksi::with('maintenance.technicians')
             ->when($this->keteranganFilter, function ($query) {
                 $query->where('keterangan', $this->keteranganFilter);
             })
@@ -115,6 +115,7 @@ class MaintenanceDashboard extends Component
                         ->orWhere('uraian_kerusakan', 'like', '%' . $this->search . '%');
                 });
             })
+            
             ->when($this->filterCategory && $this->filterValue, function ($q) {
                 if ($this->filterCategory === 'status') {
                     if ($this->filterValue === 'Pending') {

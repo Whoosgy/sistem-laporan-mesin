@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo; 
+use Illuminate\Database\Eloquent\Relations\BelongsToMany; 
 class Maintenance extends Model
 {
     use HasFactory;
@@ -16,7 +17,7 @@ class Maintenance extends Model
         'waktu_perbaikan',
         'waktu_selesai',
         'tanggal_selesai',
-        'nama_teknisi',
+        'technician_id',
         'jenis_perbaikan',
         'sparepart',
         'keterangan',
@@ -28,4 +29,9 @@ class Maintenance extends Model
     {
         return $this->belongsTo(Produksi::class);
     }
+    public function technicians(): BelongsToMany
+    {
+        return $this->belongsToMany(Technician::class, 'maintenance_technician');
+    }
 }
+
