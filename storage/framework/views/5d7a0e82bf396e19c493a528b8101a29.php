@@ -1,6 +1,6 @@
 <div>
     <div class="space-y-8">
-        {{-- Card 1: Form Input --}}
+        
         <div class="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700">
             <div class="p-5 border-b border-slate-200 dark:border-slate-700">
                 <h2 class="text-base font-semibold text-slate-900 dark:text-white">
@@ -9,10 +9,10 @@
             </div>
 
             <div class="p-5 space-y-4" x-data="{
-                    shift: @entangle('shift').live,
-                    plant: @entangle('plant').live,
-                    nama_mesin: @entangle('nama_mesin').live,
-                    keterangan: @entangle('keterangan').live,
+                    shift: <?php if ((object) ('shift') instanceof \Livewire\WireDirective) : ?>window.Livewire.find('<?php echo e($__livewire->getId()); ?>').entangle('<?php echo e('shift'->value()); ?>')<?php echo e('shift'->hasModifier('live') ? '.live' : ''); ?><?php else : ?>window.Livewire.find('<?php echo e($__livewire->getId()); ?>').entangle('<?php echo e('shift'); ?>')<?php endif; ?>.live,
+                    plant: <?php if ((object) ('plant') instanceof \Livewire\WireDirective) : ?>window.Livewire.find('<?php echo e($__livewire->getId()); ?>').entangle('<?php echo e('plant'->value()); ?>')<?php echo e('plant'->hasModifier('live') ? '.live' : ''); ?><?php else : ?>window.Livewire.find('<?php echo e($__livewire->getId()); ?>').entangle('<?php echo e('plant'); ?>')<?php endif; ?>.live,
+                    nama_mesin: <?php if ((object) ('nama_mesin') instanceof \Livewire\WireDirective) : ?>window.Livewire.find('<?php echo e($__livewire->getId()); ?>').entangle('<?php echo e('nama_mesin'->value()); ?>')<?php echo e('nama_mesin'->hasModifier('live') ? '.live' : ''); ?><?php else : ?>window.Livewire.find('<?php echo e($__livewire->getId()); ?>').entangle('<?php echo e('nama_mesin'); ?>')<?php endif; ?>.live,
+                    keterangan: <?php if ((object) ('keterangan') instanceof \Livewire\WireDirective) : ?>window.Livewire.find('<?php echo e($__livewire->getId()); ?>').entangle('<?php echo e('keterangan'->value()); ?>')<?php echo e('keterangan'->hasModifier('live') ? '.live' : ''); ?><?php else : ?>window.Livewire.find('<?php echo e($__livewire->getId()); ?>').entangle('<?php echo e('keterangan'); ?>')<?php endif; ?>.live,
                     openShift: false,
                     openPlant: false,
                     openMesin: false,
@@ -31,25 +31,39 @@
                                 class="block text-sm font-medium text-slate-600 dark:text-slate-400">Tanggal
                                 Lapor</label>
                             <input wire:model.blur="tanggal_lapor" type="date" id="tanggal_lapor"
-                                @if($plant=='MT' )
+                                <?php if($plant=='MT' ): ?>
                                 min=""
-                                @else
-                                min="{{ now()->format('Y-m-d') }}"
-                                @endif
-                                max="{{ now()->format('Y-m-d') }}" required
+                                <?php else: ?>
+                                min="<?php echo e(now()->format('Y-m-d')); ?>"
+                                <?php endif; ?>
+                                max="<?php echo e(now()->format('Y-m-d')); ?>" required
                                 class="mt-1 block w-full rounded-md border-slate-300 bg-slate-100 dark:bg-slate-900/50 dark:border-slate-700 dark:text-slate-200 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm date-input-fix">
-                            @error('tanggal_lapor') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__errorArgs = ['tanggal_lapor'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> <span class="text-red-500 text-xs mt-1"><?php echo e($message); ?></span> <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                         </div>
                         <div>
                             <label for="jam_lapor"
                                 class="block text-sm font-medium text-slate-600 dark:text-slate-400">Jam Lapor</label>
                             <input wire:model="jam_lapor" type="time" id="jam_lapor"
-                                @if ($isJamLaporReadonly)
+                                <?php if($isJamLaporReadonly): ?>
                                 readonly
-                                @endif
+                                <?php endif; ?>
                                 required
                                 class="mt-1 block w-full rounded-md border-slate-300 bg-slate-100 dark:bg-slate-900/50 dark:border-slate-700 dark:text-slate-200 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm date-input-fix">
-                            @error('jam_lapor') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__errorArgs = ['jam_lapor'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> <span class="text-red-500 text-xs mt-1"><?php echo e($message); ?></span> <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                         </div>
                         <div @click.away="openShift = false">
                             <label for="shift"
@@ -61,18 +75,68 @@
                                 <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                                     </svg>
                                 </div>
-                                @error('shift') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__errorArgs = ['shift'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> <span class="text-red-500 text-xs mt-1"><?php echo e($message); ?></span> <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
                             </div>
                         </div>
                         <div>
 
-                            <x-input-label for="nama_pelapor" value="Nama Pelapor" />
+                            <?php if (isset($component)) { $__componentOriginale3da9d84bb64e4bc2eeebaafabfb2581 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginale3da9d84bb64e4bc2eeebaafabfb2581 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.input-label','data' => ['for' => 'nama_pelapor','value' => 'Nama Pelapor']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('input-label'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['for' => 'nama_pelapor','value' => 'Nama Pelapor']); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginale3da9d84bb64e4bc2eeebaafabfb2581)): ?>
+<?php $attributes = $__attributesOriginale3da9d84bb64e4bc2eeebaafabfb2581; ?>
+<?php unset($__attributesOriginale3da9d84bb64e4bc2eeebaafabfb2581); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginale3da9d84bb64e4bc2eeebaafabfb2581)): ?>
+<?php $component = $__componentOriginale3da9d84bb64e4bc2eeebaafabfb2581; ?>
+<?php unset($__componentOriginale3da9d84bb64e4bc2eeebaafabfb2581); ?>
+<?php endif; ?>
 
-                            <x-text-input id="nama_pelapor" class="block w-full mt-1" type="text"
-                                class="mt-1 block w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm "
-                                wire:model.blur="nama_pelapor" placeholder="Nama lengkap" required />
-                            @error('nama_pelapor') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                            <?php if (isset($component)) { $__componentOriginal18c21970322f9e5c938bc954620c12bb = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal18c21970322f9e5c938bc954620c12bb = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['id' => 'nama_pelapor','class' => 'mt-1 block w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm ','type' => 'text','wire:model.blur' => 'nama_pelapor','placeholder' => 'Nama lengkap','required' => true]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('text-input'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['id' => 'nama_pelapor','class' => 'mt-1 block w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm ','type' => 'text','wire:model.blur' => 'nama_pelapor','placeholder' => 'Nama lengkap','required' => true]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal18c21970322f9e5c938bc954620c12bb)): ?>
+<?php $attributes = $__attributesOriginal18c21970322f9e5c938bc954620c12bb; ?>
+<?php unset($__attributesOriginal18c21970322f9e5c938bc954620c12bb); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal18c21970322f9e5c938bc954620c12bb)): ?>
+<?php $component = $__componentOriginal18c21970322f9e5c938bc954620c12bb; ?>
+<?php unset($__componentOriginal18c21970322f9e5c938bc954620c12bb); ?>
+<?php endif; ?>
+                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__errorArgs = ['nama_pelapor'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> <span class="text-red-500 text-xs mt-1"><?php echo e($message); ?></span> <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                         </div>
 
                         <div @click.away="openPlant = false">
@@ -91,30 +155,38 @@
                                 </div>
                                 <div x-show="openPlant" style="display: none;"
                                     class="absolute z-10 w-full mt-1 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-md shadow-lg max-h-40 overflow-y-auto">
-                                    @foreach($listPlant as $p)
-                                    <div @click="plant = '{{ addslashes($p) }}'; openPlant = false"
+                                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $listPlant; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $p): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <div @click="plant = '<?php echo e(addslashes($p)); ?>'; openPlant = false"
                                         class="cursor-pointer px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">
-                                        {{ $p }}
+                                        <?php echo e($p); ?>
+
                                     </div>
-                                    @endforeach
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                                 </div>
                             </div>
-                            @error('plant') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__errorArgs = ['plant'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> <span class="text-red-500 text-xs mt-1"><?php echo e($message); ?></span> <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                         </div>
                         <div>
                             <label for="nama_mesin"
                                 class="block text-sm font-medium text-slate-600 dark:text-slate-400">Nama Mesin / Forklift</label>
-                            @if ($isPlantManual)
-                                {{-- Input manual untuk plant yang tidak memiliki daftar mesin --}}
+                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($isPlantManual): ?>
+                                
                                 <input wire:model="nama_mesin" type="text" id="nama_mesin" required
-                                    placeholder="{{ $namaMesinPlaceholder }}"
+                                    placeholder="<?php echo e($namaMesinPlaceholder); ?>"
                                     class="mt-1 block w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 dark:text-slate-200 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
-                            @else
+                            <?php else: ?>
 
                             <div @click.away="openMesin = false">
                                 <div class="relative mt-1">
                                     <input x-model="nama_mesin" @click="openMesin = true" type="text" id="nama_mesin"
-                                        required placeholder="{{ $namaMesinPlaceholder }}"
+                                        required placeholder="<?php echo e($namaMesinPlaceholder); ?>"
                                         class="w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 dark:text-slate-200 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
                                     <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                                         <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
@@ -125,19 +197,27 @@
                                     </div>
                                     <div x-show="openMesin" style="display: none;"
                                         class="absolute z-10 w-full mt-1 bg-white dark:bg-slate-800 border border-slate-300 dark:text-slate-200 dark:border-slate-600 rounded-md shadow-lg max-h-40 overflow-y-auto">
-                                        @forelse($listMesin as $mesin)
-                                        <div @click="nama_mesin = '{{ addslashes($mesin) }}'; openMesin = false"
+                                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__empty_1 = true; $__currentLoopData = $listMesin; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $mesin): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                                        <div @click="nama_mesin = '<?php echo e(addslashes($mesin)); ?>'; openMesin = false"
                                             class="cursor-pointer px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">
-                                            {{ $mesin }}
+                                            <?php echo e($mesin); ?>
+
                                         </div>
-                                        @empty
-                                        <div class="px-4 py-2 text-sm text-slate-500">{{ $emptyMessage }}</div>
-                                        @endforelse
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                                        <div class="px-4 py-2 text-sm text-slate-500"><?php echo e($emptyMessage); ?></div>
+                                        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                                     </div>
                                 </div>
                             </div>
-                            @endif
-                            @error('nama_mesin') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__errorArgs = ['nama_mesin'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> <span class="text-red-500 text-xs mt-1"><?php echo e($message); ?></span> <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                         </div>
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -148,7 +228,14 @@
                             <input wire:model.blur="bagian_rusak" type="text" id="bagian_rusak"
                                 placeholder="Contoh: Take Up, dll"
                                 class="mt-1 block w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 dark:text-slate-200 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
-                            @error('bagian_rusak') <span class="text-red-500 text-xs mt-1">{{$message}}</span> @enderror
+                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__errorArgs = ['bagian_rusak'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> <span class="text-red-500 text-xs mt-1"><?php echo e($message); ?></span> <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                         </div>
 
                         <div @click.away="openKeterangan = false">
@@ -188,24 +275,45 @@
                                         BBS (Bahan bakar solar)</div>
                                 </div>
                             </div>
-                            @error('keterangan') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__errorArgs = ['keterangan'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> <span class="text-red-500 text-xs mt-1"><?php echo e($message); ?></span> <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        {{-- Kolom Uraian Kerusakan --}}
+                        
                         <div class="flex flex-col">
                             <label for="uraian_kerusakan"
                                 class="block text-sm font-medium text-slate-600 dark:text-slate-400">Uraian
                                 Kerusakan</label>
                             <textarea wire:model.blur="uraian_kerusakan" id="uraian_kerusakan" rows="6" required
                                 placeholder="Jelaskan detail kerusakan..."
-                                class="mt-1 block w-full flex-grow rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 dark:text-slate-200 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm @error('uraian_kerusakan') border-red-500 @enderror"></textarea>
-                            @error('uraian_kerusakan') <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
-                            @enderror
+                                class="mt-1 block w-full flex-grow rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 dark:text-slate-200 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm <?php $__errorArgs = ['uraian_kerusakan'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> border-red-500 <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"></textarea>
+                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__errorArgs = ['uraian_kerusakan'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> <span class="text-red-500 text-xs mt-1"><?php echo e($message); ?></span>
+                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                         </div>
 
-                        {{-- Kolom Upload Foto --}}
+                        
                         <div
                             x-data="{ isUploading: false, progress: 0 }"
                             x-on:livewire-upload-start="isUploading = true"
@@ -215,16 +323,17 @@
                             class="flex flex-col">
                             <label for="photo" class="block text-sm font-medium text-slate-600 dark:text-slate-400">Upload Foto (Opsional)</label>
 
-                            {{-- Area Pratinjau Foto atau Area Upload --}}
+                            
                             <div class="mt-1 flex-grow flex flex-col">
-                                @if ($photo)
+                                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($photo): ?>
                                 <div class="flex items-center justify-between bg-slate-100 dark:bg-slate-700 p-2 rounded-lg">
                                     <div class="flex items-center gap-2 truncate">
                                         <svg class="h-5 w-5 text-slate-500 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 0 1119.5 7.372L8.552 18.32m.009-.01l-.01.01m5.699-9.941l-7.81 7.81a1.5 1.5 0 002.122 2.122l7.81-7.81" />
                                         </svg>
-                                        <a href="{{ $photo->temporaryUrl() }}" target="_blank" class="text-sm text-blue-600 dark:text-blue-400 hover:underline truncate" title="{{ $photo->getClientOriginalName() }}">
-                                            {{ $photo->getClientOriginalName() }}
+                                        <a href="<?php echo e($photo->temporaryUrl()); ?>" target="_blank" class="text-sm text-blue-600 dark:text-blue-400 hover:underline truncate" title="<?php echo e($photo->getClientOriginalName()); ?>">
+                                            <?php echo e($photo->getClientOriginalName()); ?>
+
                                         </a>
                                     </div>
                                     <button wire:click="removePhoto" type="button" class="text-slate-500 hover:text-red-500 p-1 rounded-full">
@@ -233,8 +342,8 @@
                                         </svg>
                                     </button>
                                 </div>
-                                @else
-                                {{-- Input File --}}
+                                <?php else: ?>
+                                
                                 <div class="flex-grow flex justify-center items-center px-6 py-4 border-2 border-slate-300 dark:border-slate-600 border-dashed rounded-md">
                                     <div class="space-y-1 text-center">
                                         <svg class="mx-auto h-12 w-12 text-slate-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
@@ -250,10 +359,10 @@
                                         <p class="text-xs text-slate-500 dark:text-slate-500">PNG, JPG, GIF hingga 5MB</p>
                                     </div>
                                 </div>
-                                @endif
+                                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                             </div>
 
-                            {{-- Progress Bar --}}
+                            
                             <div x-show="isUploading" class="w-full bg-slate-200 rounded-full h-2.5 mt-2 dark:bg-slate-700">
                                 <div class="bg-blue-600 h-2.5 rounded-full" :style="{ width: progress + '%' }"></div>
                             </div>
@@ -281,7 +390,7 @@
                 </div>
             </div>
 
-            {{-- Card 2: Tabel Riwayat Laporan--}}
+            
 
             <div class="p-5 flex flex-wrap gap-4 justify-between items-center">
                 <div class="flex items-center gap-2">
@@ -298,7 +407,7 @@
 
                 <div class="flex items-center space-x-2">
 
-                    {{-- Dropdown Kategori --}}
+                    
 
                     <div class="relative inline-block text-left" x-data="{ open: false, selectedCategoryLabel: 'All Categories' }">
                         <button @click="open = !open" type="button" class="inline-flex justify-center w-full rounded-md border border-slate-300 dark:border-slate-600 shadow-sm px-4 py-2 bg-white dark:bg-slate-900/50 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-100 focus:ring-blue-500">
@@ -317,7 +426,7 @@
                         </div>
                     </div>
 
-                    {{-- Dropdown Opsi --}}
+                    
                     <div class="relative inline-block text-left" x-data="{ open: false, selectedAvailabilityLabel: 'All Availability' }" @reset-availability.window="selectedAvailabilityLabel = 'All Availability'">
                         <button @click="open = !open" type="button" class="inline-flex justify-center w-full rounded-md border border-slate-300 dark:border-slate-600 shadow-sm px-4 py-2 bg-white dark:bg-slate-900/50 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-100 focus:ring-blue-500">
                             <span x-text="selectedAvailabilityLabel"></span>
@@ -458,7 +567,7 @@
                         </div>
                     </div>
 
-                    {{-- Search Input --}}
+                    
                     <div class="relative">
                         <input wire:model.live.debounce.300ms="search" type="text" placeholder="Cari laporan..."
                             class="w-full sm:w-64 rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 dark:text-slate-200 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm pl-9">
@@ -479,7 +588,7 @@
                         <th class="px-5 py-3 font-medium text-slate-600 dark:text-slate-300 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700" wire:click="sortBy('tanggal_lapor')">
                             <div class="flex items-center gap-2">
                                 <span>Tanggal & Pelapor</span>
-                                <svg class="h-4 w-4 @if($sortField !== 'tanggal_lapor') text-slate-400 @endif @if($sortDirection === 'desc' && $sortField === 'tanggal_lapor') transform rotate-180 @endif transition-transform" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <svg class="h-4 w-4 <?php if($sortField !== 'tanggal_lapor'): ?> text-slate-400 <?php endif; ?> <?php if($sortDirection === 'desc' && $sortField === 'tanggal_lapor'): ?> transform rotate-180 <?php endif; ?> transition-transform" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M0 5H3L3 16H5L5 5L8 5V4L4 0L0 4V5Z" fill="currentColor" />
                                     <path d="M16 6H10V8H16V6Z" fill="currentColor" />
                                     <path d="M10 10H14V12H10V10Z" fill="currentColor" />
@@ -490,7 +599,7 @@
                         <th class="px-5 py-3 font-medium text-slate-600 dark:text-slate-300 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700" wire:click="sortBy('nama_mesin')">
                             <div class="flex items-center gap-2">
                                 <span>Mesin & Plant</span>
-                                <svg class="h-4 w-4 @if($sortField !== 'nama_mesin') text-slate-400 @endif @if($sortDirection === 'desc' && $sortField === 'nama_mesin') transform rotate-180 @endif transition-transform" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <svg class="h-4 w-4 <?php if($sortField !== 'nama_mesin'): ?> text-slate-400 <?php endif; ?> <?php if($sortDirection === 'desc' && $sortField === 'nama_mesin'): ?> transform rotate-180 <?php endif; ?> transition-transform" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M0 5H3L3 16H5L5 5L8 5V4L4 0L0 4V5Z" fill="currentColor" />
                                     <path d="M16 6H10V8H16V6Z" fill="currentColor" />
                                     <path d="M10 10H14V12H10V10Z" fill="currentColor" />
@@ -505,78 +614,87 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
-                        @forelse ($semuaLaporan as $laporan)
+                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__empty_1 = true; $__currentLoopData = $semuaLaporan; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $laporan): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                         <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50">
                             <td class="px-5 py-4 whitespace-nowrap">
-                                <p class="font-semibold text-slate-900 dark:text-white">{{ $laporan->nama_pelapor }}
+                                <p class="font-semibold text-slate-900 dark:text-white"><?php echo e($laporan->nama_pelapor); ?>
+
                                 </p>
                                 <p class="text-slate-500 dark:text-slate-400">
-                                    {{ \Carbon\Carbon::parse($laporan->tanggal_lapor)->format('d M Y') }} -
-                                    {{ \Carbon\Carbon::parse($laporan->jam_lapor)->format('H:i') }}
+                                    <?php echo e(\Carbon\Carbon::parse($laporan->tanggal_lapor)->format('d M Y')); ?> -
+                                    <?php echo e(\Carbon\Carbon::parse($laporan->jam_lapor)->format('H:i')); ?>
+
                                 </p>
                             </td>
                             <td class="px-5 py-4 whitespace-nowrap">
-                                <p class="font-semibold text-slate-900 dark:text-white">{{ $laporan->nama_mesin }}
+                                <p class="font-semibold text-slate-900 dark:text-white"><?php echo e($laporan->nama_mesin); ?>
+
                                 </p>
-                                <p class="text-slate-500 dark:text-slate-400">Plant {{ $laporan->plant }}</p>
+                                <p class="text-slate-500 dark:text-slate-400">Plant <?php echo e($laporan->plant); ?></p>
                             </td>
                             <td class="px-5 py-4 max-w-sm truncate text-slate-500 dark:text-slate-400">
-                                {{ $laporan->uraian_kerusakan }}
+                                <?php echo e($laporan->uraian_kerusakan); ?>
+
                             </td>
                             <td class="px-5 py-4 whitespace-nowrap text-slate-500 dark:text-slate-400">
-                                {{ $laporan->keterangan }}
+                                <?php echo e($laporan->keterangan); ?>
+
                             </td>
                             <td class="px-5 py-4 whitespace-nowrap text-center">
-                                @php $status = optional($laporan->maintenance)->status ?? 'Pending'; @endphp
+                                <?php $status = optional($laporan->maintenance)->status ?? 'Pending'; ?>
 
 
-                                @if($status == 'Pending')
+                                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($status == 'Pending'): ?>
                                 <span
                                     class="inline-flex items-center justify-center rounded-full bg-amber-100 px-2.5 py-0.5 text-amber-700 dark:bg-amber-900/50 dark:text-amber-400">
-                                    <p class="whitespace-nowrap text-xs font-semibold">{{ $status }}</p>
+                                    <p class="whitespace-nowrap text-xs font-semibold"><?php echo e($status); ?></p>
                                 </span>
 
-                                @elseif($status == 'On Progress')
+                                <?php elseif($status == 'On Progress'): ?>
                                 <span class="inline-flex items-center justify-center rounded-full bg-sky-100 px-2.5 py-0.5 text-sky-700 dark:bg-sky-900/50 dark:text-sky-400">
-                                    <p class="whitespace-nowrap text-xs font-semibold">{{ $status }}</p>
+                                    <p class="whitespace-nowrap text-xs font-semibold"><?php echo e($status); ?></p>
                                 </span>
 
-                                @elseif($status == 'Dalam Proses' || $status == 'Belum Selesai')
+                                <?php elseif($status == 'Dalam Proses' || $status == 'Belum Selesai'): ?>
                                 <span
                                     class="inline-flex items-center justify-center rounded-full bg-red-100 px-2.5 py-0.5 text-red-700 dark:bg-red-900/50 dark:text-red-400">
-                                    <p class="whitespace-nowrap text-xs font-semibold">{{ $status }}</p>
+                                    <p class="whitespace-nowrap text-xs font-semibold"><?php echo e($status); ?></p>
                                 </span>
 
-                                @elseif($status == 'Selesai')
+                                <?php elseif($status == 'Selesai'): ?>
                                 <span
                                     class="inline-flex items-center justify-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-400">
-                                    <p class="whitespace-nowrap text-xs font-semibold">{{ $status }}</p>
+                                    <p class="whitespace-nowrap text-xs font-semibold"><?php echo e($status); ?></p>
                                 </span>
 
-                                @else
+                                <?php else: ?>
                                 <span
                                     class="inline-flex items-center justify-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-400">
-                                    <p class="whitespace-nowrap text-xs font-semibold">{{ $status }}</p>
+                                    <p class="whitespace-nowrap text-xs font-semibold"><?php echo e($status); ?></p>
                                 </span>
-                                @endif
+                                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                             </td>
                         </tr>
-                        @empty
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                         <tr class="dark:bg-slate-800">
                             <td colspan="5" class="px-6 py-12 text-center text-slate-500">
                                 Belum ada laporan yang masuk.
                             </td>
                         </tr>
-                        @endforelse
+                        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                     </tbody>
                 </table>
 
             </div>
-            {{-- Tautan Paginasi --}}
+            
             <div class="p-5 border-t border-slate-200 dark:border-slate-700">
-                {{ $semuaLaporan->links() }}
+                <?php echo e($semuaLaporan->links()); ?>
+
             </div>
-            @script
+                <?php
+        $__scriptKey = '1021978046-0';
+        ob_start();
+    ?>
             <script>
                 $wire.on('scroll-to-table', () => {
                     const tableElement = document.getElementById('riwayat-tabel');
@@ -588,13 +706,17 @@
                     }
                 });
             </script>
-            @endscript
+                <?php
+        $__output = ob_get_clean();
+
+        \Livewire\store($this)->push('scripts', $__output, $__scriptKey)
+    ?>
         </div>
     </div>
 
-    {{-- Pop-up (Modal) untuk Konfirmasi  --}}
-    @if($isModalOpen)
-    <div x-data="{ show: @entangle('isModalOpen') }" x-show="show" x-on:keydown.escape.window="show = false"
+    
+    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($isModalOpen): ?>
+    <div x-data="{ show: <?php if ((object) ('isModalOpen') instanceof \Livewire\WireDirective) : ?>window.Livewire.find('<?php echo e($__livewire->getId()); ?>').entangle('<?php echo e('isModalOpen'->value()); ?>')<?php echo e('isModalOpen'->hasModifier('live') ? '.live' : ''); ?><?php else : ?>window.Livewire.find('<?php echo e($__livewire->getId()); ?>').entangle('<?php echo e('isModalOpen'); ?>')<?php endif; ?> }" x-show="show" x-on:keydown.escape.window="show = false"
         class="fixed inset-0 z-50 flex items-center justify-center" style="display: none;">
         <div x-show="show" x-transition.opacity class="fixed inset-0 bg-black/50 backdrop-blur-sm"
             wire:click="closeModal"></div>
@@ -614,39 +736,41 @@
                     <div class="flex justify-between py-2 border-b border-slate-200 dark:border-slate-700">
                         <span class="font-medium text-slate-500 dark:text-slate-400">Tanggal & Jam</span>
                         <span
-                            class="font-semibold text-slate-700 dark:text-slate-200 text-right">{{ $tanggal_lapor ?? '___' }}
-                            & {{ $jam_lapor ?? '___' }}</span>
+                            class="font-semibold text-slate-700 dark:text-slate-200 text-right"><?php echo e($tanggal_lapor ?? '___'); ?>
+
+                            & <?php echo e($jam_lapor ?? '___'); ?></span>
                     </div>
                     <div class="flex justify-between py-2 border-b border-slate-200 dark:border-slate-700">
                         <span class="font-medium text-slate-500 dark:text-slate-400">Shift</span>
-                        <span class="font-semibold text-slate-700 dark:text-slate-200">{{ $shift ?? '___' }}</span>
+                        <span class="font-semibold text-slate-700 dark:text-slate-200"><?php echo e($shift ?? '___'); ?></span>
                     </div>
                     <div class="flex justify-between py-2 border-b border-slate-200 dark:border-slate-700">
                         <span class="font-medium text-slate-500 dark:text-slate-400">Pelapor</span>
                         <span
-                            class="font-semibold text-slate-700 dark:text-slate-200">{{ $nama_pelapor ?? '___' }}</span>
+                            class="font-semibold text-slate-700 dark:text-slate-200"><?php echo e($nama_pelapor ?? '___'); ?></span>
                     </div>
                     <div class="flex justify-between py-2 border-b border-slate-200 dark:border-slate-700">
                         <span class="font-medium text-slate-500 dark:text-slate-400">Plant</span>
-                        <span class="font-semibold text-slate-700 dark:text-slate-200">{{ $plant ?? '___' }}</span>
+                        <span class="font-semibold text-slate-700 dark:text-slate-200"><?php echo e($plant ?? '___'); ?></span>
                     </div>
                     <div class="flex justify-between py-2 border-b border-slate-200 dark:border-slate-700">
                         <span class="font-medium text-slate-500 dark:text-slate-400">Nama Mesin</span>
-                        <span class="font-semibold text-slate-700 dark:text-slate-200">{{ $nama_mesin ?? '___' }}</span>
+                        <span class="font-semibold text-slate-700 dark:text-slate-200"><?php echo e($nama_mesin ?? '___'); ?></span>
                     </div>
                     <div class="flex justify-between py-2 border-b border-slate-200 dark:border-slate-700">
                         <span class="font-medium text-slate-500 dark:text-slate-400">Bagian Rusak</span>
                         <span
-                            class="font-semibold text-slate-700 dark:text-slate-200">{{ $bagian_rusak ?? '___' }}</span>
+                            class="font-semibold text-slate-700 dark:text-slate-200"><?php echo e($bagian_rusak ?? '___'); ?></span>
                     </div>
                     <div class="flex justify-between py-2 border-b border-slate-200 dark:border-slate-700">
                         <span class="font-medium text-slate-500 dark:text-slate-400">Keterangan</span>
-                        <span class="font-semibold text-slate-700 dark:text-slate-200">{{ $keterangan ?? '___' }}</span>
+                        <span class="font-semibold text-slate-700 dark:text-slate-200"><?php echo e($keterangan ?? '___'); ?></span>
                     </div>
                     <div>
                         <span class="font-medium text-slate-500 dark:text-slate-400">Uraian Kerusakan</span>
                         <p class="mt-1 font-semibold text-slate-700 dark:text-slate-200">
-                            {{ $uraian_kerusakan ?? '___' }}
+                            <?php echo e($uraian_kerusakan ?? '___'); ?>
+
                         </p>
                     </div>
                 </div>
@@ -665,5 +789,5 @@
             </form>
         </div>
     </div>
-    @endif
-</div>
+    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+</div><?php /**PATH C:\laragon\www\proyek-laporan\resources\views/livewire/laporan-produksi-form.blade.php ENDPATH**/ ?>

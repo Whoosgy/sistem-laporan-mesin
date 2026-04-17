@@ -1,5 +1,14 @@
-<x-layouts.app>
-    @section('title', 'Home - Sistem Laporan Mesin')
+<?php if (isset($component)) { $__componentOriginal5863877a5171c196453bfa0bd807e410 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal5863877a5171c196453bfa0bd807e410 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.layouts.app','data' => []] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('layouts.app'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes([]); ?>
+    <?php $__env->startSection('title', 'Home - Sistem Laporan Mesin'); ?>
 
     <style>
         /* CSS untuk efek 'glow' pada kartu */
@@ -42,7 +51,7 @@
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6" data-aos="fade-up" data-aos-delay="200">
 
                     <!-- Card Mekanik -->
-                    <a href="{{ route('maintenance.dashboard', ['keterangan' => 'MMSD (Mekanik)']) }}"
+                    <a href="<?php echo e(route('maintenance.dashboard', ['keterangan' => 'MMSD (Mekanik)'])); ?>"
                         class="card-link group relative block p-6 rounded-3xl overflow-hidden bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm shadow-md border border-slate-200 dark:border-slate-700 transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-2xl hover:shadow-cyan-500/20"
                         style="--glow-color: #22d3ee;">
                         <div class="glow-effect absolute inset-0"></div>
@@ -58,24 +67,24 @@
                                     </svg>
                                 </div>
                             </div>
-                            <div class="text-4xl font-extrabold text-sky-600 dark:text-sky-400 mb-4">{{ $mekanik['total'] }} <span class="text-lg font-medium text-slate-500 dark:text-slate-400">Total Laporan</span></div>
+                            <div class="text-4xl font-extrabold text-sky-600 dark:text-sky-400 mb-4"><?php echo e($mekanik['total']); ?> <span class="text-lg font-medium text-slate-500 dark:text-slate-400">Total Laporan</span></div>
                             <div class="flex justify-around text-center border-t border-slate-200 dark:border-slate-700 pt-3">
                                 <div class="stat-item">
-                                    <p class="text-2xl font-bold text-yellow-500">{{ $mekanik['pending'] }}</p>
+                                    <p class="text-2xl font-bold text-yellow-500"><?php echo e($mekanik['pending']); ?></p>
                                     <p class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">Pending</p>
                                 </div>
 
                                 <div class="stat-item">
-                                    <p class="text-2xl font-bold text-red-500">{{ $mekanik['belum_selesai'] }}</p>
+                                    <p class="text-2xl font-bold text-red-500"><?php echo e($mekanik['belum_selesai']); ?></p>
                                     <p class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">Belum Selesai</p>
                                 </div>
 
                                 <div class="stat-item">
-                                    <p class="text-2xl font-bold text-sky-500">{{ $mekanik['on_progress'] }}</p>
+                                    <p class="text-2xl font-bold text-sky-500"><?php echo e($mekanik['on_progress']); ?></p>
                                     <p class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">On Progress</p>
                                 </div>
                                 <div class="stat-item">
-                                    <p class="text-2xl font-bold text-green-500">{{ $mekanik['selesai'] }}</p>
+                                    <p class="text-2xl font-bold text-green-500"><?php echo e($mekanik['selesai']); ?></p>
                                     <p class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">Selesai</p>
                                 </div>
                             </div>
@@ -83,7 +92,7 @@
                     </a>
 
                     <!-- Card Elektrik -->
-                    <a href="{{ route('maintenance.dashboard', ['keterangan' => 'Elektrik']) }}"
+                    <a href="<?php echo e(route('maintenance.dashboard', ['keterangan' => 'Elektrik'])); ?>"
                         class="card-link group relative block p-6 rounded-3xl overflow-hidden bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm shadow-md border border-slate-200 dark:border-slate-700 transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-2xl hover:shadow-cyan-500/20"
                         style="--glow-color: #22d3ee;">
                         <div class="glow-effect absolute inset-0"></div>
@@ -99,24 +108,24 @@
                                     </svg>
                                 </div>
                             </div>
-                            <div class="text-4xl font-extrabold text-sky-600 dark:text-sky-400 mb-4">{{ $elektrik['total'] }} <span class="text-lg font-medium text-slate-500 dark:text-slate-400">Total Laporan</span></div>
+                            <div class="text-4xl font-extrabold text-sky-600 dark:text-sky-400 mb-4"><?php echo e($elektrik['total']); ?> <span class="text-lg font-medium text-slate-500 dark:text-slate-400">Total Laporan</span></div>
                             <div class="flex justify-around text-center border-t border-slate-200 dark:border-slate-700 pt-3">
                                 <div class="stat-item">
-                                    <p class="text-2xl font-bold text-yellow-500">{{ $elektrik['pending'] }}</p>
+                                    <p class="text-2xl font-bold text-yellow-500"><?php echo e($elektrik['pending']); ?></p>
                                     <p class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">Pending</p>
                                 </div>
 
                                 <div class="stat-item">
-                                    <p class="text-2xl font-bold text-red-500">{{ $elektrik['belum_selesai'] }}</p>
+                                    <p class="text-2xl font-bold text-red-500"><?php echo e($elektrik['belum_selesai']); ?></p>
                                     <p class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">Belum Selesai</p>
                                 </div>
 
                                 <div class="stat-item">
-                                    <p class="text-2xl font-bold text-sky-500">{{ $elektrik['on_progress'] }}</p>
+                                    <p class="text-2xl font-bold text-sky-500"><?php echo e($elektrik['on_progress']); ?></p>
                                     <p class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">On Progress</p>
                                 </div>
                                 <div class="stat-item">
-                                    <p class="text-2xl font-bold text-green-500">{{ $elektrik['selesai'] }}</p>
+                                    <p class="text-2xl font-bold text-green-500"><?php echo e($elektrik['selesai']); ?></p>
                                     <p class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">Selesai</p>
                                 </div>
                             </div>
@@ -124,7 +133,7 @@
                     </a>
 
                     <!-- Card Utility -->
-                    <a href="{{ route('maintenance.dashboard', ['keterangan' => 'Utility']) }}"
+                    <a href="<?php echo e(route('maintenance.dashboard', ['keterangan' => 'Utility'])); ?>"
                         class="card-link group relative block p-6 rounded-3xl overflow-hidden bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm shadow-md border border-slate-200 dark:border-slate-700 transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-2xl hover:shadow-cyan-500/20"
                         style="--glow-color: #22d3ee;">
                         <div class="glow-effect absolute inset-0"></div>
@@ -140,26 +149,26 @@
                                     </svg>
                                 </div>
                             </div>
-                            <div class="text-4xl font-extrabold text-sky-600 dark:text-sky-400 mb-4">{{ $utility['total'] }} <span class="text-lg font-medium text-slate-500 dark:text-slate-400">Total Laporan</span></div>
+                            <div class="text-4xl font-extrabold text-sky-600 dark:text-sky-400 mb-4"><?php echo e($utility['total']); ?> <span class="text-lg font-medium text-slate-500 dark:text-slate-400">Total Laporan</span></div>
                             <div class="flex justify-around text-center border-t border-slate-200 dark:border-slate-700 pt-3">
                                 <div class="stat-item">
-                                    <p class="text-2xl font-bold text-yellow-500">{{ $utility['pending'] }}</p>
+                                    <p class="text-2xl font-bold text-yellow-500"><?php echo e($utility['pending']); ?></p>
                                     <p class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">Pending</p>
                                 </div>
 
                                 <div class="stat-item">
-                                    <p class="text-2xl font-bold text-red-500">{{ $utility['belum_selesai'] }}</p>
+                                    <p class="text-2xl font-bold text-red-500"><?php echo e($utility['belum_selesai']); ?></p>
                                     <p class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">Belum Selesai</p>
                                 </div>
 
                                 <div class="stat-item">
-                                    <p class="text-2xl font-bold text-sky-500">{{ $utility['on_progress'] }}</p>
+                                    <p class="text-2xl font-bold text-sky-500"><?php echo e($utility['on_progress']); ?></p>
                                     <p class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">On Progress</p>
 
 
                                 </div>
                                 <div class="stat-item">
-                                    <p class="text-2xl font-bold text-green-500">{{ $utility['selesai'] }}</p>
+                                    <p class="text-2xl font-bold text-green-500"><?php echo e($utility['selesai']); ?></p>
                                     <p class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">Selesai</p>
                                 </div>
                             </div>
@@ -167,7 +176,7 @@
                     </a>
 
                     <!-- Card Calibraty -->
-                    <a href="{{ route('maintenance.dashboard', ['keterangan' => 'Calibraty']) }}"
+                    <a href="<?php echo e(route('maintenance.dashboard', ['keterangan' => 'Calibraty'])); ?>"
                         class="card-link group relative block p-6 rounded-3xl overflow-hidden bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm shadow-md border border-slate-200 dark:border-slate-700 transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-2xl hover:shadow-cyan-500/20"
                         style="--glow-color: #22d3ee;">
                         <div class="glow-effect absolute inset-0"></div>
@@ -183,25 +192,25 @@
                                     </svg>
                                 </div>
                             </div>
-                            <div class="text-4xl font-extrabold text-sky-600 dark:text-sky-400 mb-6">{{ $calibraty['total'] }} <span class="text-lg font-medium text-slate-500 dark:text-slate-400">Total Laporan</span></div>
+                            <div class="text-4xl font-extrabold text-sky-600 dark:text-sky-400 mb-6"><?php echo e($calibraty['total']); ?> <span class="text-lg font-medium text-slate-500 dark:text-slate-400">Total Laporan</span></div>
                             <div class="flex justify-around text-center border-t border-slate-200 dark:border-slate-700 pt-3">
                                 <div class="stat-item">
-                                    <p class="text-2xl font-bold text-yellow-500">{{ $calibraty['pending'] }}</p>
+                                    <p class="text-2xl font-bold text-yellow-500"><?php echo e($calibraty['pending']); ?></p>
                                     <p class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">Pending</p>
                                 </div>
 
                                 <div class="stat-item">
-                                    <p class="text-2xl font-bold text-red-500">{{ $calibraty['belum_selesai'] }}</p>
+                                    <p class="text-2xl font-bold text-red-500"><?php echo e($calibraty['belum_selesai']); ?></p>
                                     <p class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">Belum Selesai</p>
                                 </div>
 
                                 <div class="stat-item">
-                                    <p class="text-2xl font-bold text-sky-500">{{ $calibraty['on_progress'] }}</p>
+                                    <p class="text-2xl font-bold text-sky-500"><?php echo e($calibraty['on_progress']); ?></p>
                                     <p class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">On Progress</p>
                                 </div>
 
                                 <div class="stat-item">
-                                    <p class="text-2xl font-bold text-green-500">{{ $calibraty['selesai'] }}</p>
+                                    <p class="text-2xl font-bold text-green-500"><?php echo e($calibraty['selesai']); ?></p>
                                     <p class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">Selesai</p>
                                 </div>
                             </div>
@@ -223,7 +232,7 @@
             init() {
                 this.swiper = new Swiper(this.$refs.container, {
                     modules: [window.SwiperModules.Navigation, window.SwiperModules.Pagination, window.SwiperModules.Autoplay],
-                    loop: {{ count($laporanTerbaru) > 2 ? 'true' : 'false' }},
+                    loop: <?php echo e(count($laporanTerbaru) > 2 ? 'true' : 'false'); ?>,
                     autoplay: {
                         delay: 5000,
                         disableOnInteraction: false,
@@ -251,80 +260,80 @@
                         <div class="swiper-container overflow-hidden" x-ref="container">
                             <div class="swiper-wrapper">
 
-                                @forelse($laporanTerbaru as $laporan)
+                                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__empty_1 = true; $__currentLoopData = $laporanTerbaru; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $laporan): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                                 <div class="swiper-slide h-auto pb-8">
                                     <div class="report-card bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm shadow-lg border border-slate-200/80 dark:border-slate-700/80 rounded-2xl p-4 flex flex-col h-full hover:shadow-lg hover:shadow-sky-500/20 transition-shadow duration-300">
 
                                         <div class="flex-shrink-0 mb-3">
-                                            @php $status = optional($laporan->maintenance)->status ?? 'Pending'; @endphp
+                                            <?php $status = optional($laporan->maintenance)->status ?? 'Pending'; ?>
                                             <div class="flex items-center justify-between">
 
                                                 <div class="flex items-center gap-2 min-w-0">
-                                                    @if($status == 'Pending')
+                                                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($status == 'Pending'): ?>
                                                     <div class="w-8 h-8 rounded-full bg-yellow-100 dark:bg-yellow-500/20 flex items-center justify-center flex-shrink-0">
                                                         <svg class="w-4 h-4 text-yellow-500 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                                         </svg>
                                                     </div>
-                                                    @elseif($status == 'Belum Selesai')
+                                                    <?php elseif($status == 'Belum Selesai'): ?>
                                                     <div class="w-8 h-8 rounded-full bg-red-100 dark:bg-red-500/20 flex items-center justify-center flex-shrink-0">
                                                         <svg class="w-4 h-4 text-red-500 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                                                         </svg>
                                                     </div>
 
-                                                    @elseif($status == 'On Progress')
+                                                    <?php elseif($status == 'On Progress'): ?>
                                                     <div class="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-500/20 flex items-center justify-center flex-shrink-0">
                                                         <svg class="w-4 h-4 text-blue-500 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.092 1.21-.138 2.43-.138 3.662s.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.092-1.21.138-2.43.138-3.662zM15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                                         </svg>
                                                     </div>
-                                                    @else
+                                                    <?php else: ?>
                                                     <div class="w-8 h-8 rounded-full bg-green-100 dark:bg-green-500/20 flex items-center justify-center flex-shrink-0">
                                                         <svg class="w-4 h-4 text-green-500 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                                         </svg>
                                                     </div>
-                                                    @endif
-                                                    <p class="font-semibold text-slate-800 dark:text-slate-100 text-lg truncate">{{ $laporan->nama_mesin }}</p>
+                                                    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                                                    <p class="font-semibold text-slate-800 dark:text-slate-100 text-lg truncate"><?php echo e($laporan->nama_mesin); ?></p>
                                                 </div>
 
                                                 <div class="flex items-center gap-2 flex-shrink-0">
                                                     <span class="text-xs font-medium px-2 py-0.5 rounded-full
-                                            @if($laporan->keterangan == 'MMSD (Mekanik)') bg-orange-100 text-orange-800 dark:bg-orange-900/50 dark:text-orange-300 @endif
-                                            @if($laporan->keterangan == 'MESD (ELEKTRIK)') bg-purple-100 text-purple-800 dark:bg-purple-900/50 dark:text-purple-300 @endif
-                                            @if($laporan->keterangan == 'MUSD (UTILITY)') bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300 @endif
-                                            @if($laporan->keterangan == 'MCSD (Calibraty)') bg-rose-100 text-rose-800 dark:bg-rose-900/50 dark:text-rose-300 @endif
-                                            @if($laporan->keterangan == 'Battery') bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300 @endif
-                                            @if($laporan->keterangan == 'Bahan bakar solar') bg-pink-100 text-pink-800 dark:bg-pink-900/50 dark:text-pink-300 @endif
-                                        ">{{ $laporan->keterangan }}</span>
+                                            <?php if($laporan->keterangan == 'MMSD (Mekanik)'): ?> bg-orange-100 text-orange-800 dark:bg-orange-900/50 dark:text-orange-300 <?php endif; ?>
+                                            <?php if($laporan->keterangan == 'MESD (ELEKTRIK)'): ?> bg-purple-100 text-purple-800 dark:bg-purple-900/50 dark:text-purple-300 <?php endif; ?>
+                                            <?php if($laporan->keterangan == 'MUSD (UTILITY)'): ?> bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300 <?php endif; ?>
+                                            <?php if($laporan->keterangan == 'MCSD (Calibraty)'): ?> bg-rose-100 text-rose-800 dark:bg-rose-900/50 dark:text-rose-300 <?php endif; ?>
+                                            <?php if($laporan->keterangan == 'Battery'): ?> bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300 <?php endif; ?>
+                                            <?php if($laporan->keterangan == 'Bahan bakar solar'): ?> bg-pink-100 text-pink-800 dark:bg-pink-900/50 dark:text-pink-300 <?php endif; ?>
+                                        "><?php echo e($laporan->keterangan); ?></span>
 
                                                     <span class="text-xs font-medium px-2 py-0.5 rounded-full
-                                            @if($status == 'Pending') bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-300 @endif
-                                            @if($status == 'Belum Selesai') bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300 @endif
-                                            @if($status == 'On Progress') bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 @endif
-                                            @if($status == 'Selesai') bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300 @endif
-                                        ">{{ $status }}</span>
+                                            <?php if($status == 'Pending'): ?> bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-300 <?php endif; ?>
+                                            <?php if($status == 'Belum Selesai'): ?> bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300 <?php endif; ?>
+                                            <?php if($status == 'On Progress'): ?> bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 <?php endif; ?>
+                                            <?php if($status == 'Selesai'): ?> bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300 <?php endif; ?>
+                                        "><?php echo e($status); ?></span>
                                                 </div>
 
                                             </div>
                                         </div>
 
                                         <div class="flex-grow">
-                                            <p class="text-slate-600 dark:text-slate-300 mt-1 text-base line-clamp-2">{{ $laporan->uraian_kerusakan }}</p>
+                                            <p class="text-slate-600 dark:text-slate-300 mt-1 text-base line-clamp-2"><?php echo e($laporan->uraian_kerusakan); ?></p>
                                         </div>
 
                                         <div class="mt-3 pt-3 border-t border-slate-200/80 dark:border-slate-700/80">
-                                            <p class="text-xs text-slate-400 dark:text-slate-500">{{ \Carbon\Carbon::parse($laporan->created_at)->diffForHumans() }} oleh {{ $laporan->nama_pelapor }}</p>
+                                            <p class="text-xs text-slate-400 dark:text-slate-500"><?php echo e(\Carbon\Carbon::parse($laporan->created_at)->diffForHumans()); ?> oleh <?php echo e($laporan->nama_pelapor); ?></p>
                                         </div>
 
                                     </div>
                                 </div>
-                                @empty
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                                 <div class="swiper-slide">
                                     <div class="text-center p-10 text-slate-500">Belum ada laporan terbaru.</div>
                                 </div>
-                                @endforelse
+                                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
                             </div>
                         </div>
@@ -405,4 +414,13 @@
         </script>
 
 
-</x-layouts.app>
+ <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal5863877a5171c196453bfa0bd807e410)): ?>
+<?php $attributes = $__attributesOriginal5863877a5171c196453bfa0bd807e410; ?>
+<?php unset($__attributesOriginal5863877a5171c196453bfa0bd807e410); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal5863877a5171c196453bfa0bd807e410)): ?>
+<?php $component = $__componentOriginal5863877a5171c196453bfa0bd807e410; ?>
+<?php unset($__componentOriginal5863877a5171c196453bfa0bd807e410); ?>
+<?php endif; ?><?php /**PATH C:\laragon\www\proyek-laporan\resources\views/welcome.blade.php ENDPATH**/ ?>

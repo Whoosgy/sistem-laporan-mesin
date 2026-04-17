@@ -41,10 +41,10 @@ class PageController extends Controller
         $laporanTerbaru = Produksi::with('maintenance')->latest()->take(5)->get();
 
         return view('welcome', [
-            'mekanik'   => $getStatusCounts('Mekanik'),
-            'elektrik'  => $getStatusCounts('Elektrik'),
-            'utility'   => $getStatusCounts('Utility'),
-            'calibraty' => $getStatusCounts('Calibraty'),
+            'mekanik'   => $getStatusCounts('MMSD (Mekanik)'),
+            'elektrik'  => $getStatusCounts('MESD (ELEKTRIK)'),
+            'utility'   => $getStatusCounts('MUSD (UTILITY)'),
+            'calibraty' => $getStatusCounts('MCSD (Calibraty)'),
             'laporanTerbaru' => $laporanTerbaru,
         ]);
     }

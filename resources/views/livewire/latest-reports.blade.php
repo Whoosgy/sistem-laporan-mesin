@@ -71,10 +71,10 @@
                                 <div class="flex items-center gap-2 flex-shrink-0">
                                     {{-- Label Keterangan/Kategori --}}
                                     <span class="text-xs font-medium px-2.5 py-1 rounded-full
-                                                @if($laporan->keterangan == 'Mekanik') bg-orange-100 text-orange-800 dark:bg-orange-900/50 dark:text-orange-300 @endif {{-- <-- UBAH WARNA MEKANIK --}}
-                                                @if($laporan->keterangan == 'Elektrik') bg-indigo-100 text-indigo-800 dark:bg-indigo-900/50 dark:text-indigo-300 @endif
-                                                @if($laporan->keterangan == 'Utility') bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300 @endif
-                                                @if($laporan->keterangan == 'Calibraty') bg-rose-100 text-rose-800 dark:bg-rose-900/50 dark:text-rose-300 @endif
+                                                @if($laporan->keterangan == 'MMSD (Mekanik)') bg-orange-100 text-orange-800 dark:bg-orange-900/50 dark:text-orange-300 @endif {{-- <-- UBAH WARNA MEKANIK --}}
+                                                @if($laporan->keterangan == 'MESD (ELEKTRIK)') bg-indigo-100 text-indigo-800 dark:bg-indigo-900/50 dark:text-indigo-300 @endif
+                                                @if($laporan->keterangan == 'MUSD (UTILITY)') bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300 @endif
+                                                @if($laporan->keterangan == 'MCSD (Calibraty)') bg-rose-100 text-rose-800 dark:bg-rose-900/50 dark:text-rose-300 @endif
                                             ">{{ $laporan->keterangan }}</span>
 
                                     {{-- Label Status --}}

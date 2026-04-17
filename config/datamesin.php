@@ -2,14 +2,14 @@
 
 return [
     'plants' => [
-        'A', 'B', 'C', 'D', 'E',
+        'LVA', 'MVB', 'LVC', 'MVD', 'FOE',
       
         'SS', 'SC', 'PE', 'QC', 'GA', 'MT', 'FH', 'FO', 'QR'
         
     ],
 
     'mesins' => [
-        'A' => [
+        'LVA' => [
             'HD-10C', 'TW-RBD-CU', 'MD-1', 'MULTI DRAWING-1', 'MULTI DRAWING-2',
             'MULTI DRAWING-3', 'BC-Samp1', 'BC-Samp2', 'BC-Samp3', 'BC-Samp4',
             'BC-Samp5', 'BC-Samp6', 'BC-Samp7', 'BC-Samp8', 'BC-5', 'BC-6',
@@ -21,14 +21,14 @@ return [
             'MC-3', 'REW-AR-21', 'AR-21', 'REW-AR-72B-1', 'REW-AR-72B-2', 'AR-72B',
             'Heli 2,5 Ton','Heli 5 Ton','Heli 1,8 Ton',
         ],
-        'B' => [
+        'MVB' => [
             'RBD-AL', 'HD-10A', 'HD-8C', 'HD-8E', 'MD-5', 'MD-6', 'MD-7', 'OVEN',
             'ST-7H', 'ST-7I', 'ST-6B', 'ST-7D', 'ST-7A', 'ST-7J', 'ST-12B',
             'ST-19C', 'ST-30B', 'ST-54A', 'ST-54C', 'ST-54E', 'EX-90B', 'EX-100B',
             'CB-2B', 'CB-2C', 'CB-4B', 'REW-1', 'REW-2', 'REW-3', 'REW-4',
             'ST-54B', 'ST-54D', 'AR-72', 'WR-1','Heli 1,8 Ton','Nissan 3,5 Ton','Heli 3,5 Ton',
         ],
-        'C' => [
+        'LVC' => [
             'MD-2C', 'MD-3C', 'TW-MD', 'FD-9', 'FD-10', 'FD-11', 'FD-12', 'FD-20',
             'FD-21', 'TIN-1', 'TIN-2', 'TIN-3', 'ELECTRO PLATING', 'BC-1C', 'BC-2C',
             'BC-3C', 'BC-4C', 'BC-5C', 'BC-7', 'BC-8', 'BC-9', 'BC-10', 'TV-5',
@@ -42,13 +42,13 @@ return [
             'SWB-24D', 'SWB-24E', 'REW-SWB-32A', 'REW-SWB-32B', 'SWB-32A', 'SWB-32B',
             'REW-SWB-48A', 'SWB-48', 'TP-10','Heli 2,5 Ton','Heli 3,5 Ton',
         ],
-        'D' => [
+        'MVD' => [
             'CCV-JHON ROYLE', 'CCV-PAMPASS', 'CCV-SUMITOMO', 'REW-5', 'REW-6',
             'REW-7', 'TP-5', 'TP-6', 'TP-8', 'TP-2', 'TP-11', 'TP-1', 'TP-3',
             'TP-4', 'EX--100A', 'CB-26A', 'CB-26B', 'EX--100C', 'EX--120B',
             'EX--120C', 'EX--160A', 'TP-7', 'Heli 10 Ton', 'Heli 2,5 Ton',
         ],
-        'E' => [
+        'FOE' => [
             'COL-4A', 'COL-4B', 'COL-9F', 'COL-5F', 'COL-8F A', 'COL-8F B', 'EX-45-7F',
             'EX-45-8F', 'EX-45-9F', 'EX-45-10F', 'EX-45-11F', 'EX-45-12F', 'EX-45-13F',
             'EX-45-14F', 'EX-45-15F', 'EX-45-16F', 'EX-45-17F', 'EX-30F', 'EX-50F',
