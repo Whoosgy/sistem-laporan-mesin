@@ -10,16 +10,19 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-{
-    Schema::create('maintenance_technician', function (Blueprint $table) {
-        $table->id();
-        // Menghubungkan ke tabel maintenance
-        $table->foreignId('maintenance_id')->constrained('maintenance')->onDelete('cascade');
-        // Menghubungkan ke tabel technicians
-        $table->foreignId('technician_id')->constrained('technicians')->onDelete('cascade');
-        $table->timestamps();
-    });
-}
+    {
+        // Tambahkan pengecekan ini agar tidak error "table already exists"
+        if (!Schema::hasTable('maintenance_technician')) {
+            Schema::create('maintenance_technician', function (Blueprint $table) {
+                $table->id();
+                // Menghubungkan ke tabel maintenance
+                $table->foreignId('maintenance_id')->constrained('maintenance')->onDelete('cascade');
+                // Menghubungkan ke tabel technicians
+                $table->foreignId('technician_id')->constrained('technicians')->onDelete('cascade');
+                $table->timestamps();
+            });
+        }
+    }
 
     /**
      * Reverse the migrations.

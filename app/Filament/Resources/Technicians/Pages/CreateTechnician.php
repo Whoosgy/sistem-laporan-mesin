@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Filament\Resources\TechnicianResource\Pages;
+namespace App\Filament\Resources\Technicians\Pages;
 
-use App\Filament\Resources\TechnicianResource;
-use Filament\Actions;
+use App\Filament\Resources\Technicians\TechnicianResource;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateTechnician extends CreateRecord

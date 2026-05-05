@@ -45,11 +45,11 @@ class ProduksiFactory extends Factory
             'shift' => $this->faker->randomElement(['1', '2', '3']),
             'nama_pelapor' => $this->faker->name,
             'plant' => $plant,
-            'nama_mesin' => $nama_mesin, // Sekarang tidak akan pernah null
+            'nama_mesin' => $nama_mesin, 
             'bagian_rusak' => $this->faker->words(3, true),
             'uraian_kerusakan' => $this->faker->sentence(10),
             'keterangan' => $this->faker->randomElement($keteranganOptions),
-            'photo_path' => null, // Biarkan kosong untuk saat ini
+            'photo_path' => null, 
         ];
     }
 }

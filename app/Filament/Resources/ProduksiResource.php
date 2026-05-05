@@ -3,120 +3,149 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProduksiResource\Pages;
-use App\Filament\Resources\ProduksiResource\RelationManagers;
 use App\Models\Produksi;
-use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Infolists\Infolist;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Components\Section;
 
 class ProduksiResource extends Resource
 {
     protected static ?string $model = Produksi::class;
+    protected static ?string $navigationGroup = 'Manajemen Laporan';
+    protected static ?int $navigationSort = 2;
+    protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
-    public static function form(Form $form): Form
+    public static function infolist(Infolist $infolist): Infolist
     {
-        return $form
+        return $infolist
             ->schema([
-                Forms\Components\DatePicker::make('tanggal_lapor')
-                    ->required(),
-                Forms\Components\TextInput::make('jam_lapor')
-                    ->required(),
-                Forms\Components\TextInput::make('shift')
-                    ->required()
-                    ->maxLength(20),
-                Forms\Components\TextInput::make('nama_mesin')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Select::make('plant')
-                    ->label('Area Plant')
-                    ->options(self::getPlantOptions())
-                    ->required()
-                    ->searchable(),
-                Forms\Components\TextInput::make('nama_pelapor')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('bagian_rusak')
-                    ->maxLength(255),
-                Forms\Components\Textarea::make('uraian_kerusakan')
-                    ->required()
-                    ->columnSpanFull(),
-                Forms\Components\TextInput::make('keterangan')
-                    ->maxLength(20),
-                Forms\Components\TextInput::make('photo_path')
-                    ->maxLength(255),
+                Section::make('Informasi Pelapor')
+                    ->icon('heroicon-m-user')
+                    ->schema([
+                        // Pastikan 'nama_pelapor' adalah nama kolom di tabel produksi kamu
+                        TextEntry::make('nama_pelapor')
+                            ->label('Nama Pelapor')
+                            ->weight('bold')
+                            ->placeholder('Data tidak ditemukan'),
+                        TextEntry::make('created_at')
+                            ->label('Waktu Lapor')
+                            ->dateTime('d M Y H:i'),
+                    ])->columns(2),
+
+                Section::make('Detail Laporan Produksi')
+                    ->icon('heroicon-m-document-text')
+                    ->schema([
+                        TextEntry::make('nama_mesin')
+                            ->weight('bold'),
+                        TextEntry::make('plant')
+                            ->badge()
+                            ->color('info'),
+                        TextEntry::make('keterangan')
+                            ->label('Kategori')
+                            ->badge(),
+                    ])->columns(3),
+                    
+                Section::make('Status Perbaikan Maintenance')
+                    ->icon('heroicon-m-wrench-screwdriver')
+                    ->schema([
+                        TextEntry::make('maintenance.status')
+                            ->label('Status Terkini')
+                            ->badge()
+                            ->color(fn (?string $state): string => match (str($state)->lower()->trim()->toString()) {
+                                'pending' => 'warning',
+                                'on progress' => 'info',
+                                'selesai' => 'success',
+                                default => 'danger',
+                            })
+                            ->formatStateUsing(fn (?string $state): string => match (str($state)->lower()->trim()->toString()) {
+                                'pending' => 'Pending',
+                                'on progress' => 'On Progress',
+                                'selesai' => 'Selesai',
+                                '' => 'Belum Diproses',
+                                default => 'Belum Selesai',
+                            }),
+                    ]),
             ]);
     }
 
+    public static function form(Form $form): Form
+    {
+        return $form->schema([]);
+    }
+
     public static function table(Table $table): Table
-{
-    return $table
-        ->columns([
-            Tables\Columns\TextColumn::make('tanggal_lapor')
-                ->date()
-                ->sortable(),
-            Tables\Columns\TextColumn::make('jam_lapor'),
-            Tables\Columns\TextColumn::make('shift')
-                ->searchable(),
-            Tables\Columns\TextColumn::make('nama_mesin')
-                ->searchable(),
-            Tables\Columns\TextColumn::make('nama_pelapor')
-                ->searchable(),
-            Tables\Columns\TextColumn::make('bagian_rusak')
-                ->searchable(),
-            Tables\Columns\TextColumn::make('keterangan')
-                ->searchable(),
-            Tables\Columns\TextColumn::make('photo_path')
-                ->searchable(),
-            Tables\Columns\TextColumn::make('created_at')
-                ->dateTime()
-                ->sortable()
-                ->toggleable(isToggledHiddenByDefault: true),
-            Tables\Columns\TextColumn::make('updated_at')
-                ->dateTime()
-                ->sortable()
-                ->toggleable(isToggledHiddenByDefault: true),
-        ])
-        ->filters([
-            Tables\Filters\SelectFilter::make('plant')
-                ->label('Filter Berdasarkan Plant')
-                ->options(self::getPlantOptions()),
-        ])
-        ->actions([
-            Tables\Actions\EditAction::make(),
-        ])
-        ->bulkActions([
-            Tables\Actions\BulkActionGroup::make([
-                Tables\Actions\DeleteBulkAction::make(),
-            ]),
-        ]);
-}
+    {
+        return $table
+            ->columns([
+                Tables\Columns\TextColumn::make('nama_mesin')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('plant')
+                    ->badge()
+                    ->color('info'),
+                Tables\Columns\TextColumn::make('keterangan')
+                    ->label('Kategori')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'Mekanik' => 'primary',
+                        'Elektrik' => 'warning',
+                        'Utility' => 'success',
+                        'Calibraty' => 'danger',
+                    }),
+                Tables\Columns\TextColumn::make('maintenance.status')
+                    ->label('Status Perbaikan')
+                    ->badge()
+                    ->color(fn (?string $state): string => match (str($state)->lower()->trim()->toString()) {
+                        'pending' => 'warning',
+                        'on progress' => 'info',
+                        'selesai' => 'success',
+                        default => 'danger',
+                    })
+                    ->formatStateUsing(fn (?string $state): string => match (str($state)->lower()->trim()->toString()) {
+                        'pending' => 'Pending',
+                        'on progress' => 'On Progress',
+                        'selesai' => 'Selesai',
+                        '' => 'Belum Diproses',
+                        default => 'Belum Selesai',
+                    })
+                    ->sortable(),
+            ])
+            ->filters([
+                Tables\Filters\SelectFilter::make('plant')
+                    ->options(['A'=>'Plant A','B'=>'Plant B','C'=>'Plant C','D'=>'Plant D','E'=>'Plant E']),
+                Tables\Filters\SelectFilter::make('keterangan')
+                    ->options(['Mekanik'=>'Mekanik','Elektrik'=>'Elektrik','Utility'=>'Utility','Calibraty'=>'Calibraty']),
+            ])
+            ->actions([
+                // Tombol Detail sebagai Pop-up
+                Tables\Actions\ViewAction::make()
+                    ->label('Detail')
+                    ->modalHeading('Detail Laporan Produksi')
+                    ->modalWidth('2xl')
+                    ->icon('heroicon-m-eye')
+                    ->color('info'),
+            ])
+            ->bulkActions([]);
+    }
 
     public static function getRelations(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 
     public static function getPages(): array
     {
         return [
             'index' => Pages\ListProduksis::route('/'),
-            'create' => Pages\CreateProduksi::route('/create'),
-            'edit' => Pages\EditProduksi::route('/{record}/edit'),
         ];
     }
 
-    private static function getPlantOptions(): array
-{
-    $list = ['A', 'B', 'C', 'D', 'E', 'SS', 'SC', 'PE', 'QC', 'GA', 'MT', 'FH', 'FO', 'QR'];
-    
-    return array_combine($list, array_map(fn($p) => "Plant $p", $list));
-}
+    public static function canCreate(): bool
+    {
+        return false; 
+    }
 }

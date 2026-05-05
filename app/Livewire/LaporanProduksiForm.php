@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use App\Models\Produksi;
+use App\Models\Mesin;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 use Livewire\Attributes\Layout;
@@ -50,7 +51,7 @@ class LaporanProduksiForm extends Component
     // Metode Mount untuk inisialisasi awal
     public function mount()
     {
-        $this->listPlant = config('datamesin.plants');
+        $this->listPlant = Mesin::distinct()->pluck('plant')->toArray();
         $now = now('Asia/Jakarta');
         $this->tanggal_lapor = $now->format('Y-m-d');
         $this->jam_lapor = now()->format('H:i');
@@ -209,31 +210,40 @@ class LaporanProduksiForm extends Component
     // Metode utama untuk merender view dan data
 
     public function render()
-    {
-        $manualInputPlants = ['PE', 'QC', 'GA', 'MT'];
-        $listMesinUntukDitampilkan = collect();
-        $emptyMessage = 'Nama mesin tidak ditemukan.';
+{
+    $manualInputPlants = ['PE', 'QC', 'GA', 'MT'];
+    $listMesinUntukDitampilkan = collect();
+    $emptyMessage = 'Nama mesin tidak ditemukan.';
 
-        if ($this->plant) {
-            if (in_array($this->plant, $manualInputPlants)) {
-                $listMesinUntukDitampilkan = collect();
-                $emptyMessage = 'Tidak ada pilihan. Silakan input manual.';
-            } elseif (array_key_exists($this->plant, config('datamesin.mesins'))) {
-                $listMesinUntukDitampilkan = collect(config('datamesin.mesins')[$this->plant]);
-                $emptyMessage = 'Pilih Mesin dari dropdown atau ketik manual.';
-            } else {
-                // Debug: jika plant tidak ditemukan di konfigurasi
-                $emptyMessage = 'Plant tidak ditemukan di konfigurasi: ' . $this->plant;
-            }
+    if ($this->plant) {
+        // Cek apakah plant termasuk yang harus input manual
+        if (in_array($this->plant, $manualInputPlants)) {
+            $listMesinUntukDitampilkan = collect();
+            $emptyMessage = 'Tidak ada daftar mesin untuk area ini. Silakan input manual.';
         } else {
-            $emptyMessage = 'Pilih Plant untuk melihat daftar mesin.';
-        }
+            // AMBIL DARI DATABASE (Dinamis)
+            $listMesinUntukDitampilkan = Mesin::where('plant', $this->plant)
+                ->when($this->nama_mesin, function($query) {
+                    $query->where('nama_mesin', 'like', '%' . $this->nama_mesin . '%');
+                })
+                ->pluck('nama_mesin');
 
-        if (!empty($this->nama_mesin) && $listMesinUntukDitampilkan->isNotEmpty()) {
-            $listMesinUntukDitampilkan = $listMesinUntukDitampilkan->filter(function ($nama) {
-                return stripos($nama, $this->nama_mesin) !== false;
-            });
+            if ($listMesinUntukDitampilkan->isEmpty()) {
+                $emptyMessage = 'Belum ada data mesin di database untuk Plant ' . $this->plant;
+            } else {
+                $emptyMessage = 'Pilih Mesin dari daftar atau ketik manual jika tidak ada.';
+            }
         }
+    } else {
+        $emptyMessage = 'Pilih Plant terlebih dahulu untuk melihat daftar mesin.';
+    }
+
+    // Bagian filter manual jika $listMesinUntukDitampilkan masih ada isinya (fallback filter)
+    if (!empty($this->nama_mesin) && $listMesinUntukDitampilkan->isNotEmpty()) {
+        $listMesinUntukDitampilkan = $listMesinUntukDitampilkan->filter(function ($nama) {
+            return stripos($nama, $this->nama_mesin) !== false;
+        });
+    }
 
         $query = Produksi::query();
 

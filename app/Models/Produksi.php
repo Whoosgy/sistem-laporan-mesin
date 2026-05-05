@@ -27,8 +27,37 @@ class Produksi extends Model
     ];
 
 
-    public function maintenance(): HasOne
+         public function maintenance(): HasOne
     {
-        return $this->hasOne(Maintenance::class);
+        return $this->hasOne(Maintenance::class, 'produksi_id');
+    }
+
+    /**
+     * Logic Otomatis: Saat data produksi dibuat (created), 
+     * buat juga baris di tabel maintenance jika belum ada.
+     */
+    protected static function booted()
+    {
+        static::created(function ($produksi) {
+            // Cek apakah relasi maintenance sudah ada untuk menghindari duplikat
+            if (!$produksi->maintenance()->exists()) {
+                $produksi->maintenance()->create([
+                    'status' => 'Pending',
+                    'keterangan' => $produksi->keterangan, // Menyalin kategori (Mekanik/Elektrik)
+                ]);
+            }
+        });
+
+        static::deleted(function ($maintenance) {
+        // Saat tiket maintenance dihapus di backend, hapus juga laporan aslinya di produksi
+        if ($maintenance->produksi) {
+            $maintenance->produksi()->delete();
+        }
+    });
+
+        static::deleted(function ($produksi) {
+            $produksi->maintenance()->delete();
+        });
     }
 }
+    

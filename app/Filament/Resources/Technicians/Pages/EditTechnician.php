@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Filament\Resources\TechnicianResource\Pages;
+namespace App\Filament\Resources\Technicians\Pages;
 
-use App\Filament\Resources\TechnicianResource;
-use Filament\Actions;
+use App\Filament\Resources\Technicians\TechnicianResource;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\ViewAction;
 use Filament\Resources\Pages\EditRecord;
 
 class EditTechnician extends EditRecord
@@ -13,7 +14,8 @@ class EditTechnician extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+            ViewAction::make(),
+            DeleteAction::make(),
         ];
     }
 }
