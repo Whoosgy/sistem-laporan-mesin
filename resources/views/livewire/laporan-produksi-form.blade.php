@@ -30,24 +30,18 @@
                             <label for="tanggal_lapor"
                                 class="block text-sm font-medium text-slate-600 dark:text-slate-400">Tanggal
                                 Lapor</label>
-                            <input wire:model.blur="tanggal_lapor" type="date" id="tanggal_lapor"
-                                @if($plant=='MT' )
-                                min=""
-                                @else
-                                min="{{ now()->format('Y-m-d') }}"
-                                @endif
+                            <input wire:model.blur="tanggal_lapor" type="date" id="tanggal_lapor" @if($plant == 'MT')
+                            min="" @else min="{{ now()->format('Y-m-d') }}" @endif
                                 max="{{ now()->format('Y-m-d') }}" required
                                 class="mt-1 block w-full rounded-md border-slate-300 bg-slate-100 dark:bg-slate-900/50 dark:border-slate-700 dark:text-slate-200 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm date-input-fix">
-                            @error('tanggal_lapor') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                            @error('tanggal_lapor') <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                            @enderror
                         </div>
                         <div>
                             <label for="jam_lapor"
                                 class="block text-sm font-medium text-slate-600 dark:text-slate-400">Jam Lapor</label>
-                            <input wire:model="jam_lapor" type="time" id="jam_lapor"
-                                @if ($isJamLaporReadonly)
-                                readonly
-                                @endif
-                                required
+                            <input wire:model="jam_lapor" type="time" id="jam_lapor" @if ($isJamLaporReadonly) readonly
+                            @endif required
                                 class="mt-1 block w-full rounded-md border-slate-300 bg-slate-100 dark:bg-slate-900/50 dark:border-slate-700 dark:text-slate-200 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm date-input-fix">
                             @error('jam_lapor') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
                         </div>
@@ -65,14 +59,52 @@
 
                             </div>
                         </div>
-                        <div>
+                        <div x-data="{ openPelapor: false, pelapor: @entangle('nama_pelapor') }"
+                            @click.away="openPelapor = false">
+                            <label for="nama_pelapor"
+                                class="block text-sm font-medium text-slate-600 dark:text-slate-400">Nama
+                                Pelapor</label>
 
-                            <x-input-label for="nama_pelapor" value="Nama Pelapor" />
+                            @if(count($daftarPelapor) > 0)
+                                {{-- Mode Custom Dropdown (Dibatasi ~5 item dengan max-h-48 lalu scroll) --}}
+                                <div class="relative mt-1">
+                                    <input x-model="pelapor" type="text" readonly id="nama_pelapor" required
+                                        @click="openPelapor = !openPelapor" placeholder="-- Pilih Nama Pelapor --"
+                                        class="block w-full cursor-pointer rounded-md border-slate-300 bg-white text-slate-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm dark:bg-slate-900/50 dark:border-slate-600 dark:text-slate-200">
 
-                            <x-text-input id="nama_pelapor" class="block w-full mt-1" type="text"
-                                class="mt-1 block w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm "
-                                wire:model.blur="nama_pelapor" placeholder="Nama lengkap" required />
-                            @error('nama_pelapor') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                                    {{-- Ikon Panah Bawah --}}
+                                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                                        <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd"
+                                                d="M10 3a.75.75 0 01.53.22l3.5 3.5a.75.75 0 01-1.06 1.06L10 4.81 7.03 7.78a.75.75 0 01-1.06-1.06l3.5-3.5A.75.75 0 0110 3zm-3.72 9.53a.75.75 0 011.06 0L10 15.19l2.97-2.97a.75.75 0 111.06 1.06l-3.5 3.5a.75.75 0 01-1.06 0l-3.5-3.5a.75.75 0 010-1.06z"
+                                                clip-rule="evenodd" />
+                                        </svg>
+                                    </div>
+
+                                    {{-- Daftar Item (Scrollable) --}}
+                                    <div x-show="openPelapor" style="display: none;"
+                                        class="absolute z-10 w-full mt-1 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-md shadow-lg max-h-48 overflow-y-auto">
+                                        @foreach($daftarPelapor as $karyawan)
+                                            <!-- Gunakan pelapor = ... untuk mengubah teks di input secara real-time -->
+                                            <div @click="pelapor = '{{ addslashes($karyawan->nama) }}'; openPelapor = false"
+                                                class="cursor-pointer px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 border-b border-slate-100 dark:border-slate-700 last:border-0">
+                                                <span class="font-semibold">{{ $karyawan->nama }}</span>
+                                                <span
+                                                    class="block text-xs text-slate-500 dark:text-slate-400">{{ $karyawan->jabatan }}</span>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @else
+                                {{-- Mode Input Manual / Disabled --}}
+                                <input wire:model.blur="nama_pelapor" type="text" id="nama_pelapor" required
+                                    placeholder="{{ $plant ? 'Ketik nama pelapor secara manual' : 'Pilih Plant terlebih dahulu' }}"
+                                    {{ !$plant ? 'disabled' : '' }}
+                                    class="mt-1 block w-full rounded-md border-slate-300 bg-white text-slate-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm dark:bg-slate-900/50 dark:border-slate-600 dark:text-slate-200 {{ !$plant ? 'bg-slate-100 text-slate-400 cursor-not-allowed dark:bg-slate-800 dark:text-slate-500' : '' }}">
+                            @endif
+
+                            @error('nama_pelapor') <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                            @enderror
                         </div>
 
                         <div @click.away="openPlant = false">
@@ -92,10 +124,10 @@
                                 <div x-show="openPlant" style="display: none;"
                                     class="absolute z-10 w-full mt-1 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-md shadow-lg max-h-40 overflow-y-auto">
                                     @foreach($listPlant as $p)
-                                    <div @click="plant = '{{ addslashes($p) }}'; openPlant = false"
-                                        class="cursor-pointer px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">
-                                        {{ $p }}
-                                    </div>
+                                        <div @click="plant = '{{ addslashes($p) }}'; openPlant = false"
+                                            class="cursor-pointer px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">
+                                            {{ $p }}
+                                        </div>
                                     @endforeach
                                 </div>
                             </div>
@@ -103,7 +135,8 @@
                         </div>
                         <div>
                             <label for="nama_mesin"
-                                class="block text-sm font-medium text-slate-600 dark:text-slate-400">Nama Mesin / Forklift</label>
+                                class="block text-sm font-medium text-slate-600 dark:text-slate-400">Nama Mesin /
+                                Forklift</label>
                             @if ($isPlantManual)
                                 {{-- Input manual untuk plant yang tidak memiliki daftar mesin --}}
                                 <input wire:model="nama_mesin" type="text" id="nama_mesin" required
@@ -111,31 +144,31 @@
                                     class="mt-1 block w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 dark:text-slate-200 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
                             @else
 
-                            <div @click.away="openMesin = false">
-                                <div class="relative mt-1">
-                                    <input x-model="nama_mesin" @click="openMesin = true" type="text" id="nama_mesin"
-                                        required placeholder="{{ $namaMesinPlaceholder }}"
-                                        class="w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 dark:text-slate-200 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
-                                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                                        <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd"
-                                                d="M10 3a.75.75 0 01.53.22l3.5 3.5a.75.75 0 01-1.06 1.06L10 4.81 7.03 7.78a.75.75 0 01-1.06-1.06l3.5-3.5A.75.75 0 0110 3zm-3.72 9.53a.75.75 0 011.06 0L10 15.19l2.97-2.97a.75.75 0 111.06 1.06l-3.5 3.5a.75.75 0 01-1.06 0l-3.5-3.5a.75.75 0 010-1.06z"
-                                                clip-rule="evenodd" />
-                                        </svg>
-                                    </div>
-                                    <div x-show="openMesin" style="display: none;"
-                                        class="absolute z-10 w-full mt-1 bg-white dark:bg-slate-800 border border-slate-300 dark:text-slate-200 dark:border-slate-600 rounded-md shadow-lg max-h-40 overflow-y-auto">
-                                        @forelse($listMesin as $mesin)
-                                        <div @click="nama_mesin = '{{ addslashes($mesin) }}'; openMesin = false"
-                                            class="cursor-pointer px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">
-                                            {{ $mesin }}
+                                <div @click.away="openMesin = false">
+                                    <div class="relative mt-1">
+                                        <input x-model="nama_mesin" @click="openMesin = true" type="text" id="nama_mesin"
+                                            required placeholder="{{ $namaMesinPlaceholder }}"
+                                            class="w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 dark:text-slate-200 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
+                                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                                            <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fill-rule="evenodd"
+                                                    d="M10 3a.75.75 0 01.53.22l3.5 3.5a.75.75 0 01-1.06 1.06L10 4.81 7.03 7.78a.75.75 0 01-1.06-1.06l3.5-3.5A.75.75 0 0110 3zm-3.72 9.53a.75.75 0 011.06 0L10 15.19l2.97-2.97a.75.75 0 111.06 1.06l-3.5 3.5a.75.75 0 01-1.06 0l-3.5-3.5a.75.75 0 010-1.06z"
+                                                    clip-rule="evenodd" />
+                                            </svg>
                                         </div>
-                                        @empty
-                                        <div class="px-4 py-2 text-sm text-slate-500">{{ $emptyMessage }}</div>
-                                        @endforelse
+                                        <div x-show="openMesin" style="display: none;"
+                                            class="absolute z-10 w-full mt-1 bg-white dark:bg-slate-800 border border-slate-300 dark:text-slate-200 dark:border-slate-600 rounded-md shadow-lg max-h-40 overflow-y-auto">
+                                            @forelse($listMesin as $mesin)
+                                                <div @click="nama_mesin = '{{ addslashes($mesin) }}'; openMesin = false"
+                                                    class="cursor-pointer px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">
+                                                    {{ $mesin }}
+                                                </div>
+                                            @empty
+                                                <div class="px-4 py-2 text-sm text-slate-500">{{ $emptyMessage }}</div>
+                                            @endforelse
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
                             @endif
                             @error('nama_mesin') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
                         </div>
@@ -180,7 +213,7 @@
                                     <div @click="keterangan = 'Calibraty'; openKeterangan = false"
                                         class="cursor-pointer px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">
                                         C (Calibraty)</div>
-                                      <div @click="keterangan = 'Battery'; openKeterangan = false"
+                                    <div @click="keterangan = 'Battery'; openKeterangan = false"
                                         class="cursor-pointer px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">
                                         B (Battery)</div>
                                     <div @click="keterangan = 'Bahan bakar solar'; openKeterangan = false"
@@ -206,55 +239,71 @@
                         </div>
 
                         {{-- Kolom Upload Foto --}}
-                        <div
-                            x-data="{ isUploading: false, progress: 0 }"
+                        <div x-data="{ isUploading: false, progress: 0 }"
                             x-on:livewire-upload-start="isUploading = true"
                             x-on:livewire-upload-finish="isUploading = false"
                             x-on:livewire-upload-error="isUploading = false"
-                            x-on:livewire-upload-progress="progress = $event.detail.progress"
-                            class="flex flex-col">
-                            <label for="photo" class="block text-sm font-medium text-slate-600 dark:text-slate-400">Upload Foto (Opsional)</label>
+                            x-on:livewire-upload-progress="progress = $event.detail.progress" class="flex flex-col">
+                            <label for="photo"
+                                class="block text-sm font-medium text-slate-600 dark:text-slate-400">Upload Foto
+                                (Opsional)</label>
 
                             {{-- Area Pratinjau Foto atau Area Upload --}}
                             <div class="mt-1 flex-grow flex flex-col">
                                 @if ($photo)
-                                <div class="flex items-center justify-between bg-slate-100 dark:bg-slate-700 p-2 rounded-lg">
-                                    <div class="flex items-center gap-2 truncate">
-                                        <svg class="h-5 w-5 text-slate-500 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 0 1119.5 7.372L8.552 18.32m.009-.01l-.01.01m5.699-9.941l-7.81 7.81a1.5 1.5 0 002.122 2.122l7.81-7.81" />
-                                        </svg>
-                                        <a href="{{ $photo->temporaryUrl() }}" target="_blank" class="text-sm text-blue-600 dark:text-blue-400 hover:underline truncate" title="{{ $photo->getClientOriginalName() }}">
-                                            {{ $photo->getClientOriginalName() }}
-                                        </a>
-                                    </div>
-                                    <button wire:click="removePhoto" type="button" class="text-slate-500 hover:text-red-500 p-1 rounded-full">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                                        </svg>
-                                    </button>
-                                </div>
-                                @else
-                                {{-- Input File --}}
-                                <div class="flex-grow flex justify-center items-center px-6 py-4 border-2 border-slate-300 dark:border-slate-600 border-dashed rounded-md">
-                                    <div class="space-y-1 text-center">
-                                        <svg class="mx-auto h-12 w-12 text-slate-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
-                                            <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
-                                        <div class="flex text-sm text-slate-600 dark:text-slate-400">
-                                            <label for="photo-upload" class="relative cursor-pointer bg-white dark:bg-slate-800 rounded-md font-medium text-blue-600 dark:text-blue-400 hover:text-blue-500 focus-within:outline-none">
-                                                <span>Upload a file</span>
-                                                <input id="photo-upload" wire:model="photo" type="file" class="sr-only">
-                                            </label>
-                                            <p class="pl-1">atau seret dan lepas</p>
+                                    <div
+                                        class="flex items-center justify-between bg-slate-100 dark:bg-slate-700 p-2 rounded-lg">
+                                        <div class="flex items-center gap-2 truncate">
+                                            <svg class="h-5 w-5 text-slate-500 flex-shrink-0"
+                                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                stroke-width="1.5" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 0 1119.5 7.372L8.552 18.32m.009-.01l-.01.01m5.699-9.941l-7.81 7.81a1.5 1.5 0 002.122 2.122l7.81-7.81" />
+                                            </svg>
+                                            <a href="{{ $photo->temporaryUrl() }}" target="_blank"
+                                                class="text-sm text-blue-600 dark:text-blue-400 hover:underline truncate"
+                                                title="{{ $photo->getClientOriginalName() }}">
+                                                {{ $photo->getClientOriginalName() }}
+                                            </a>
                                         </div>
-                                        <p class="text-xs text-slate-500 dark:text-slate-500">PNG, JPG, GIF hingga 5MB</p>
+                                        <button wire:click="removePhoto" type="button"
+                                            class="text-slate-500 hover:text-red-500 p-1 rounded-full">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                                viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M6 18L18 6M6 6l12 12" />
+                                            </svg>
+                                        </button>
                                     </div>
-                                </div>
+                                @else
+                                    {{-- Input File --}}
+                                    <div
+                                        class="flex-grow flex justify-center items-center px-6 py-4 border-2 border-slate-300 dark:border-slate-600 border-dashed rounded-md">
+                                        <div class="space-y-1 text-center">
+                                            <svg class="mx-auto h-12 w-12 text-slate-400" stroke="currentColor" fill="none"
+                                                viewBox="0 0 48 48" aria-hidden="true">
+                                                <path
+                                                    d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                            <div class="flex text-sm text-slate-600 dark:text-slate-400">
+                                                <label for="photo-upload"
+                                                    class="relative cursor-pointer bg-white dark:bg-slate-800 rounded-md font-medium text-blue-600 dark:text-blue-400 hover:text-blue-500 focus-within:outline-none">
+                                                    <span>Upload a file</span>
+                                                    <input id="photo-upload" wire:model="photo" type="file" class="sr-only">
+                                                </label>
+                                                <p class="pl-1">atau seret dan lepas</p>
+                                            </div>
+                                            <p class="text-xs text-slate-500 dark:text-slate-500">PNG, JPG, GIF hingga 5MB
+                                            </p>
+                                        </div>
+                                    </div>
                                 @endif
                             </div>
 
                             {{-- Progress Bar --}}
-                            <div x-show="isUploading" class="w-full bg-slate-200 rounded-full h-2.5 mt-2 dark:bg-slate-700">
+                            <div x-show="isUploading"
+                                class="w-full bg-slate-200 rounded-full h-2.5 mt-2 dark:bg-slate-700">
                                 <div class="bg-blue-600 h-2.5 rounded-full" :style="{ width: progress + '%' }"></div>
                             </div>
 
@@ -300,29 +349,55 @@
 
                     {{-- Dropdown Kategori --}}
 
-                    <div class="relative inline-block text-left" x-data="{ open: false, selectedCategoryLabel: 'All Categories' }">
-                        <button @click="open = !open" type="button" class="inline-flex justify-center w-full rounded-md border border-slate-300 dark:border-slate-600 shadow-sm px-4 py-2 bg-white dark:bg-slate-900/50 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-100 focus:ring-blue-500">
+                    <div class="relative inline-block text-left"
+                        x-data="{ open: false, selectedCategoryLabel: 'All Categories' }">
+                        <button @click="open = !open" type="button"
+                            class="inline-flex justify-center w-full rounded-md border border-slate-300 dark:border-slate-600 shadow-sm px-4 py-2 bg-white dark:bg-slate-900/50 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-100 focus:ring-blue-500">
                             <span x-text="selectedCategoryLabel"></span>
-                            <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                fill="currentColor" aria-hidden="true">
+                                <path fill-rule="evenodd"
+                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                    clip-rule="evenodd" />
                             </svg>
                         </button>
-                        <div x-show="open" @click.away="open = false" class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-slate-800 ring-1 ring-black ring-opacity-5 z-20" style="display: none;">
+                        <div x-show="open" @click.away="open = false"
+                            class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-slate-800 ring-1 ring-black ring-opacity-5 z-20"
+                            style="display: none;">
                             <div class="py-1">
-                                <a href="#" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700" role="menuitem" wire:click.prevent="resetAllFilters" @click="selectedCategoryLabel = 'All Categories'; $dispatch('reset-availability'); open = false">All Categories</a>
-                                <a href="#" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700" role="menuitem" wire:click.prevent="$set('filterCategory', 'plant')" @click="selectedCategoryLabel = 'Plant'; open = false">Plant</a>
-                                <a href="#" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700" role="menuitem" wire:click.prevent="$set('filterCategory', 'status')" @click="selectedCategoryLabel = 'Status'; open = false">Status</a>
-                                <a href="#" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700" role="menuitem" wire:click.prevent="$set('filterCategory', 'keterangan')" @click="selectedCategoryLabel = 'Keterangan'; open = false">Keterangan</a>
+                                <a href="#"
+                                    class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
+                                    role="menuitem" wire:click.prevent="resetAllFilters"
+                                    @click="selectedCategoryLabel = 'All Categories'; $dispatch('reset-availability'); open = false">All
+                                    Categories</a>
+                                <a href="#"
+                                    class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
+                                    role="menuitem" wire:click.prevent="$set('filterCategory', 'plant')"
+                                    @click="selectedCategoryLabel = 'Plant'; open = false">Plant</a>
+                                <a href="#"
+                                    class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
+                                    role="menuitem" wire:click.prevent="$set('filterCategory', 'status')"
+                                    @click="selectedCategoryLabel = 'Status'; open = false">Status</a>
+                                <a href="#"
+                                    class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
+                                    role="menuitem" wire:click.prevent="$set('filterCategory', 'keterangan')"
+                                    @click="selectedCategoryLabel = 'Keterangan'; open = false">Keterangan</a>
                             </div>
                         </div>
                     </div>
 
                     {{-- Dropdown Opsi --}}
-                    <div class="relative inline-block text-left" x-data="{ open: false, selectedAvailabilityLabel: 'All Availability' }" @reset-availability.window="selectedAvailabilityLabel = 'All Availability'">
-                        <button @click="open = !open" type="button" class="inline-flex justify-center w-full rounded-md border border-slate-300 dark:border-slate-600 shadow-sm px-4 py-2 bg-white dark:bg-slate-900/50 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-100 focus:ring-blue-500">
+                    <div class="relative inline-block text-left"
+                        x-data="{ open: false, selectedAvailabilityLabel: 'All Availability' }"
+                        @reset-availability.window="selectedAvailabilityLabel = 'All Availability'">
+                        <button @click="open = !open" type="button"
+                            class="inline-flex justify-center w-full rounded-md border border-slate-300 dark:border-slate-600 shadow-sm px-4 py-2 bg-white dark:bg-slate-900/50 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-100 focus:ring-blue-500">
                             <span x-text="selectedAvailabilityLabel"></span>
-                            <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                fill="currentColor" aria-hidden="true">
+                                <path fill-rule="evenodd"
+                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                    clip-rule="evenodd" />
                             </svg>
                         </button>
 
@@ -399,10 +474,25 @@
                                 </template>
                                 <template x-if="$wire.filterCategory === 'status'">
                                     <div>
-                                        <a href="#" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700" role="menuitem" wire:click.prevent="filterReports('status', 'Pending')" @click="selectedAvailabilityLabel = 'Pending'; open = false">Pending</a>
-                                        <a href="#" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700" role="menuitem" wire:click.prevent="filterReports('status', 'On Progress')" @click="selectedAvailabilityLabel = 'On Progress'; open = false">On Progress</a>
-                                        <a href="#" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700" role="menuitem" wire:click.prevent="filterReports('status', 'Belum Selesai')" @click="selectedAvailabilityLabel = 'Belum Selesai'; open = false">Belum Selesai</a>
-                                        <a href="#" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700" role="menuitem" wire:click.prevent="filterReports('status', 'Selesai')" @click="selectedAvailabilityLabel = 'Selesai'; open = false">Selesai</a>
+                                        <a href="#"
+                                            class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
+                                            role="menuitem" wire:click.prevent="filterReports('status', 'Pending')"
+                                            @click="selectedAvailabilityLabel = 'Pending'; open = false">Pending</a>
+                                        <a href="#"
+                                            class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
+                                            role="menuitem" wire:click.prevent="filterReports('status', 'On Progress')"
+                                            @click="selectedAvailabilityLabel = 'On Progress'; open = false">On
+                                            Progress</a>
+                                        <a href="#"
+                                            class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
+                                            role="menuitem"
+                                            wire:click.prevent="filterReports('status', 'Belum Selesai')"
+                                            @click="selectedAvailabilityLabel = 'Belum Selesai'; open = false">Belum
+                                            Selesai</a>
+                                        <a href="#"
+                                            class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
+                                            role="menuitem" wire:click.prevent="filterReports('status', 'Selesai')"
+                                            @click="selectedAvailabilityLabel = 'Selesai'; open = false">Selesai</a>
                                     </div>
                                 </template>
                                 <template x-if="$wire.filterCategory === 'keterangan'">
@@ -421,7 +511,8 @@
                                             @click="selectedAvailabilityLabel = 'Utility'; open = false">Utility</a>
                                         <a href="#"
                                             class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                            role="menuitem" wire:click.prevent="filterReports('keterangan', 'Calibraty')"
+                                            role="menuitem"
+                                            wire:click.prevent="filterReports('keterangan', 'Calibraty')"
                                             @click="selectedAvailabilityLabel = 'Calibraty'; open = false">Calibraty</a>
                                         <a href="#"
                                             class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
@@ -429,8 +520,10 @@
                                             @click="selectedAvailabilityLabel = 'Battery'; open = false">Battery</a>
                                         <a href="#"
                                             class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                                            role="menuitem" wire:click.prevent="filterReports('keterangan', 'Bahan bakar solar')"
-                                            @click="selectedAvailabilityLabel = 'Bahan bakar solar'; open = false">Bahan bakar solar</a>
+                                            role="menuitem"
+                                            wire:click.prevent="filterReports('keterangan', 'Bahan bakar solar')"
+                                            @click="selectedAvailabilityLabel = 'Bahan bakar solar'; open = false">Bahan
+                                            bakar solar</a>
                                     </div>
                                 </template>
                             </div>
@@ -476,10 +569,12 @@
             <div class="overflow-x-auto max-h-[28rem] overflow-y-auto">
                 <table class="min-w-full text-sm">
                     <thead class="bg-slate-50 dark:bg-slate-800 sticky top-0 z-10">
-                        <th class="px-5 py-3 font-medium text-slate-600 dark:text-slate-300 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700" wire:click="sortBy('tanggal_lapor')">
+                        <th class="px-5 py-3 font-medium text-slate-600 dark:text-slate-300 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700"
+                            wire:click="sortBy('tanggal_lapor')">
                             <div class="flex items-center gap-2">
                                 <span>Tanggal & Pelapor</span>
-                                <svg class="h-4 w-4 @if($sortField !== 'tanggal_lapor') text-slate-400 @endif @if($sortDirection === 'desc' && $sortField === 'tanggal_lapor') transform rotate-180 @endif transition-transform" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <svg class="h-4 w-4 @if($sortField !== 'tanggal_lapor') text-slate-400 @endif @if($sortDirection === 'desc' && $sortField === 'tanggal_lapor') transform rotate-180 @endif transition-transform"
+                                    viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M0 5H3L3 16H5L5 5L8 5V4L4 0L0 4V5Z" fill="currentColor" />
                                     <path d="M16 6H10V8H16V6Z" fill="currentColor" />
                                     <path d="M10 10H14V12H10V10Z" fill="currentColor" />
@@ -487,10 +582,12 @@
                                 </svg>
                             </div>
                         </th>
-                        <th class="px-5 py-3 font-medium text-slate-600 dark:text-slate-300 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700" wire:click="sortBy('nama_mesin')">
+                        <th class="px-5 py-3 font-medium text-slate-600 dark:text-slate-300 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700"
+                            wire:click="sortBy('nama_mesin')">
                             <div class="flex items-center gap-2">
                                 <span>Mesin & Plant</span>
-                                <svg class="h-4 w-4 @if($sortField !== 'nama_mesin') text-slate-400 @endif @if($sortDirection === 'desc' && $sortField === 'nama_mesin') transform rotate-180 @endif transition-transform" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <svg class="h-4 w-4 @if($sortField !== 'nama_mesin') text-slate-400 @endif @if($sortDirection === 'desc' && $sortField === 'nama_mesin') transform rotate-180 @endif transition-transform"
+                                    viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M0 5H3L3 16H5L5 5L8 5V4L4 0L0 4V5Z" fill="currentColor" />
                                     <path d="M16 6H10V8H16V6Z" fill="currentColor" />
                                     <path d="M10 10H14V12H10V10Z" fill="currentColor" />
@@ -506,67 +603,68 @@
                     </thead>
                     <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
                         @forelse ($semuaLaporan as $laporan)
-                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50">
-                            <td class="px-5 py-4 whitespace-nowrap">
-                                <p class="font-semibold text-slate-900 dark:text-white">{{ $laporan->nama_pelapor }}
-                                </p>
-                                <p class="text-slate-500 dark:text-slate-400">
-                                    {{ \Carbon\Carbon::parse($laporan->tanggal_lapor)->format('d M Y') }} -
-                                    {{ \Carbon\Carbon::parse($laporan->jam_lapor)->format('H:i') }}
-                                </p>
-                            </td>
-                            <td class="px-5 py-4 whitespace-nowrap">
-                                <p class="font-semibold text-slate-900 dark:text-white">{{ $laporan->nama_mesin }}
-                                </p>
-                                <p class="text-slate-500 dark:text-slate-400">Plant {{ $laporan->plant }}</p>
-                            </td>
-                            <td class="px-5 py-4 max-w-sm truncate text-slate-500 dark:text-slate-400">
-                                {{ $laporan->uraian_kerusakan }}
-                            </td>
-                            <td class="px-5 py-4 whitespace-nowrap text-slate-500 dark:text-slate-400">
-                                {{ $laporan->keterangan }}
-                            </td>
-                            <td class="px-5 py-4 whitespace-nowrap text-center">
-                                @php $status = optional($laporan->maintenance)->status ?? 'Pending'; @endphp
+                            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50">
+                                <td class="px-5 py-4 whitespace-nowrap">
+                                    <p class="font-semibold text-slate-900 dark:text-white">{{ $laporan->nama_pelapor }}
+                                    </p>
+                                    <p class="text-slate-500 dark:text-slate-400">
+                                        {{ \Carbon\Carbon::parse($laporan->tanggal_lapor)->format('d M Y') }} -
+                                        {{ \Carbon\Carbon::parse($laporan->jam_lapor)->format('H:i') }}
+                                    </p>
+                                </td>
+                                <td class="px-5 py-4 whitespace-nowrap">
+                                    <p class="font-semibold text-slate-900 dark:text-white">{{ $laporan->nama_mesin }}
+                                    </p>
+                                    <p class="text-slate-500 dark:text-slate-400">Plant {{ $laporan->plant }}</p>
+                                </td>
+                                <td class="px-5 py-4 max-w-sm truncate text-slate-500 dark:text-slate-400">
+                                    {{ $laporan->uraian_kerusakan }}
+                                </td>
+                                <td class="px-5 py-4 whitespace-nowrap text-slate-500 dark:text-slate-400">
+                                    {{ $laporan->keterangan }}
+                                </td>
+                                <td class="px-5 py-4 whitespace-nowrap text-center">
+                                    @php $status = optional($laporan->maintenance)->status ?? 'Pending'; @endphp
 
 
-                                @if($status == 'Pending')
-                                <span
-                                    class="inline-flex items-center justify-center rounded-full bg-amber-100 px-2.5 py-0.5 text-amber-700 dark:bg-amber-900/50 dark:text-amber-400">
-                                    <p class="whitespace-nowrap text-xs font-semibold">{{ $status }}</p>
-                                </span>
+                                    @if($status == 'Pending')
+                                        <span
+                                            class="inline-flex items-center justify-center rounded-full bg-amber-100 px-2.5 py-0.5 text-amber-700 dark:bg-amber-900/50 dark:text-amber-400">
+                                            <p class="whitespace-nowrap text-xs font-semibold">{{ $status }}</p>
+                                        </span>
 
-                                @elseif($status == 'On Progress')
-                                <span class="inline-flex items-center justify-center rounded-full bg-sky-100 px-2.5 py-0.5 text-sky-700 dark:bg-sky-900/50 dark:text-sky-400">
-                                    <p class="whitespace-nowrap text-xs font-semibold">{{ $status }}</p>
-                                </span>
+                                    @elseif($status == 'On Progress')
+                                        <span
+                                            class="inline-flex items-center justify-center rounded-full bg-sky-100 px-2.5 py-0.5 text-sky-700 dark:bg-sky-900/50 dark:text-sky-400">
+                                            <p class="whitespace-nowrap text-xs font-semibold">{{ $status }}</p>
+                                        </span>
 
-                                @elseif($status == 'Dalam Proses' || $status == 'Belum Selesai')
-                                <span
-                                    class="inline-flex items-center justify-center rounded-full bg-red-100 px-2.5 py-0.5 text-red-700 dark:bg-red-900/50 dark:text-red-400">
-                                    <p class="whitespace-nowrap text-xs font-semibold">{{ $status }}</p>
-                                </span>
+                                    @elseif($status == 'Dalam Proses' || $status == 'Belum Selesai')
+                                        <span
+                                            class="inline-flex items-center justify-center rounded-full bg-red-100 px-2.5 py-0.5 text-red-700 dark:bg-red-900/50 dark:text-red-400">
+                                            <p class="whitespace-nowrap text-xs font-semibold">{{ $status }}</p>
+                                        </span>
 
-                                @elseif($status == 'Selesai')
-                                <span
-                                    class="inline-flex items-center justify-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-400">
-                                    <p class="whitespace-nowrap text-xs font-semibold">{{ $status }}</p>
-                                </span>
+                                    @elseif($status == 'Selesai')
+                                        <span
+                                            class="inline-flex items-center justify-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-400">
+                                            <p class="whitespace-nowrap text-xs font-semibold">{{ $status }}</p>
+                                        </span>
 
-                                @else
-                                <span
-                                    class="inline-flex items-center justify-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-400">
-                                    <p class="whitespace-nowrap text-xs font-semibold">{{ $status }}</p>
-                                </span>
-                                @endif
-                            </td>
-                        </tr>
+                                    @else
+                                        <span
+                                            class="inline-flex items-center justify-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-400">
+                                            <p class="whitespace-nowrap text-xs font-semibold">{{ $status }}</p>
+                                        </span>
+                                    @endif
+                                </td>
+                            </tr>
                         @empty
-                        <tr class="dark:bg-slate-800">
-                            <td colspan="5" class="px-6 py-12 text-center text-slate-500">
-                                Belum ada laporan yang masuk.
-                            </td>
-                        </tr>
+                            <tr class="dark:bg-slate-800">
+                                <td colspan="5" class="px-6 py-12 text-center text-slate-500">
+                                    Belum ada laporan yang masuk.
+                                </td>
+                            </tr>
                         @endforelse
                     </tbody>
                 </table>
@@ -592,78 +690,78 @@
         </div>
     </div>
 
-    {{-- Pop-up (Modal) untuk Konfirmasi  --}}
+    {{-- Pop-up (Modal) untuk Konfirmasi --}}
     @if($isModalOpen)
-    <div x-data="{ show: @entangle('isModalOpen') }" x-show="show" x-on:keydown.escape.window="show = false"
-        class="fixed inset-0 z-50 flex items-center justify-center" style="display: none;">
-        <div x-show="show" x-transition.opacity class="fixed inset-0 bg-black/50 backdrop-blur-sm"
-            wire:click="closeModal"></div>
+        <div x-data="{ show: @entangle('isModalOpen') }" x-show="show" x-on:keydown.escape.window="show = false"
+            class="fixed inset-0 z-50 flex items-center justify-center" style="display: none;">
+            <div x-show="show" x-transition.opacity class="fixed inset-0 bg-black/50 backdrop-blur-sm"
+                wire:click="closeModal"></div>
 
-        <div x-show="show" x-transition
-            class="relative w-full max-w-lg m-8 bg-white dark:bg-slate-800 rounded-lg shadow-xl border border-slate-200 dark:border-slate-700">
-            <form wire:submit.prevent="save">
-                <div class="p-6 border-b border-slate-200 dark:border-slate-700">
-                    <h3 class="text-lg font-semibold text-slate-900 dark:text-white">
-                        Konfirmasi Data Laporan
-                    </h3>
-                    <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Pastikan semua data sudah benar sebelum
-                        dikirim.</p>
-                </div>
+            <div x-show="show" x-transition
+                class="relative w-full max-w-lg m-8 bg-white dark:bg-slate-800 rounded-lg shadow-xl border border-slate-200 dark:border-slate-700">
+                <form wire:submit.prevent="save">
+                    <div class="p-6 border-b border-slate-200 dark:border-slate-700">
+                        <h3 class="text-lg font-semibold text-slate-900 dark:text-white">
+                            Konfirmasi Data Laporan
+                        </h3>
+                        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Pastikan semua data sudah benar sebelum
+                            dikirim.</p>
+                    </div>
 
-                <div class="p-6 space-y-2 text-sm max-h-96 overflow-y-auto">
-                    <div class="flex justify-between py-2 border-b border-slate-200 dark:border-slate-700">
-                        <span class="font-medium text-slate-500 dark:text-slate-400">Tanggal & Jam</span>
-                        <span
-                            class="font-semibold text-slate-700 dark:text-slate-200 text-right">{{ $tanggal_lapor ?? '___' }}
-                            & {{ $jam_lapor ?? '___' }}</span>
+                    <div class="p-6 space-y-2 text-sm max-h-96 overflow-y-auto">
+                        <div class="flex justify-between py-2 border-b border-slate-200 dark:border-slate-700">
+                            <span class="font-medium text-slate-500 dark:text-slate-400">Tanggal & Jam</span>
+                            <span
+                                class="font-semibold text-slate-700 dark:text-slate-200 text-right">{{ $tanggal_lapor ?? '___' }}
+                                & {{ $jam_lapor ?? '___' }}</span>
+                        </div>
+                        <div class="flex justify-between py-2 border-b border-slate-200 dark:border-slate-700">
+                            <span class="font-medium text-slate-500 dark:text-slate-400">Shift</span>
+                            <span class="font-semibold text-slate-700 dark:text-slate-200">{{ $shift ?? '___' }}</span>
+                        </div>
+                        <div class="flex justify-between py-2 border-b border-slate-200 dark:border-slate-700">
+                            <span class="font-medium text-slate-500 dark:text-slate-400">Pelapor</span>
+                            <span
+                                class="font-semibold text-slate-700 dark:text-slate-200">{{ $nama_pelapor ?? '___' }}</span>
+                        </div>
+                        <div class="flex justify-between py-2 border-b border-slate-200 dark:border-slate-700">
+                            <span class="font-medium text-slate-500 dark:text-slate-400">Plant</span>
+                            <span class="font-semibold text-slate-700 dark:text-slate-200">{{ $plant ?? '___' }}</span>
+                        </div>
+                        <div class="flex justify-between py-2 border-b border-slate-200 dark:border-slate-700">
+                            <span class="font-medium text-slate-500 dark:text-slate-400">Nama Mesin</span>
+                            <span class="font-semibold text-slate-700 dark:text-slate-200">{{ $nama_mesin ?? '___' }}</span>
+                        </div>
+                        <div class="flex justify-between py-2 border-b border-slate-200 dark:border-slate-700">
+                            <span class="font-medium text-slate-500 dark:text-slate-400">Bagian Rusak</span>
+                            <span
+                                class="font-semibold text-slate-700 dark:text-slate-200">{{ $bagian_rusak ?? '___' }}</span>
+                        </div>
+                        <div class="flex justify-between py-2 border-b border-slate-200 dark:border-slate-700">
+                            <span class="font-medium text-slate-500 dark:text-slate-400">Keterangan</span>
+                            <span class="font-semibold text-slate-700 dark:text-slate-200">{{ $keterangan ?? '___' }}</span>
+                        </div>
+                        <div>
+                            <span class="font-medium text-slate-500 dark:text-slate-400">Uraian Kerusakan</span>
+                            <p class="mt-1 font-semibold text-slate-700 dark:text-slate-200">
+                                {{ $uraian_kerusakan ?? '___' }}
+                            </p>
+                        </div>
                     </div>
-                    <div class="flex justify-between py-2 border-b border-slate-200 dark:border-slate-700">
-                        <span class="font-medium text-slate-500 dark:text-slate-400">Shift</span>
-                        <span class="font-semibold text-slate-700 dark:text-slate-200">{{ $shift ?? '___' }}</span>
-                    </div>
-                    <div class="flex justify-between py-2 border-b border-slate-200 dark:border-slate-700">
-                        <span class="font-medium text-slate-500 dark:text-slate-400">Pelapor</span>
-                        <span
-                            class="font-semibold text-slate-700 dark:text-slate-200">{{ $nama_pelapor ?? '___' }}</span>
-                    </div>
-                    <div class="flex justify-between py-2 border-b border-slate-200 dark:border-slate-700">
-                        <span class="font-medium text-slate-500 dark:text-slate-400">Plant</span>
-                        <span class="font-semibold text-slate-700 dark:text-slate-200">{{ $plant ?? '___' }}</span>
-                    </div>
-                    <div class="flex justify-between py-2 border-b border-slate-200 dark:border-slate-700">
-                        <span class="font-medium text-slate-500 dark:text-slate-400">Nama Mesin</span>
-                        <span class="font-semibold text-slate-700 dark:text-slate-200">{{ $nama_mesin ?? '___' }}</span>
-                    </div>
-                    <div class="flex justify-between py-2 border-b border-slate-200 dark:border-slate-700">
-                        <span class="font-medium text-slate-500 dark:text-slate-400">Bagian Rusak</span>
-                        <span
-                            class="font-semibold text-slate-700 dark:text-slate-200">{{ $bagian_rusak ?? '___' }}</span>
-                    </div>
-                    <div class="flex justify-between py-2 border-b border-slate-200 dark:border-slate-700">
-                        <span class="font-medium text-slate-500 dark:text-slate-400">Keterangan</span>
-                        <span class="font-semibold text-slate-700 dark:text-slate-200">{{ $keterangan ?? '___' }}</span>
-                    </div>
-                    <div>
-                        <span class="font-medium text-slate-500 dark:text-slate-400">Uraian Kerusakan</span>
-                        <p class="mt-1 font-semibold text-slate-700 dark:text-slate-200">
-                            {{ $uraian_kerusakan ?? '___' }}
-                        </p>
-                    </div>
-                </div>
 
-                <div class="bg-slate-50 dark:bg-slate-800/50 px-6 py-4 flex justify-end items-center space-x-3">
-                    <button type="button" wire:click="closeModal"
-                        class="px-4 py-2 text-sm font-medium text-slate-600 bg-white border border-slate-300 rounded-md shadow-sm hover:bg-slate-50">
-                        Batal
-                    </button>
-                    <button type="submit"
-                        class="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700">
-                        <span wire:loading.remove wire:target="save">Ya, Kirim Laporan</span>
-                        <span wire:loading wire:target="save">Mengirim...</span>
-                    </button>
-                </div>
-            </form>
+                    <div class="bg-slate-50 dark:bg-slate-800/50 px-6 py-4 flex justify-end items-center space-x-3">
+                        <button type="button" wire:click="closeModal"
+                            class="px-4 py-2 text-sm font-medium text-slate-600 bg-white border border-slate-300 rounded-md shadow-sm hover:bg-slate-50">
+                            Batal
+                        </button>
+                        <button type="submit"
+                            class="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700">
+                            <span wire:loading.remove wire:target="save">Ya, Kirim Laporan</span>
+                            <span wire:loading wire:target="save">Mengirim...</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
     @endif
 </div>
