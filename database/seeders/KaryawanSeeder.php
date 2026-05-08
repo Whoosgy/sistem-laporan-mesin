@@ -12,11 +12,11 @@ class KaryawanSeeder extends Seeder
         Karyawan::truncate();
         $data = [
 
-            // Data untuk Plant Facility
-            ['nik' => '1081', 'nama' => 'RIWANTO', 'plant' => 'FA', 'jabatan' => 'SUPERVISOR FACILITY'],
-            ['nik' => '174', 'nama' => 'SARJANA', 'plant' => 'FA', 'jabatan' => 'FOREMAN KONSTRUKSI'],
-            ['nik' => '420', 'nama' => 'SUDARTO', 'plant' => 'FA', 'jabatan' => 'FOREMAN UTILITY'],
-            ['nik' => '979', 'nama' => 'WIHARJA PUTRA', 'plant' => 'FA', 'jabatan' => 'FOREMAN KONSTRUKSI'],
+            // Data untuk Plant Facility FH
+            ['nik' => '1081', 'nama' => 'RIWANTO', 'plant' => 'FH', 'jabatan' => 'SUPERVISOR FACILITY'],
+            ['nik' => '174', 'nama' => 'SARJANA', 'plant' => 'FH', 'jabatan' => 'FOREMAN KONSTRUKSI'],
+            ['nik' => '420', 'nama' => 'SUDARTO', 'plant' => 'FH', 'jabatan' => 'FOREMAN UTILITY'],
+            ['nik' => '979', 'nama' => 'WIHARJA PUTRA', 'plant' => 'FH', 'jabatan' => 'FOREMAN KONSTRUKSI'],
 
             // Data untuk Plant GA
             ['nik' => '2537', 'nama' => 'NOVIE ANZUFLES', 'plant' => 'GA', 'jabatan' => 'FOREMAN OFFICE SERVICE (FA)'],
@@ -91,11 +91,11 @@ class KaryawanSeeder extends Seeder
             // Data untuk Plant PE
             ['nik' => '2472', 'nama' => 'DANU MAMI LUKAT', 'plant' => 'PLANT PE', 'jabatan' => 'SUPERVISOR PE (PLANT PE)'],
 
-            // Data untuk Plant PROCUREMENT
-            ['nik' => '2678', 'nama' => 'SITI HODIJAH', 'plant' => 'PLANT PROCUREMENT', 'jabatan' => 'SUPERVISOR LOCAL PURCHASING (PLANT PROCUREMENT)'],
-            ['nik' => '813', 'nama' => 'SUWANTO', 'plant' => 'PLANT PROCUREMENT', 'jabatan' => 'SUPERVISOR PLANNING INVENTORY (PLANT PROCUREMENT)'],
-            ['nik' => '1011', 'nama' => 'ANWAR SANUSI', 'plant' => 'PLANT PROCUREMENT', 'jabatan' => 'FOREMAN INVENTORY (PLANT PROCUREMENT)'],
-            ['nik' => '1662', 'nama' => 'SUPARYANTO', 'plant' => 'PLANT PROCUREMENT', 'jabatan' => 'FOREMAN INVENTORY (PLANT PROCUREMENT)'],
+            // Data untuk Plant PROCUREMENT SC
+            ['nik' => '2678', 'nama' => 'SITI HODIJAH', 'plant' => 'PLANT SC', 'jabatan' => 'SUPERVISOR LOCAL PURCHASING (PLANT SC)'],
+            ['nik' => '813', 'nama' => 'SUWANTO', 'plant' => 'PLANT SC', 'jabatan' => 'SUPERVISOR PLANNING INVENTORY (PLANT SC)'],
+            ['nik' => '1011', 'nama' => 'ANWAR SANUSI', 'plant' => 'PLANT SC', 'jabatan' => 'FOREMAN INVENTORY (PLANT SC)'],
+            ['nik' => '1662', 'nama' => 'SUPARYANTO', 'plant' => 'PLANT SC', 'jabatan' => 'FOREMAN INVENTORY (PLANT SC)'],
 
             // Data untuk Plant SS (SALES SUPPORT)
             ['nik' => '735', 'nama' => 'RUBANDI', 'plant' => 'PLANT SS', 'jabatan' => 'FOREMAN PENGIRIMAN & PENERIMAAN (PLANT SALES SUPPORT)'],
