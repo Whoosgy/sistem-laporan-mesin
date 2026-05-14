@@ -24,7 +24,7 @@ class UpdateLaporan extends Component
     public $keterangan;
     public $keterangan_maintenance;
     public $status;
-    
+
     // Properti untuk Pencarian dan Pemilihan Teknisi
     public string $searchQuery = '';
     public array $allTechnicians = [];
@@ -45,15 +45,15 @@ class UpdateLaporan extends Component
     {
         return collect($this->allTechnicians)->filter(function ($technician) {
             // Kondisi 1: Tidak ada dalam daftar yang sudah dipilih
-           $isAlreadySelected = collect($this->selectedTechnicians)->contains('id', $technician['id']);
+            $isAlreadySelected = collect($this->selectedTechnicians)->contains('id', $technician['id']);
             // Cocokkan dengan pencarian nama
-            $matchesSearch = empty($this->searchQuery) || 
-                             str_contains(strtolower($technician['name']), strtolower($this->searchQuery));
+            $matchesSearch = empty($this->searchQuery) ||
+                str_contains(strtolower($technician['name']), strtolower($this->searchQuery));
 
             return !$isAlreadySelected && $matchesSearch;
         })->values()->all();
     }
-    
+
     // Fungsi untuk MEMILIH teknisi dari daftar
     public function selectTechnician($id, $name)
     {
@@ -61,10 +61,10 @@ class UpdateLaporan extends Component
         if (count($this->selectedTechnicians) < 5) {
             // Pastikan tidak double input
             $exists = collect($this->selectedTechnicians)->contains('id', $id);
-            
+
             if (!$exists) {
                 $this->selectedTechnicians[] = [
-                    'id' => $id, 
+                    'id' => $id,
                     'name' => $name
                 ];
                 $this->searchQuery = '';
@@ -89,25 +89,32 @@ class UpdateLaporan extends Component
         return [
             'tanggal_selesai' => 'required_if:status,Selesai|nullable|date',
             'waktu_selesai' => 'required_if:status,Selesai|nullable|string',
-            'waktu_perbaikan' => 'required',
+            'waktu_perbaikan' => 'required|string',
             'selectedTechnicians' => 'required|array|min:1|max:5',
-            'jenis_perbaikan' => 'nullable|string',
-            'sparepart' => 'nullable|string',
+            'jenis_perbaikan' => 'required|string',
+            'sparepart' => 'required|string',
+            'keterangan_maintenance' => 'required|string|in:TM,TE,TU,LM,LE,LU',
             'keterangan' => 'nullable|string',
             'status' => 'required|string|in:Pending,On Progress,Belum Selesai,Selesai',
-            'keterangan_maintenance' => 'nullable|string',
         ];
-    
     }
+
+    protected $messages = [
+        'selectedTechnicians.required' => 'Pilih minimal 1 teknisi.',
+        'jenis_perbaikan.required' => 'Uraian perbaikan wajib diisi.',
+        'sparepart.required' => 'Sparepart wajib diisi.',
+        'keterangan_maintenance.required' => 'Keterangan maintenance wajib diisi.',
+        'keterangan_maintenance.in' => 'Pilih keterangan yang valid.',
+    ];
 
     #[On('open-update-modal')]
     public function loadLaporan($produksiId)
     {
         $this->laporanProduksi = Produksi::with('maintenance.technicians')->find($produksiId);
-    
+
         if ($this->laporanProduksi) {
             $this->produksi_id = $this->laporanProduksi->id;
-    
+
             if ($this->laporanProduksi->maintenance) {
                 $maintenance = $this->laporanProduksi->maintenance;
                 $this->waktu_perbaikan = $maintenance->waktu_perbaikan;
@@ -119,7 +126,7 @@ class UpdateLaporan extends Component
                 $this->keterangan_maintenance = $maintenance->keterangan_maintenance;
                 $this->status = $maintenance->status;
 
-                $this->selectedTechnicians = $maintenance->technicians->map(function($tech) {
+                $this->selectedTechnicians = $maintenance->technicians->map(function ($tech) {
                     return [
                         'id' => $tech->id,
                         'name' => $tech->name,
@@ -133,44 +140,44 @@ class UpdateLaporan extends Component
             $this->searchQuery = '';
             $this->isModalOpen = true;
         }
-        }
-        public function updateLaporan()
-        {
-            $this->validate();
-        
-            $dataToSave = [
-                'waktu_perbaikan' => $this->waktu_perbaikan,
-                'waktu_selesai'   => $this->waktu_selesai ?? null,
-                'tanggal_selesai' => $this->tanggal_selesai ?? null,
-                'jenis_perbaikan' => $this->jenis_perbaikan ?? 'N/A',
-                'sparepart'       => $this->sparepart ?? 'Tidak ada',
-                'keterangan'      => $this->keterangan ?? 'Tidak ada',
-                'keterangan_maintenance' => $this->keterangan_maintenance ?? 'Tidak ada',
-                'status'          => $this->status,
-            ];
-        
-            $maintenance = Maintenance::updateOrCreate(
-                ['produksi_id' => $this->produksi_id],
-                $dataToSave
-            );
-        
-            $ids = collect($this->selectedTechnicians)->pluck('id')->toArray();
-            $maintenance->technicians()->sync($ids);
-        
-            $this->isModalOpen = false;
-            $this->dispatch('laporan-updated-sukses');
-            $this->dispatch('laporan-sukses', 'Status laporan berhasil diperbarui!');
-        }
-        
-            public function closeModal()
-            {
-                $this->isModalOpen = false;
-            }
-            public function render()
-            {
-                return view('livewire.maintenance.update-laporan');
-            }
-        }
+    }
+    public function updateLaporan()
+    {
+        $this->validate();
+
+        $dataToSave = [
+            'waktu_perbaikan' => $this->waktu_perbaikan,
+            'waktu_selesai' => $this->waktu_selesai ?? null,
+            'tanggal_selesai' => $this->tanggal_selesai ?? null,
+            'jenis_perbaikan' => $this->jenis_perbaikan ?? 'N/A',
+            'sparepart' => $this->sparepart ?? 'Tidak ada',
+            'keterangan' => $this->keterangan ?? 'Tidak ada',
+            'keterangan_maintenance' => $this->keterangan_maintenance ?? 'Tidak ada',
+            'status' => $this->status,
+        ];
+
+        $maintenance = Maintenance::updateOrCreate(
+            ['produksi_id' => $this->produksi_id],
+            $dataToSave
+        );
+
+        $ids = collect($this->selectedTechnicians)->pluck('id')->toArray();
+        $maintenance->technicians()->sync($ids);
+
+        $this->isModalOpen = false;
+        $this->dispatch('laporan-updated-sukses');
+        $this->dispatch('laporan-sukses', 'Status laporan berhasil diperbarui!');
+    }
+
+    public function closeModal()
+    {
+        $this->isModalOpen = false;
+    }
+    public function render()
+    {
+        return view('livewire.maintenance.update-laporan');
+    }
+}
 
 
 
