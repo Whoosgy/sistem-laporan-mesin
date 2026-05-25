@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\ProduksiResource\Pages;
+namespace App\Filament\Resources\UserResource\Pages;
 
-use App\Filament\Resources\ProduksiResource;
+use App\Filament\Resources\UserResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 
-class ListProduksis extends ListRecords
+class ListUsers extends ListRecords
 {
-    protected static string $resource = ProduksiResource::class;
+    protected static string $resource = UserResource::class;
 
     protected static ?string $breadcrumb = 'Semua Data';
 

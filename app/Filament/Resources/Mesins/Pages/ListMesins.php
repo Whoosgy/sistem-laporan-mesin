@@ -10,6 +10,8 @@ class ListMesins extends ListRecords
 {
     protected static string $resource = MesinResource::class;
 
+    protected static ?string $breadcrumb = 'Semua Data';
+
     protected function getHeaderActions(): array
     {
         return [

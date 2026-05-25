@@ -4,6 +4,7 @@ namespace App\Providers\Filament;
 
 use Filament\Http\Middleware\Authenticate;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
+use BezhanSalleh\FilamentShield\Resources\RoleResource; 
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -34,8 +35,8 @@ class AdminPanelProvider extends PanelProvider
             ->darkModeBrandLogo(asset('images/logo-darkmode.png'))
             ->brandLogoHeight('2.8rem')
             ->font('Inter')
-            ->login()
-     
+            ->login(\App\Filament\Pages\Auth\Login::class)
+
             ->plugins([
                 ThemesPlugin::make(),
                 \Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin::make(),
@@ -46,17 +47,16 @@ class AdminPanelProvider extends PanelProvider
             ])
 
             ->resources([
-            \App\Filament\Resources\Shield\RoleResource::class,
-        ])
+            ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
                 Pages\Dashboard::class,
             ])
-            
+
             ->widgets([
-                //  panggil secara manual widget 4 kartu 
-                \App\Filament\Resources\MaintenanceResource\Widgets\MaintenanceStats::class,
+                // panggil secara manual widget 4 kartu 
+                \App\Filament\Widgets\PlantStatsOverview::class,
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -67,17 +67,21 @@ class AdminPanelProvider extends PanelProvider
                 VerifyCsrfToken::class,
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
-                DispatchServingFilamentEvent::class, 
+                DispatchServingFilamentEvent::class,
                 SetTheme::class,
             ])
 
             ->navigationGroups([
-                'Manajemen Laporan', 
+                'Manajemen Laporan',
                 'Master Data',
-                'Pelindung',         
             ])
             ->authMiddleware([
                 Authenticate::class,
             ]);
     }
+
+    public function boot(): void
+    {
+        
+        }
 }

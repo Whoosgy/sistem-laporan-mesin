@@ -10,12 +10,14 @@ class ListTechnicians extends ListRecords
 {
     protected static string $resource = TechnicianResource::class;
 
+    protected static ?string $breadcrumb = 'Semua Data';
+
     protected function getHeaderActions(): array
-{
-    return [
-        \Filament\Actions\CreateAction::make()
-            ->label('Tambah Teknisi')
-            ->modalWidth('md'), 
-    ];
-}
+    {
+        return [
+            \Filament\Actions\CreateAction::make()
+                ->label('Tambah Teknisi')
+                ->modalWidth('md'),
+        ];
+    }
 }

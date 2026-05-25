@@ -13,6 +13,7 @@ use Filament\Infolists;
 use Filament\Infolists\Infolist;
 use Filament\Tables\Enums\FiltersLayout;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 class MaintenanceResource extends Resource
 {
@@ -35,14 +36,34 @@ class MaintenanceResource extends Resource
     }
 
     public static function getWidgets(): array
-{
-    return [
-        MaintenanceResource\Widgets\MaintenanceStats::class,
-    ];
-}
+    {
+        return [
+            MaintenanceResource\Widgets\MaintenanceStats::class,
+        ];
+    }
+
+    // =========================================================================
+    // BLOK KEAMANAN: Mematikan fungsi Create, Edit, dan Delete untuk Super Admin
+    // =========================================================================
+    public static function canCreate(): bool
+    {
+        return false; // Menghilangkan tombol "New Maintenance"
+    }
+
+    public static function canEdit(Model $record): bool
+    {
+        return false; // Mematikan form edit
+    }
+
+    public static function canDelete(Model $record): bool
+    {
+        return false; // Mencegah data dihapus
+    }
+    // =========================================================================
 
     public static function form(Form $form): Form
     {
+        // ... (Isi form tidak saya ubah, tetap aman di sini karena canEdit sudah false)
         return $form
             ->schema([
                 Forms\Components\Section::make('Update Status Laporan')
@@ -51,28 +72,25 @@ class MaintenanceResource extends Resource
                     ->schema([
                         Forms\Components\Grid::make(2)
                             ->schema([
-
                                 Forms\Components\Select::make('produksi_id')
                                     ->label('Kode Tiket Kerusakan')
                                     ->relationship('produksi', 'id')
-                                    ->getOptionLabelFromRecordUsing(fn ($record) => "WO-{$record->id} | {$record->nama_mesin} ({$record->plant})")
+                                    ->getOptionLabelFromRecordUsing(fn($record) => "WO-{$record->id} | {$record->nama_mesin} ({$record->plant})")
                                     ->searchable()
                                     ->preload()
                                     ->required()
                                     ->prefixIcon('heroicon-o-ticket'),
-      
 
                                 Forms\Components\Select::make('status')
                                     ->options([
-                                        'Pending'       => 'Pending',
-                                        'On Progress'   => 'On Progress',
+                                        'Pending' => 'Pending',
+                                        'On Progress' => 'On Progress',
                                         'Belum Selesai' => 'Belum Selesai',
-                                        'Selesai'       => 'Selesai',
+                                        'Selesai' => 'Selesai',
                                     ])
                                     ->native(false)
                                     ->required()
                                     ->prefixIcon('heroicon-o-arrow-path'),
-
 
                                 Forms\Components\DatePicker::make('tanggal_selesai')
                                     ->label('Tanggal Selesai')
@@ -101,7 +119,6 @@ class MaintenanceResource extends Resource
                                     ->required()
                                     ->prefixIcon('heroicon-o-users')
                                     ->helperText('maks. 5 orang.'),
-
                             ]),
                     ])
                     ->collapsible(),
@@ -112,19 +129,17 @@ class MaintenanceResource extends Resource
                     ->schema([
                         Forms\Components\Grid::make(2)
                             ->schema([
-
                                 Forms\Components\Select::make('keterangan')
                                     ->label('Keterangan Produksi')
                                     ->options([
-                                        'Elektrik'  => 'Elektrik',
-                                        'Mekanik'   => 'Mekanik',
-                                        'Utility'   => 'Utility',
+                                        'Elektrik' => 'Elektrik',
+                                        'Mekanik' => 'Mekanik',
+                                        'Utility' => 'Utility',
                                         'Calibraty' => 'Calibraty',
                                     ])
                                     ->formatStateUsing(function ($state, $record) {
-        return $state ?? $record?->produksi?->keterangan;
-    })
-
+                                        return $state ?? $record?->produksi?->keterangan;
+                                    })
                                     ->required()
                                     ->prefixIcon('heroicon-o-tag')
                                     ->native(false)
@@ -133,12 +148,12 @@ class MaintenanceResource extends Resource
                                 Forms\Components\Select::make('keterangan_maintenance')
                                     ->label('Keterangan Maintenance')
                                     ->options([
-                                        'TE',
-                                        'TM',
-                                        'TU',
-                                        'LM',
-                                        'LE',
-                                        'LU',
+                                        'TE' => 'TE',
+                                        'TM' => 'TM',
+                                        'TU' => 'TU',
+                                        'LM' => 'LM',
+                                        'LE' => 'LE',
+                                        'LU' => 'LU',
                                     ])
                                     ->prefixIcon('heroicon-o-list-bullet')
                                     ->native(false)
@@ -155,7 +170,6 @@ class MaintenanceResource extends Resource
                                     ->rows(3)
                                     ->required()
                                     ->columnSpanFull(),
-
                             ]),
                     ])
                     ->collapsible(),
@@ -171,7 +185,6 @@ class MaintenanceResource extends Resource
                     ->iconColor('info')
                     ->description('Data laporan awal dari pihak produksi.')
                     ->schema([
-
                         Infolists\Components\TextEntry::make('produksi.nama_pelapor')
                             ->label('Nama Pelapor')
                             ->icon('heroicon-o-user-circle')
@@ -193,7 +206,6 @@ class MaintenanceResource extends Resource
                             ->icon('heroicon-o-exclamation-triangle')
                             ->color('danger')
                             ->columnSpanFull(),
-
                     ])->columns(2),
 
                 Infolists\Components\Section::make('Detail Maintenance')
@@ -203,17 +215,16 @@ class MaintenanceResource extends Resource
                     ->schema([
                         Infolists\Components\Grid::make(2)
                             ->schema([
-
                                 Infolists\Components\TextEntry::make('status')
                                     ->label('Status')
                                     ->badge()
                                     ->size('lg')
-                                    ->color(fn (string $state): string => match ($state) {
-                                        'Pending'       => 'warning',
-                                        'On Progress'   => 'info',
+                                    ->color(fn(string $state): string => match ($state) {
+                                        'Pending' => 'warning',
+                                        'On Progress' => 'info',
                                         'Belum Selesai' => 'danger',
-                                        'Selesai'       => 'success',
-                                        default         => 'gray',
+                                        'Selesai' => 'success',
+                                        default => 'gray',
                                     }),
 
                                 Infolists\Components\TextEntry::make('tanggal_selesai')
@@ -221,15 +232,13 @@ class MaintenanceResource extends Resource
                                     ->date('d M Y')
                                     ->icon('heroicon-o-calendar-days'),
 
-                                Infolists\Components\TextEntry::make('waktu_perbaikan')
+                                Infolists\Components\TextEntry::make('waktu_mulai') // (Disesuaikan namanya agar sesuai dengan database)
                                     ->label('Waktu Mulai')
                                     ->icon('heroicon-o-play-circle'),
-                                   
 
                                 Infolists\Components\TextEntry::make('waktu_selesai')
                                     ->label('Waktu Selesai')
                                     ->icon('heroicon-o-stop-circle'),
-                                   
 
                                 Infolists\Components\TextEntry::make('technicians.name')
                                     ->label('Teknisi')
@@ -252,7 +261,6 @@ class MaintenanceResource extends Resource
                                     ->label('Sparepart Digunakan')
                                     ->icon('heroicon-o-cube')
                                     ->columnSpanFull(),
-
                             ]),
                     ]),
             ]);
@@ -268,7 +276,6 @@ class MaintenanceResource extends Resource
             ->emptyStateHeading('Belum Ada Laporan Maintenance')
             ->emptyStateDescription('Laporan maintenance akan muncul di sini setelah ada tiket kerusakan yang masuk.')
             ->columns([
-
                 Tables\Columns\TextColumn::make('produksi_id')
                     ->label('No. Tiket')
                     ->weight('bold')
@@ -286,7 +293,7 @@ class MaintenanceResource extends Resource
                 Tables\Columns\TextColumn::make('produksi.nama_mesin')
                     ->label('Detail Laporan')
                     ->default('Tiket Produksi Tidak Ditemukan')
-                    ->description(fn ($record) => $record->produksi->uraian_kerusakan ?? '')
+                    ->description(fn($record) => $record->produksi->uraian_kerusakan ?? '')
                     ->wrap()
                     ->searchable()
                     ->sortable(),
@@ -296,48 +303,44 @@ class MaintenanceResource extends Resource
                     ->toggleable()
                     ->searchable(),
 
-               Tables\Columns\TextColumn::make('keterangan')
+                Tables\Columns\TextColumn::make('keterangan')
                     ->label('Keterangan')
                     ->badge()
                     ->state(function ($record): string {
-                        // Daftar kategori yang valid
                         $validCategories = ['Mekanik', 'Elektrik', 'Utility', 'Calibraty'];
 
-                        // 1. Cek apakah keterangan di maintenance adalah kategori yang valid
                         if (in_array($record->keterangan, $validCategories)) {
                             return $record->keterangan;
                         }
 
-                        // 2. Jika tidak valid/kosong, ambil dari tabel produksi
                         if ($record->produksi && in_array($record->produksi->keterangan, $validCategories)) {
                             return $record->produksi->keterangan;
                         }
 
-                        return 'Lainnya'; // Fallback jika tidak ada yang cocok
+                        return 'Lainnya';
                     })
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('status')
                     ->badge()
-                    ->icon(fn (string $state): string => match ($state) {
-                        'Pending'       => 'heroicon-o-clock',
-                        'On Progress'   => 'heroicon-o-arrow-path',
+                    ->icon(fn(string $state): string => match ($state) {
+                        'Pending' => 'heroicon-o-clock',
+                        'On Progress' => 'heroicon-o-arrow-path',
                         'Belum Selesai' => 'heroicon-o-x-circle',
-                        'Selesai'       => 'heroicon-o-check-circle',
-                        default         => 'heroicon-o-minus-circle',
+                        'Selesai' => 'heroicon-o-check-circle',
+                        default => 'heroicon-o-minus-circle',
                     })
-                    ->color(fn (string $state): string => match ($state) {
-                        'Pending'       => 'warning',
-                        'On Progress'   => 'info',
+                    ->color(fn(string $state): string => match ($state) {
+                        'Pending' => 'warning',
+                        'On Progress' => 'info',
                         'Belum Selesai' => 'danger',
-                        'Selesai'       => 'success',
-                        default         => 'gray',
+                        'Selesai' => 'success',
+                        default => 'gray',
                     }),
 
                 Tables\Columns\TextColumn::make('produksi.created_at')
                     ->label('Waktu Lapor')
                     ->dateTime('H:i d/m/Y')
-
                     ->color('gray')
                     ->sortable(),
 
@@ -345,10 +348,10 @@ class MaintenanceResource extends Resource
             ->filters([
                 Tables\Filters\SelectFilter::make('status')
                     ->options([
-                        'Pending'       => 'Pending',
-                        'On Progress'   => 'On Progress',
+                        'Pending' => 'Pending',
+                        'On Progress' => 'On Progress',
                         'Belum Selesai' => 'Belum Selesai',
-                        'Selesai'       => 'Selesai',
+                        'Selesai' => 'Selesai',
                     ])
                     ->native(false)
                     ->placeholder('Semua Status'),
@@ -356,18 +359,17 @@ class MaintenanceResource extends Resource
                 Tables\Filters\SelectFilter::make('keterangan')
                     ->label('Keterangan')
                     ->options([
-                        'Mekanik'   => 'Mekanik',
-                        'Elektrik'  => 'Elektrik',
-                        'Utility'   => 'Utility',
+                        'Mekanik' => 'Mekanik',
+                        'Elektrik' => 'Elektrik',
+                        'Utility' => 'Utility',
                         'Calibraty' => 'Calibraty',
                     ])
                     ->query(function (Builder $query, array $data) {
-                    return $query->when($data['value'], function ($q) use ($data) {
-                        $q->where('keterangan', $data['value'])
-                          ->orWhereHas('produksi', fn($pq) => $pq->where('keterangan', $data['value']));
-                    });
-                })
-    
+                        return $query->when($data['value'], function ($q) use ($data) {
+                            $q->where('keterangan', $data['value'])
+                                ->orWhereHas('produksi', fn($pq) => $pq->where('keterangan', $data['value']));
+                        });
+                    })
                     ->native(false)
                     ->placeholder('Semua Kategori'),
 
@@ -388,8 +390,8 @@ class MaintenanceResource extends Resource
                     ])
                     ->query(function ($query, array $data) {
                         return $query
-                            ->when($data['dari_tanggal'], fn ($q, $date) => $q->whereDate('created_at', '>=', $date))
-                            ->when($data['sampai_tanggal'], fn ($q, $date) => $q->whereDate('created_at', '<=', $date));
+                            ->when($data['dari_tanggal'], fn($q, $date) => $q->whereDate('created_at', '>=', $date))
+                            ->when($data['sampai_tanggal'], fn($q, $date) => $q->whereDate('created_at', '<=', $date));
                     })
                     ->indicateUsing(function (array $data): array {
                         $indicators = [];
@@ -405,25 +407,12 @@ class MaintenanceResource extends Resource
             ], layout: FiltersLayout::AboveContent)
             ->filtersFormColumns(3)
             ->actions([
+                // HANYA MENYISAKAN TOMBOL LIHAT (VIEW)
                 Tables\Actions\ViewAction::make()
                     ->iconButton()
                     ->slideOver()
                     ->modalWidth('lg')
-                    ->tooltip('Lihat Detail'),
-
-                Tables\Actions\EditAction::make()
-                    ->iconButton()
-                    ->color('primary')
-                    ->slideOver()
-                        ->after(function ($livewire) {
-                $livewire->dispatch('refreshWidgets');
-            })
-                    ->tooltip('Ubah Data')
-                    ->modalWidth('lg'),
-
-                Tables\Actions\DeleteAction::make()
-                    ->iconButton()
-                    ->tooltip('Hapus Data'),
+                    ->tooltip('Lihat Detail Lengkap'),
             ])
             ->actionsColumnLabel('Aksi');
     }

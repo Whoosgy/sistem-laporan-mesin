@@ -485,8 +485,6 @@
                         </svg>
                     </div>
                     <h3 class="text-lg font-semibold text-slate-800 dark:text-white">Akses Maintenance</h3>
-                    <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Masukkan kredensial Anda untuk
-                        melanjutkan</p>
                 </div>
 
                 {{-- Form --}}
