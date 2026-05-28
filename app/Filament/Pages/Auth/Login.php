@@ -12,7 +12,7 @@ use Illuminate\Validation\ValidationException;
 
 class Login extends BaseLogin
 {
-    // Mengatur form agar menggunakan NIK bukan Email
+    // Mengatur form agar menggunakan NIK 
     public function form(Form $form): Form
     {
         return $form

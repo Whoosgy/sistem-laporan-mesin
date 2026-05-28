@@ -23,9 +23,10 @@ class TechnicianResource extends Resource
 
     protected static ?string $modelLabel = 'Teknisi';
     protected static ?string $pluralModelLabel = 'Teknisi';
-
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
     protected static ?string $navigationGroup = 'Master Data';
+
+    protected static ?int $navigationSort = 2;
 
     protected static ?string $recordTitleAttribute = 'nama_teknisi';
 

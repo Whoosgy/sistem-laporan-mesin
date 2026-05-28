@@ -19,10 +19,10 @@ class KaryawanSeeder extends Seeder
             ['nik' => '979', 'nama' => 'WIHARJA PUTRA', 'plant' => 'FH', 'jabatan' => 'FOREMAN KONSTRUKSI'],
 
             // Data untuk Plant GA
-            ['nik' => '2537', 'nama' => 'NOVIE ANZUFLES', 'plant' => 'GA', 'jabatan' => 'FOREMAN OFFICE SERVICE (FA)'],
-            ['nik' => '2552', 'nama' => 'DIDIN SAEPUDIN', 'plant' => 'GA', 'jabatan' => 'KOMANDAN REGU SATPAM (FA)'],
-            ['nik' => '2274', 'nama' => 'KUSWANTO', 'plant' => 'GA', 'jabatan' => 'KOMANDAN REGU SATPAM (FA)'],
-            ['nik' => '2273', 'nama' => 'BUDIYONO', 'plant' => 'GA', 'jabatan' => 'KOMANDAN REGU SATPAM (FA)'],
+            ['nik' => '2537', 'nama' => 'NOVIE ANZUFLES', 'plant' => 'GA', 'jabatan' => 'FOREMAN OFFICE SERVICE'],
+            ['nik' => '2552', 'nama' => 'DIDIN SAEPUDIN', 'plant' => 'GA', 'jabatan' => 'KOMANDAN REGU SATPAM'],
+            ['nik' => '2274', 'nama' => 'KUSWANTO', 'plant' => 'GA', 'jabatan' => 'KOMANDAN REGU SATPAM'],
+            ['nik' => '2273', 'nama' => 'BUDIYONO', 'plant' => 'GA', 'jabatan' => 'KOMANDAN REGU SATPAM'],
 
             // Data untuk Plant A
             ['nik' => '1747', 'nama' => 'WINARNO', 'plant' => 'PLANT A', 'jabatan' => 'FOREMAN EXTRUDER & CABLING 4C, 7E, 125C (A)'],

@@ -41,29 +41,24 @@ class MaintenanceResource extends Resource
             MaintenanceResource\Widgets\MaintenanceStats::class,
         ];
     }
-
-    // =========================================================================
-    // BLOK KEAMANAN: Mematikan fungsi Create, Edit, dan Delete untuk Super Admin
-    // =========================================================================
     public static function canCreate(): bool
     {
-        return false; // Menghilangkan tombol "New Maintenance"
+        return false; 
     }
 
     public static function canEdit(Model $record): bool
     {
-        return false; // Mematikan form edit
+        return false; 
     }
 
     public static function canDelete(Model $record): bool
     {
-        return false; // Mencegah data dihapus
+        return false; 
     }
-    // =========================================================================
+    
 
     public static function form(Form $form): Form
     {
-        // ... (Isi form tidak saya ubah, tetap aman di sini karena canEdit sudah false)
         return $form
             ->schema([
                 Forms\Components\Section::make('Update Status Laporan')
@@ -98,7 +93,7 @@ class MaintenanceResource extends Resource
                                     ->prefixIcon('heroicon-o-calendar-days')
                                     ->displayFormat('d M Y'),
 
-                                Forms\Components\TimePicker::make('waktu_mulai')
+                                Forms\Components\TimePicker::make('waktu_perbaikan')
                                     ->label('Waktu Mulai Perbaikan')
                                     ->required()
                                     ->prefixIcon('heroicon-o-play-circle'),
@@ -232,7 +227,7 @@ class MaintenanceResource extends Resource
                                     ->date('d M Y')
                                     ->icon('heroicon-o-calendar-days'),
 
-                                Infolists\Components\TextEntry::make('waktu_mulai') // (Disesuaikan namanya agar sesuai dengan database)
+                                Infolists\Components\TextEntry::make('waktu_perbaikan')
                                     ->label('Waktu Mulai')
                                     ->icon('heroicon-o-play-circle'),
 
@@ -242,8 +237,6 @@ class MaintenanceResource extends Resource
 
                                 Infolists\Components\TextEntry::make('technicians.name')
                                     ->label('Teknisi')
-                                    ->listWithLineBreaks()
-                                    ->bulleted()
                                     ->badge()
                                     ->color('primary')
                                     ->default('Belum ditentukan'),
