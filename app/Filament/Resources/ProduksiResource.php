@@ -26,7 +26,6 @@ class ProduksiResource extends Resource
                 Section::make('Informasi Pelapor')
                     ->icon('heroicon-m-user')
                     ->schema([
-                        // Pastikan 'nama_pelapor' adalah nama kolom di tabel produksi kamu
                         TextEntry::make('nama_pelapor')
                             ->label('Nama Pelapor')
                             ->weight('bold')
@@ -45,7 +44,7 @@ class ProduksiResource extends Resource
                             ->badge()
                             ->color('info'),
                         TextEntry::make('keterangan')
-                            ->label('Kategori')
+                            ->label('Keterangan')
                             ->badge(),
                     ])->columns(3),
                     
@@ -80,6 +79,7 @@ class ProduksiResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+        ->defaultSort('created_at', 'desc')
             ->columns([
                 Tables\Columns\TextColumn::make('nama_mesin')
                     ->searchable()
@@ -88,7 +88,7 @@ class ProduksiResource extends Resource
                     ->badge()
                     ->color('info'),
                 Tables\Columns\TextColumn::make('keterangan')
-                    ->label('Kategori')
+                    ->label('Keterangan')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'Mekanik' => 'primary',

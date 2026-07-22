@@ -181,7 +181,7 @@
                             <input wire:model.blur="bagian_rusak" type="text" id="bagian_rusak"
                                 placeholder="Contoh: Take Up, dll"
                                 class="mt-1 block w-full rounded-md border-slate-300 dark:bg-slate-900/50 dark:border-slate-600 dark:text-slate-200 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
-                            @error('bagian_rusak') <span class="text-red-500 text-xs mt-1">{{$message}}</span> @enderror
+                             @error('bagian_rusak') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
                         </div>
 
                         <div @click.away="openKeterangan = false">

@@ -28,9 +28,16 @@ class Login extends BaseLogin
     {
         return TextInput::make('nik')
             ->label('NIK (Nomor Induk Karyawan)')
+            ->placeholder('Masukkan NIK Anda')
             ->required()
             ->autocomplete()
             ->autofocus();
+    }
+
+    protected function getPasswordFormComponent(): Component
+    {
+        return parent::getPasswordFormComponent()
+            ->placeholder('Masukkan password Anda');
     }
 
     // PROSES AUTENTIKASI DAN ALERT ERROR
@@ -64,7 +71,7 @@ class Login extends BaseLogin
 
         } catch (ValidationException $exception) {
             
-            // BONUS: Memunculkan Alert Pop-up Merah (Notification Toast) di pojok layar
+            // Memunculkan Alert Pop-up Merah (Notification Toast) di pojok layar
             Notification::make()
                 ->title('Gagal Masuk')
                 ->body('NIK tidak terdaftar atau password salah. Silakan periksa kembali data Anda.')
