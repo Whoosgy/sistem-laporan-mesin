@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo; 
-use Illuminate\Database\Eloquent\Relations\BelongsToMany; 
+
 
 class Maintenance extends Model
 {
@@ -27,7 +27,7 @@ class Maintenance extends Model
     ];
 
     /**
-     * Relasi ke Produksi
+     * Relasi ke Produksi//Many-to-One
      */
     public function produksi(): BelongsTo
     {
@@ -35,21 +35,20 @@ class Maintenance extends Model
     }
 
     /**
-     * Relasi ke Teknisi
+     * Relasi ke Teknisi//Many-to-Many
      */
-    public function technicians(): BelongsToMany
+    /**
+     * Relasi ke Teknisi (Many-to-Many)
+     */
+    public function technicians(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Technician::class, 'maintenance_technician', 'maintenance_id', 'technician_id');
     }
 
-    /**
-     * Logic Otomatis: Sinkronisasi pembaruan dan penghapusan data.
-     */
     protected static function booted()
     {
         // Sinkronisasi saat data diupdate di Backend
         static::updated(function ($maintenance) {
-            // Jika kolom 'keterangan' diubah, update juga di tabel produksi (Frontend)
             if ($maintenance->isDirty('keterangan') && $maintenance->produksi) {
                 $maintenance->produksi->update([
                     'keterangan' => $maintenance->keterangan,
@@ -58,8 +57,6 @@ class Maintenance extends Model
         });
 
         static::deleted(function ($maintenance) {
-            // Saat tiket maintenance dihapus di backend (Filament), 
-            // hapus juga laporan aslinya di tabel produksi (Frontend)
             if ($maintenance->produksi) {
                 $maintenance->produksi()->delete();
             }

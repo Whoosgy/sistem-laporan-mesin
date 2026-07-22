@@ -19,9 +19,9 @@ class LaporanMaintenanceExport implements FromCollection, WithHeadings, WithMapp
         $this->endDate   = $endDate;
     }
 
-    public function collection()
+   public function collection()
     {
-        return Produksi::with('maintenance')
+       return Produksi::with(['maintenance.technicians'])
             ->whereBetween('tanggal_lapor', [$this->startDate, $this->endDate])
             ->get();
     }
@@ -99,14 +99,15 @@ class LaporanMaintenanceExport implements FromCollection, WithHeadings, WithMapp
             1,
             $dtm,       // hh:mm
             $dtp,       // hh:mm
-            optional($mnt)->nama_teknisi,
+            
+            $mnt && $mnt->technicians->isNotEmpty() ? $mnt->technicians->pluck('name')->implode(', ') : '-',
+            
             optional($mnt)->status ?? 'Pending',
             $laporan->keterangan,
             optional($mnt)->keterangan_maintenance,
         ];
     }
 
-    // ... (metode joinDateTime dan diffHHMM tetap sama)
     protected function joinDateTime(?string $date, ?string $time, string $tz = 'Asia/Jakarta'): ?Carbon
     {
         if (empty($date) || empty($time)) {

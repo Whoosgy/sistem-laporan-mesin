@@ -14,7 +14,6 @@ class UpdateLaporan extends Component
     public bool $isModalOpen = false;
     public ?Produksi $laporanProduksi = null;
 
-    // Properti Form
     public $produksi_id;
     public $waktu_perbaikan;
     public $waktu_selesai;
@@ -25,11 +24,11 @@ class UpdateLaporan extends Component
     public $keterangan_maintenance;
     public $status;
 
-    // Properti untuk Pencarian dan Pemilihan Teknisi
     public string $searchQuery = '';
     public array $allTechnicians = [];
     public array $selectedTechnicians = [];
     public bool $showKeteranganDropdown = false;
+    
     public function toggleKeteranganDropdown()
     {
         $this->showKeteranganDropdown = !$this->showKeteranganDropdown;
@@ -37,16 +36,14 @@ class UpdateLaporan extends Component
 
     public function mount()
     {
-        // Ambil semua data teknisi dari database saat awal
-        $this->allTechnicians = \App\Models\Technician::all()->toArray();
+        $this->allTechnicians = Technician::all()->toArray();
     }
+    
     #[Computed]
     public function filteredTechnicians()
     {
         return collect($this->allTechnicians)->filter(function ($technician) {
-            // Kondisi 1: Tidak ada dalam daftar yang sudah dipilih
             $isAlreadySelected = collect($this->selectedTechnicians)->contains('id', $technician['id']);
-            // Cocokkan dengan pencarian nama
             $matchesSearch = empty($this->searchQuery) ||
                 str_contains(strtolower($technician['name']), strtolower($this->searchQuery));
 
@@ -54,12 +51,10 @@ class UpdateLaporan extends Component
         })->values()->all();
     }
 
-    // Fungsi untuk MEMILIH teknisi dari daftar
     public function selectTechnician($id, $name)
     {
-        // Validasi: Maksimal 5 orang
+        // KEMBALIKAN KE MAKSIMAL 5 TEKNISI
         if (count($this->selectedTechnicians) < 5) {
-            // Pastikan tidak double input
             $exists = collect($this->selectedTechnicians)->contains('id', $id);
 
             if (!$exists) {
@@ -71,7 +66,7 @@ class UpdateLaporan extends Component
             }
         }
     }
-    // Fungsi untuk MENGHAPUS teknisi dari daftar pilihan
+    
     public function removeTechnician($index)
     {
         if (isset($this->selectedTechnicians[$index])) {
@@ -79,18 +74,20 @@ class UpdateLaporan extends Component
             $this->selectedTechnicians = array_values($this->selectedTechnicians);
         }
     }
+    
     public function setKeteranganMaintenance($value)
     {
         $this->keterangan_maintenance = $value;
         $this->showKeteranganDropdown = false;
     }
+    
     protected function rules()
     {
         return [
             'tanggal_selesai' => 'required_if:status,Selesai|nullable|date',
             'waktu_selesai' => 'required_if:status,Selesai|nullable|string',
             'waktu_perbaikan' => 'required|string',
-            'selectedTechnicians' => 'required|array|min:1|max:5',
+            'selectedTechnicians' => 'required|array|min:1|max:5', // MAKSIMAL 5
             'jenis_perbaikan' => 'required|string',
             'sparepart' => 'required|string',
             'keterangan_maintenance' => 'required|string|in:TM,TE,TU,LM,LE,LU',
@@ -101,6 +98,7 @@ class UpdateLaporan extends Component
 
     protected $messages = [
         'selectedTechnicians.required' => 'Pilih minimal 1 teknisi.',
+        'selectedTechnicians.max' => 'Maksimal 5 teknisi.',
         'jenis_perbaikan.required' => 'Uraian perbaikan wajib diisi.',
         'sparepart.required' => 'Sparepart wajib diisi.',
         'keterangan_maintenance.required' => 'Keterangan maintenance wajib diisi.',
@@ -126,6 +124,7 @@ class UpdateLaporan extends Component
                 $this->keterangan_maintenance = $maintenance->keterangan_maintenance;
                 $this->status = $maintenance->status;
 
+        
                 $this->selectedTechnicians = $maintenance->technicians->map(function ($tech) {
                     return [
                         'id' => $tech->id,
@@ -141,6 +140,7 @@ class UpdateLaporan extends Component
             $this->isModalOpen = true;
         }
     }
+    
     public function updateLaporan()
     {
         $this->validate();
@@ -173,11 +173,9 @@ class UpdateLaporan extends Component
     {
         $this->isModalOpen = false;
     }
+    
     public function render()
     {
         return view('livewire.maintenance.update-laporan');
     }
 }
-
-
-

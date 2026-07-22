@@ -13,7 +13,6 @@ class ListMaintenances extends ListRecords
 {
     protected static string $resource = MaintenanceResource::class;
 
-    // PERBAIKAN: Ditambahkan kata 'static' agar tidak error lagi
     protected static ?string $breadcrumb = 'Semua Data';
 
     protected function getHeaderWidgets(): array

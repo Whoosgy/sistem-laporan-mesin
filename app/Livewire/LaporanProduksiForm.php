@@ -103,7 +103,7 @@ class LaporanProduksiForm extends Component
     // Logika bisnis untuk form
     protected function rules()
     {
-        // Aturan dasar
+        // Aturan validasi dasar untuk semua laporan
         $rules = [
             'tanggal_lapor' => 'required|date',
             'jam_lapor' => 'required',
@@ -118,10 +118,10 @@ class LaporanProduksiForm extends Component
         ];
 
         if ($this->plant == 'MT') {
-            // Untuk plant MT, tanggal bisa dari hari-hari sebelumnya, tapi tidak di masa depan
+            // Untuk plant MT, tanggal bisa dari hari-hari sebelumnya, tapi tidak boleh lebih dari hari ini
             $rules['tanggal_lapor'] .= '|before_or_equal:today';
         } else {
-            // Untuk plant lain, tanggal harus hari ini saja
+            // Untuk plant lain, tanggal harus hari ini
             $rules['tanggal_lapor'] .= '|after_or_equal:today|before_or_equal:today';
         }
 
@@ -276,7 +276,7 @@ class LaporanProduksiForm extends Component
         // Sorting & Pagination
         $laporanTerbaru = $query->orderBy($this->sortField, $this->sortDirection)->paginate(10);
 
-        // --- LOGIKA PENCARIAN PELAPOR (BARU) ---
+        // --- LOGIKA PENCARIAN PELAPOR ---
         $daftarPelapor = collect();
         if ($this->plant) {
             // Mencocokkan nama dengan tepat (misal: "FA" atau "PLANT A")

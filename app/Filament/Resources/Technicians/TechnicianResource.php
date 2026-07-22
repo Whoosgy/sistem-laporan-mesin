@@ -30,13 +30,13 @@ class TechnicianResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'nama_teknisi';
 
-    // Perbaikan: Parameter menggunakan Form $form
+    // Form untuk halaman create/edit teknisi
     public static function form(Form $form): Form
     {
         return TechnicianForm::configure($form);
     }
 
-    // Perbaikan: Parameter menggunakan Infolist $infolist
+    // Infolist untuk halaman detail teknisi
     public static function infolist(Infolist $infolist): Infolist
     {
         return TechnicianInfolist::configure($infolist);
@@ -52,16 +52,11 @@ class TechnicianResource extends Resource
         return [];
     }
 
-    // app/Filament/Resources/Technicians/TechnicianResource.php
-
 public static function getPages(): array
 {
     return [
         'index' => ListTechnicians::route('/'),
-        // Matikan route di bawah ini agar Filament otomatis menggunakan Pop-up
-        // 'create' => CreateTechnician::route('/create'),
-        // 'view' => ViewTechnician::route('/detail-teknisi/{record}'),
-        // 'edit' => EditTechnician::route('/edit-teknisi/{record}'),
+
     ];
 }
 }
